@@ -69,7 +69,7 @@ const Navbar = ({
   }
 
   useLayoutEffect(() => {
-    recalcUnderline()
+    recalcUnderline();
   }, [pathname, isDark])
 
   useEffect(() => {
@@ -94,12 +94,12 @@ const Navbar = ({
         ">
           {/* Left side: contact info */}
           <div className="flex flex-wrap items-center gap-3 sm:gap-4 w-full sm:w-auto justify-center sm:justify-start mb-2 sm:mb-0">
-            <a href={`tel:${phone.replace(/\s+/g, '')}`} className={`${utilLink} flex items-center gap-1`}>
+            <Link href={`tel:${phone.replace(/\s+/g, '')}`} className={`${utilLink} flex items-center gap-1`}>
               <span className="hidden sm:inline">📞</span>{phone}
-            </a>
-            <a href={`mailto:${email}`} className={`${utilLink} truncate max-w-[180px] sm:max-w-none`}>
+            </Link>
+            <Link href={`mailto:${email}`} className={`${utilLink} truncate max-w-[180px] sm:max-w-none`}>
               {email}
-            </a>
+            </Link>
           </div>
     
           {/* Right side: socials, language, close */}
@@ -107,9 +107,9 @@ const Navbar = ({
             {/* Socials */}
             <div className="flex items-center gap-3">
               {socials.map((s, i) => (
-                <a key={i} href={s.href} className={utilLink} aria-label={s.label}>
+                <Link key={i} href={s.href} className={utilLink} aria-label={s.label}>
                   {s.label}
-                </a>
+                </Link>
               ))}
             </div>
     
