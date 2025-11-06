@@ -59,15 +59,20 @@ const CommonHero = ({
         <div className="relative">
           {mediaSrc ? (
             <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl shadow-teal-100/30 transition-transform duration-500 hover:scale-[1.02]">
-              <Image
-                src={mediaSrc}
-                alt={mediaAlt}
-                fill
-                className="object-cover w-full h-full"
-                priority
-                draggable={false}
-              />
-            </div>
+                  <Image
+  src={mediaSrc}
+  alt={mediaAlt}
+  layout="fill"
+  objectFit="cover"
+  className="w-full h-full"
+  priority // Ensures it loads immediately
+  loading="eager" // Forces immediate loading for critical images
+  placeholder="blur" // Adds a blurred version of the image until it's fully loaded
+  blurDataURL="/low_res.png" // Low-res image for the blur effect (optional)
+  draggable={false}
+/>
+
+                </div>
           ) : (
             <div className="aspect-[4/3] w-full rounded-2xl border border-dashed border-gray-300 bg-gray-50 flex items-center justify-center text-gray-400 text-sm">
               {mediaNote}
