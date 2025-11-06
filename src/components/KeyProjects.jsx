@@ -1,9 +1,9 @@
 import React from 'react'
-
+import Image from 'next/image'
 const projects = [
-  { id: 1, title: 'High-Rise Balcony, Bengaluru', desc: 'Invisible grills installed across 12 balconies, enhancing views and safety.', cta: 'View Project Details' },
-  { id: 2, title: 'Premium Apartment, Hyderabad', desc: 'Discreet window grills preserving natural light in living spaces.', cta: 'View Project Details' },
-  { id: 3, title: 'Seaside Residence, Mumbai', desc: '316-grade SS cables for superior corrosion resistance in coastal air.', cta: 'View Project Details' },
+  { id: 1, imgSource:'/images/balcony2.png', title: 'High-Rise Balcony, Bengaluru', desc: 'Invisible grills installed across 12 balconies, enhancing views and safety.', cta: 'View Project Details' },
+  { id: 2, imgSource:'/images/apartments.png', title: 'Premium Apartment, Hyderabad', desc: 'Discreet window grills preserving natural light in living spaces.', cta: 'View Project Details' },
+  { id: 3, imgSource:'/images/high_rise.png', title: 'Seaside Residence, Mumbai', desc: '316-grade SS cables for superior corrosion resistance in coastal air.', cta: 'View Project Details' },
 ]
 
 const KeyProjects = () => {
@@ -19,7 +19,13 @@ const KeyProjects = () => {
           {projects.map(p => (
             <div key={p.id} className="rounded-xl border border-gray-200 bg-white overflow-hidden">
               {/* Image placeholder */}
-              <div className="aspect-[4/3] w-full bg-gray-100 border-b border-gray-200" />
+              <Image
+              alt={`${p.title}`}
+              src={p.imgSource}
+              width={200}
+              height={400}
+
+              className=" aspect-[4/3] w-full bg-gray-100 border-b border-gray-200" />
               <div className="p-5">
                 <h3 className="font-medium text-gray-900">{p.title}</h3>
                 <p className="mt-2 text-sm text-gray-600">{p.desc}</p>

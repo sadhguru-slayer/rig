@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import React from 'react'
 
 const items = [
@@ -17,13 +18,29 @@ const Testimonials = () => {
 
         <div className="mt-10 grid md:grid-cols-3 gap-6">
           {items.map(t => (
-            <div key={t.id} className="rounded-xl border border-gray-200 p-6">
-              {/* Avatar placeholder */}
-              <div className="h-12 w-12 rounded-full bg-gray-200" />
-              <blockquote className="mt-4 text-gray-900">“{t.quote}”</blockquote>
-              <p className="mt-3 text-sm font-medium text-teal-700">{t.name}</p>
-              <p className="text-xs text-gray-600">{t.role}</p>
-            </div>
+            <div
+  key={t.id}
+  className="rounded-xl border border-sky-200 p-8 bg-white shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col"
+>
+  <div className="flex items-center gap-4">
+<div className="w-14 h-14 overflow-hidden rounded-full bg-gray-200 flex-shrink-0">
+  <Image
+    alt={t.name}
+    src={`/images/testimonials/${t.id}.png`}
+    width={100}
+    height={100}
+    className="w-full h-full object-cover" // Ensures square and no distortion
+  />
+</div>
+
+    <div>
+      <p className="text-sm font-medium text-teal-700">{t.name}</p>
+      <p className="text-xs text-gray-600">{t.role}</p>
+    </div>
+  </div>
+  <blockquote className="mt-6 text-gray-900 text-sm md:text-base flex-1">“{t.quote}”</blockquote>
+</div>
+
           ))}
         </div>
       </div>

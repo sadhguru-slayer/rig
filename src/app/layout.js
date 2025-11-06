@@ -36,7 +36,7 @@ export default function RootLayout({ children }) {
           <Link
             href="tel:+919000000000" // change to your actual number
             aria-label="Call Us"
-            className="bg-teal-600 hover:bg-teal-700 text-white p-3 rounded-full shadow-lg transition-all duration-300 flex items-center justify-center"
+            className="bg-sky-600 hover:bg-sky-700 text-white p-3 rounded-full shadow-lg transition-all duration-300 flex items-center justify-center"
           >
           <svg
           xmlns="http://www.w3.org/2000/svg"

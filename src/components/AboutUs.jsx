@@ -1,4 +1,5 @@
 import React from 'react'
+import Image from "next/image";
 
 const AboutUs = () => {
   return (
@@ -32,10 +33,31 @@ const AboutUs = () => {
             </dl>
           </div>
 
-          <div>
-            <div className="aspect-[4/3] w-full rounded-xl border border-dashed border-gray-300 bg-gray-50" />
-            <p className="mt-2 text-xs text-gray-500">Placeholder for product/installation image</p>
-          </div>
+
+<div className="relative w-full group">
+  {/* Main base image */}
+  <Image
+    src="/balcony.png"
+    alt="Invisible Grill Main"
+    width={500}
+    height={300}
+    priority
+    className="w-full aspect-[4/3] rounded-2xl border border-gray-200 shadow-2xl shadow-teal-100/40 object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+  />
+
+  {/* Overlay image — smaller and neat */}
+  <div className="absolute -top-12 -left-12 w-1/3 sm:w-1/4 lg:w-1/3 rounded-xl overflow-hidden border-4 border-white  hover:scale-105 transition-transform duration-500">
+    <Image
+      src="/g2.png"
+      alt="Close-up Invisible Grill Detail"
+      width={500}
+      height={400}
+      className="aspect-[4/5] w-full h-full object-cover"
+    />
+  </div>
+</div>
+
+
         </div>
       </div>
     </section>

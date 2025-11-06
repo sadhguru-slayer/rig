@@ -4,6 +4,8 @@ import Link from 'next/link'
 import CommonHero from '@/components/CommonHero'
 import ContactUs from '@/components/ContactUs'
 import CtaSection from '@/components/CtaSection'
+import GsapReveal from '@/components/GsapReveal'
+import { PhoneIcon, MailIcon, LocationMarkerIcon, ChatIcon } from '@heroicons/react/outline';
 
 const FAQ = () => {
   const items = [
@@ -45,36 +47,67 @@ const FAQ = () => {
 
 const ContactInfo = () => {
   return (
-    <section className="py-16 lg:py-24 bg-white">
+    <section className="py-16 lg:py-24 bg-gray-50">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-12">
-        <div className="space-y-4">
-          <h2 className="text-2xl font-semibold tracking-tight text-teal-700">Contact Information</h2>
-          <div className="rounded-xl border border-gray-200 p-6">
-            <div className="space-y-3 text-sm text-gray-700">
-              <p><span className="font-medium">Phone:</span> <a className="text-teal-700 hover:text-teal-800" href="tel:+919000000000">+91 90000 00000</a></p>
-              <p><span className="font-medium">Email:</span> <a className="text-teal-700 hover:text-teal-800" href="mailto:sales@invisiblegrills.example">sales@invisiblegrills.example</a></p>
-              <p><span className="font-medium">Office:</span> 123, Business District, Bengaluru</p>
-              <p><a className="text-teal-700 hover:text-teal-800" target="_blank" rel="noreferrer" href="https://maps.google.com/?q=Business+District+Bengaluru">Open in Google Maps →</a></p>
+        {/* Contact Information */}
+        <div className="space-y-8">
+          <h3 className="text-3xl font-semibold tracking-tight text-teal-700">Contact Information</h3>
+          <div className="rounded-2xl border border-gray-200 bg-white shadow-lg p-8">
+            <div className="space-y-6 text-sm text-gray-700">
+              {/* Phone */}
+              <p className="flex items-center gap-2">
+                <PhoneIcon className="h-5 w-5 text-teal-700" />
+                <span className="font-medium">Phone:</span> 
+                <a className="text-teal-700 hover:text-teal-800" href="tel:+919676491117" aria-label="Call us at +91 90000 00000">+91 90000 00000</a>
+              </p>
+              {/* Email */}
+              <p className="flex items-center gap-2">
+                <MailIcon className="h-5 w-5 text-teal-700" />
+                <span className="font-medium">Email:</span> 
+                <a className="text-teal-700 hover:text-teal-800" href="mailto:sales@invisiblegrills.example" aria-label="Send an email to sales@invisiblegrills.example">sales@invisiblegrills.example</a>
+              </p>
+              {/* Office */}
+              <p className="flex items-center gap-2">
+                <LocationMarkerIcon className="h-5 w-5 text-teal-700" />
+                <span className="font-medium">Office:</span> 123, Business District, Bengaluru
+              </p>
+              {/* Google Maps */}
+              <p>
+                <a className="text-teal-700 hover:text-teal-800" target="_blank" rel="noreferrer" href="https://maps.google.com/?q=Business+District+Bengaluru" aria-label="View location in Google Maps">Open in Google Maps →</a>
+              </p>
             </div>
           </div>
         </div>
-        <div className="space-y-4">
-          <h2 className="text-2xl font-semibold tracking-tight text-teal-700">Hours & Service Areas</h2>
-          <div className="rounded-xl border border-gray-200 p-6">
-            <div className="text-sm text-gray-700 space-y-2">
+
+        {/* Hours & Service Areas */}
+        <div className="space-y-8">
+          <h3 className="text-3xl font-semibold tracking-tight text-teal-700">Hours & Service Areas</h3>
+          <div className="rounded-2xl border border-gray-200 bg-white shadow-lg p-8">
+            <div className="space-y-6 text-sm text-gray-700">
+              {/* Working Hours */}
               <p><span className="font-medium">Hours:</span> Mon–Sat, 9:30 AM – 6:30 PM</p>
+              {/* Service Areas */}
               <p><span className="font-medium">Service Areas:</span> Bengaluru · Hyderabad · Mumbai · Pune · Chennai</p>
-              <div className="flex items-center gap-3 pt-2">
-                <Link href="https://wa.me/9000000000" className="text-teal-700 hover:text-teal-800 text-sm">WhatsApp</Link>
-                <Link href="https://www.instagram.com/invisiblegrills/" className="text-teal-700 hover:text-teal-800 text-sm">Instagram</Link>
-                <Link href="https://www.linkedin.com/company/invisiblegrills/" className="text-teal-700 hover:text-teal-800 text-sm">LinkedIn</Link>
+              {/* Social Links */}
+              <div className="flex items-center gap-6 pt-4">
+                <a href="https://wa.me/9000000000" className="inline-flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium text-white bg-teal-700 rounded-full hover:bg-teal-800 focus:outline-none focus:ring-2 focus:ring-teal-500" aria-label="Chat with us on WhatsApp">
+                  <ChatIcon className="h-5 w-5" /> WhatsApp
+                </a>
+                <a href="https://www.instagram.com/invisiblegrills/" className="inline-flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium text-white bg-teal-700 rounded-full hover:bg-teal-800 focus:outline-none focus:ring-2 focus:ring-teal-500" aria-label="Follow us on Instagram">
+                  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Instagram_logo_2016.svg/1200px-Instagram_logo_2016.svg.png" alt="Instagram" className="h-5 w-5" />
+                  Instagram
+                </a>
+                <a href="https://www.linkedin.com/company/invisiblegrills/" className="inline-flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium text-white bg-teal-700 rounded-full hover:bg-teal-800 focus:outline-none focus:ring-2 focus:ring-teal-500" aria-label="Connect with us on LinkedIn">
+                  <img src="https://upload.wikimedia.org/wikipedia/commons/e/e9/LinkedIn_icon.svg" alt="LinkedIn" className="h-5 w-5" />
+                  LinkedIn
+                </a>
               </div>
             </div>
           </div>
         </div>
       </div>
     </section>
-  )
+  );
 }
 
 const MapSection = () => {
@@ -101,20 +134,26 @@ const ContactPage = () => {
     <div className="min-h-screen bg-white flex flex-col">
       <main className="flex-1">
         {/* Hero */}
+        <GsapReveal delay={0.05}>
         <CommonHero
           eyebrow="Get in Touch"
           title="Let’s Secure Your Space with Invisible Grills"
           subtitle="Have a question or need a quote? Our team is here to help."
-          primaryCta={{ label: 'Call Now', href: 'tel:+919000000000' }}
-          secondaryCta={{ label: 'WhatsApp Us', href: 'https://wa.me/919000000000' }}
+          primaryCta={{ label: 'Call Now', href: 'tel:+919676491117' }}
+          secondaryCta={{ label: 'WhatsApp Us', href: 'https://wa.me/919676491117' }}
           mediaNote="Team or showroom image placeholder"
+          mediaSrc='/images/contact/hero.png'
         />
+        </GsapReveal>
 
         {/* Contact Information */}
+        <GsapReveal triggerOnView>
         <ContactInfo />
+        </GsapReveal>
 
         {/* Contact Form (reuse) */}
-        <section className="py-16 lg:py-24 bg-gray-50">
+        <GsapReveal triggerOnView>
+        <section className="py-16 lg:py-24 bg-white">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="max-w-2xl">
               <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-teal-700">Send an Inquiry</h2>
@@ -125,15 +164,19 @@ const ContactPage = () => {
             </div>
           </div>
         </section>
-
+        </GsapReveal>
         {/* Map */}
+        <GsapReveal triggerOnView>
         <MapSection />
-
+        </GsapReveal>
         {/* FAQ */}
+        <GsapReveal triggerOnView>
         <FAQ />
-
+        </GsapReveal>
         {/* Final CTA */}
+        <GsapReveal triggerOnView>
         <CtaSection />
+        </GsapReveal>
       </main>
     </div>
   )
