@@ -29,7 +29,7 @@ const ContactUs = () => {
               <h4 className="text-lg font-semibold text-teal-700">Connect with Us</h4>
               <div className="mt-3 space-x-4 flex">
                 <a
-                  href="https://wa.me/9000000000"
+                  href="https://wa.me/+919676491117"
                   className="text-teal-700 hover:text-teal-800 transition-colors"
                   aria-label="Chat with us on WhatsApp"
                 >

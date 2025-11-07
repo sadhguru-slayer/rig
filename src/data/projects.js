@@ -1,6 +1,17 @@
 const projectsData = [
   {
     id: 1,
+     seo: {
+      title: "High-Rise Apartment Balcony Invisible Grills | Reddy Invisible Grills",
+      description: "Premium invisible grills installed for high-rise apartment balconies in Hyderabad. Enjoy safety without sacrificing your panoramic view.",
+      keywords: [
+        "Invisible balcony grills",
+        "High-rise safety grills Hyderabad",
+        "Stainless steel invisible grills",
+        "Balcony safety solutions",
+        "Luxury balcony grills"
+      ]
+    },
     slug: "high-rise-apartment-balcony-invisible-grills",
     name: "High-Rise Apartment Balcony Invisible Grills",
     client: "The Residency Towers",
@@ -73,6 +84,17 @@ const projectsData = [
   },
   {
     id: 2,
+     seo: {
+      title: "Luxury Villa Balcony Invisible Grills in Hyderabad | Safe & Stylish",
+      description: "Expertly designed invisible grills for luxury villas in Hyderabad offering unmatched safety and minimalist elegance.",
+      keywords: [
+        "Luxury villa grills",
+        "Custom invisible grills Hyderabad",
+        "Balcony safety grills",
+        "Modern villa safety nets",
+        "Transparent balcony grills"
+      ]
+    },
     slug: "villa-balcony-invisible-grills",
     name: "Luxury Villa Balcony Invisible Grills",
     client: "Greenwood Residency",
@@ -140,6 +162,17 @@ const projectsData = [
   },
   {
     id: 3,
+    seo: {
+      title: "Commercial Office Invisible Grills in Hyderabad | Modern Safety Solutions",
+      description: "Robust invisible grills ensuring employee safety and aesthetic appeal in Hyderabad’s commercial office buildings.",
+      keywords: [
+        "Commercial invisible grills",
+        "Office balcony safety Hyderabad",
+        "Industrial invisible grills",
+        "Corporate building safety",
+        "Transparent commercial grills"
+      ]
+    },
     slug: "commercial-office-invisible-grill",
     name: "Commercial Office Invisible Grills",
     client: "TechPark IT Hub",
@@ -207,6 +240,17 @@ const projectsData = [
   },
   {
     id: 4,
+    seo: {
+      title: "Residential Apartment Bird Safety Nets | Durable & Invisible",
+      description: "Effective bird safety nets installed in Hyderabad apartments, protecting balconies while preserving airflow and views.",
+      keywords: [
+        "Bird safety nets",
+        "Apartment balcony bird net",
+        "Durable bird protection nets",
+        "Invisible bird nets Hyderabad",
+        "Balcony pest control"
+      ]
+    },
     slug: "residential-apartment-bird-safety-nets",
     name: "Residential Apartment Bird Safety Nets",
     client: "Sunrise Residency",
@@ -266,6 +310,18 @@ const projectsData = [
   },
   {
     id: 5,
+    seo: {
+      title: "Cricket Practice Nets | Durable Nets for Professional & Home Training",
+      description: "Install professional-grade cricket practice nets suitable for academies, clubs, and home practice. Weatherproof, long-lasting, and customizable for any space.",
+      keywords: [
+        "Cricket practice nets",
+        "Cricket training nets",
+        "Outdoor cricket nets",
+        "Indoor practice net",
+        "Sports netting system",
+        "Custom cricket nets"
+      ]
+    },
     slug: "cricket-practice-net-installation",
     name: "Cricket Practice Net Installation",
     client: "Hyderabad Cricket Academy",
@@ -327,6 +383,17 @@ const projectsData = [
   },
   {
     id: 6,
+    seo: {
+      title: "High-Rise Balcony Safety Net Installation | Certified & Durable",
+      description: "Safety nets installed across high-rise balconies in Hyderabad for child and pet fall prevention with full code compliance.",
+      keywords: [
+        "High-rise safety nets",
+        "Balcony safety net Hyderabad",
+        "Child safety nets",
+        "Pet safety balcony nets",
+        "Durable balcony nets"
+      ]
+    },
     slug: "high-rise-balcony-safety-net-installation",
     name: "High-Rise Balcony Safety Net Installation",
     client: "Skyline Apartments",
@@ -386,6 +453,17 @@ const projectsData = [
   },
   {
     id: 7,
+    seo: {
+      title: "Commercial Ceiling Clothes Hangers | Space-Saving Laundry Solutions",
+      description: "Durable stainless steel ceiling-mounted clothes hangers installed for commercial laundry spaces in Hyderabad, improving efficiency and space usage.",
+      keywords: [
+        "Ceiling clothes hangers",
+        "Commercial laundry racks",
+        "Space-efficient drying racks",
+        "Stainless steel clothes hanger",
+        "Laundry room solution"
+      ]
+    },
     slug: "commercial-building-ceiling-clothes-hangers",
     name: "Commercial Building Ceiling Clothes Hangers",
     client: "Metro Business Tower",

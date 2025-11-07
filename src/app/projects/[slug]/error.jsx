@@ -9,13 +9,13 @@ export default function ServiceError({ error, reset }) {
 
   return (
     <div className="flex flex-col items-center justify-center h-screen text-center px-4">
-      <h1 className="text-5xl font-bold text-teal-600 mb-4">Something went wrong</h1>
+      <h1 className="text-5xl font-bold text-red-600 mb-4">Something went wrong</h1>
       <p className="text-gray-700 mb-6">
         We encountered an error while loading this service.
       </p>
       <button
         onClick={() => reset()}
-        className="px-6 py-3 bg-teal-500 text-white rounded-lg hover:bg-teal-600 transition"
+        className="px-6 py-3 bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
       >
         Try Again
       </button>
