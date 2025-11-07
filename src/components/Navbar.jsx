@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { FaInstagram, FaFacebookF, FaLinkedinIn } from 'react-icons/fa'; // Importing social icons from react-icons
 import { LinkIcon } from '@heroicons/react/outline'; // Import Heroicons' LinkIcon (you can also import others as needed)
+import Image from 'next/image';
 
 const Navbar = ({
   variant = "light",
@@ -159,8 +160,16 @@ const socialIcons = {
           {/* Logo */}
           <Link href="/" className="inline-flex items-center gap-2">
             <div className="h-8 w-8" />
-            <span className={brandBox}>RIG<span className="w-1 h-1 bg-teal-900 rounded-full inline-block ml-1"></span></span>
-          </Link>
+            <Image
+  src='/logo_c.png'
+  alt='RIG'
+  height={400} // restrict height to navbar height
+  width={400}  // optional, Next.js will auto-scale if you omit
+  className="h-14 w-auto" // h-10 = 2.5rem ~ 40px
+  priority // optional: preloads logo for better LCP
+/>
+
+            </Link>
 
           {/* Desktop Nav */}
           <nav ref={navRef} className="hidden md:flex items-center gap-8 relative">
