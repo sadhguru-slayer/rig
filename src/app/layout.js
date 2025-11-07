@@ -39,7 +39,7 @@ export default function RootLayout({ children }) {
         <div className="fixed bottom-5 left-5 z-50 flex flex-col gap-3">
           {/* 📞 Call Button */}
           <Link
-            href="tel:+919000000000" // change to your actual number
+            href="tel:+919676491117" // change to your actual number
             aria-label="Call Us"
             className="bg-sky-600 hover:bg-sky-700 text-white p-3 rounded-full shadow-lg transition-all duration-300 flex items-center justify-center"
           >
