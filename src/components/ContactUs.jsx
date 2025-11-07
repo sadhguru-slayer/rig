@@ -1,10 +1,13 @@
+'use client'
 import React from 'react';
+import { FaInstagram, FaWhatsapp, FaLinkedinIn } from 'react-icons/fa'; // Importing social icons from react-icons
+
 
 const ContactUs = () => {
   return (
     <section id="contact" className="rounded-4xl shadow py-16 lg:py-24 bg-gradient-to-r from-teal-50 to-sky-50">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid lg:grid-cols-2 gap-12">
+        <div className="flex flex-col-reverse md:flex-row gap-8">
          
         {/* Left Section - Contact Info & Service Areas */}
           <div className="space-y-8">
@@ -24,27 +27,28 @@ const ContactUs = () => {
             {/* Social Links Card */}
             <div className="rounded-2xl bg-white  p-6 border border-gray-200">
               <h4 className="text-lg font-semibold text-teal-700">Connect with Us</h4>
-              <div className="mt-3 space-x-4">
+              <div className="mt-3 space-x-4 flex">
                 <a
                   href="https://wa.me/9000000000"
                   className="text-teal-700 hover:text-teal-800 transition-colors"
                   aria-label="Chat with us on WhatsApp"
                 >
-                  WhatsApp
+                  <FaWhatsapp className='h-5 w-5'/>
                 </a>
                 <a
                   href="https://www.instagram.com/invisiblegrills/"
                   className="text-teal-700 hover:text-teal-800 transition-colors"
                   aria-label="Follow us on Instagram"
                 >
-                  Instagram
+                  <FaInstagram className='h-5 w-5'/>
+
                 </a>
                 <a
                   href="https://www.linkedin.com/company/invisiblegrills/"
                   className="text-teal-700 hover:text-teal-800 transition-colors"
                   aria-label="Follow us on LinkedIn"
                 >
-                  LinkedIn
+                  <FaLinkedinIn className='h-5 w-5'/>
                 </a>
               </div>
             </div>

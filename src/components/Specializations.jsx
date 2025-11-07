@@ -42,7 +42,7 @@ const SpecializationsComponent = () => {
                 {/* Service Content */}
                 <div className="relative flex flex-col  justify-end h-full z-10 text-center p-6 bg-black/20 bg-opacity-50 transition-all duration-300 group-hover:bg-black/60 text-gray-100 group-hover:text-white">
                   <h3 className="text-2xl font-semibold">{service.title}</h3>
-                  <p className="mt-2 text-sm">{isServicePage ? service.description : service.shortDescription}</p> {/* Use description if on service page */}
+                  <p className="mt-2 text-sm">{service.shortDescription}</p> {/* Use description if on service page */}
                   <Link href={service.moreInfoUrl}>
                     <p className="mt-4 inline-block text-sm text-teal-300 hover:text-teal-500 transition-colors duration-200">
                       Learn more →
@@ -71,7 +71,7 @@ const SpecializationsComponent = () => {
                 {/* Service Content */}
                 <div className="relative flex flex-col justify-end h-full z-10 text-center p-6 bg-black/20 bg-opacity-50 transition-all duration-300 group-hover:bg-black/60 text-gray-100 group-hover:text-white">
                   <h3 className="text-2xl font-semibold">{service.title}</h3>
-                  <p className="mt-2 text-sm">{isServicePage ? service.description : service.shortDescription}</p> {/* Use description if on service page */}
+                  <p className="mt-2 text-sm">{service.shortDescription}</p> {/* Use description if on service page */}
                   <Link href={service.moreInfoUrl}>
                     <p className="mt-4 inline-block text-sm text-teal-300 hover:text-teal-500 transition-colors duration-200">
                       Learn more →
@@ -100,7 +100,7 @@ const SpecializationsComponent = () => {
                 {/* Service Content */}
                 <div className="relative flex flex-col  justify-end h-full z-10 text-center p-6 bg-black/20 bg-opacity-50 transition-all duration-300 group-hover:bg-black/60 text-gray-100 group-hover:text-white">
                   <h3 className="text-2xl font-semibold">{service.title}</h3>
-                  <p className="mt-2 text-sm">{isServicePage ? service.description : service.shortDescription}</p> {/* Use description if on service page */}
+                  <p className="mt-2 text-sm">{service.shortDescription}</p> {/* Use description if on service page */}
                   <Link href={service.moreInfoUrl}>
                     <p className="mt-4 inline-block text-sm text-teal-300 hover:text-teal-500 transition-colors duration-200">
                       Learn more →

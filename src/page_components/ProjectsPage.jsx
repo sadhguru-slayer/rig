@@ -1,181 +1,176 @@
 'use client'
-import React, { useMemo, useState } from 'react'
+import React, { useState, useMemo } from 'react'
 import CommonHero from '@/components/CommonHero'
 import Testimonials from '@/components/Testimonials'
 import CtaSection from '@/components/CtaSection'
 import Link from 'next/link'
 import GsapReveal from '@/components/GsapReveal'
 import Image from 'next/image'
-const CATEGORIES = [
-  { key: 'all', label: 'All' },
-  { key: 'balconies', label: 'Balconies' },
-  { key: 'windows', label: 'Windows' },
-  { key: 'staircases', label: 'Staircases' },
-  { key: 'enclosures', label: 'Safety Enclosures' },
-]
-
-const SORTS = [
-  { key: 'newest', label: 'Newest' },
-  { key: 'popular', label: 'Popular' },
-  { key: 'residential', label: 'Residential' },
-  { key: 'commercial', label: 'Commercial' },
-]
-
-const ALL_PROJECTS = [
-  { id: 1, image:'/balcony.png' ,title: 'Skyline Heights Balcony', location: 'Bengaluru', category: 'balconies', type: 'residential' },
-  { id: 2, image:'/gemini_gen.png' ,title: 'Seaside Window Set', location: 'Mumbai', category: 'windows', type: 'residential' },
-  { id: 3, image:'/images/ourspecialization/cloth_hangers.png' ,title: 'Atrium Staircase Guard', location: 'Hyderabad', category: 'staircases', type: 'commercial' },
-  { id: 4, image:'/images/high_rise.png' ,title: 'Play Area Enclosure', location: 'Pune', category: 'enclosures', type: 'residential' },
-  { id: 5, image:'/images/aboutpage/s2.png' ,title: 'Hotel Balcony Series', location: 'Chennai', category: 'balconies', type: 'commercial' },
-  { id: 6, image:'/images/ourspecialization/invinsible_grills.png' ,title: 'Corner Window Grid', location: 'Bengaluru', category: 'windows', type: 'residential' },
-]
+import projectsData from '@/data/projects' // Adjust the import path accordingly
 
 const ProjectsPage = () => {
-  const [activeCategory, setActiveCategory] = useState('all')
-  const [activeSort, setActiveSort] = useState('newest')
+  // Extract unique categories and serviceTypes from projects dynamically
+  const categories = useMemo(() => {
+    const allCats = projectsData.map(p => p.category)
+    return ['all', ...Array.from(new Set(allCats))]
+  }, [])
 
-  const projects = useMemo(() => {
-    let list = ALL_PROJECTS
+  const serviceTypes = useMemo(() => {
+    const allTypes = projectsData.map(p => p.serviceType)
+    return ['all', ...Array.from(new Set(allTypes))]
+  }, [])
+
+  // States for active filters
+  const [activeCategory, setActiveCategory] = useState('all')
+  const [activeServiceType, setActiveServiceType] = useState('all')
+
+  // Filtered and mapped projects with required minimal fields
+  const filteredProjects = useMemo(() => {
+    let filtered = projectsData
+
     if (activeCategory !== 'all') {
-      list = list.filter(p => p.category === activeCategory)
+      filtered = filtered.filter(p => p.category === activeCategory)
     }
-    if (activeSort === 'residential') {
-      list = list.filter(p => p.type === 'residential')
-    } else if (activeSort === 'commercial') {
-      list = list.filter(p => p.type === 'commercial')
+
+    if (activeServiceType !== 'all') {
+      filtered = filtered.filter(p => p.serviceType === activeServiceType)
     }
-    // simple stable ordering; extend with dates/popularity if needed
-    return list
-  }, [activeCategory, activeSort])
+
+    // Map to required fields + default cta
+    return filtered.map(({ id, slug, imgSource, name, description, keyProject }) => ({
+      id,
+      slug,
+      imgSource: imgSource || '', // Use first image or fallback
+      title: name,
+      description,
+      cta: 'View Project Details',
+      keyProject,
+    }))
+  }, [activeCategory, activeServiceType])
 
   return (
     <div className="min-h-screen bg-white flex flex-col">
       <main className="flex-1">
-      <GsapReveal delay={0.05}>
-        <CommonHero
-          eyebrow="Our Work"
-          title="Explore Our Recent Invisible Grill Installations"
-          subtitle="Browse through our portfolio showcasing precision, durability, and modern design."
-          primaryCta={{ label: 'Get a Quote', href: '/contact' }}
-          secondaryCta={{ label: 'View Services', href: '/services' }}
-          mediaNote="Portfolio highlight image placeholder"
-          mediaSrc="/images/projectspage/hero.png"
-        />
+        <GsapReveal delay={0.05}>
+          <CommonHero
+            eyebrow="Our Work"
+            title="Explore Our Recent Invisible Grill Installations"
+            subtitle="Browse through our portfolio showcasing precision, durability, and modern design."
+            primaryCta={{ label: 'Get a Quote', href: '/contact' }}
+            secondaryCta={{ label: 'View Services', href: '/services' }}
+            mediaNote="Portfolio highlight image placeholder"
+            mediaSrc="/images/projectspage/hero.png"
+          />
         </GsapReveal>
-        {/* Categories / Filters */}
-<GsapReveal triggerOnView>
-<section className="py-8 lg:py-10 bg-white border-t border-b border-gray-100">
-  <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-    
-    {/* Category Filters */}
-    <div className="flex flex-wrap gap-3">
-      {CATEGORIES.map(cat => (
-        <button
-          key={cat.key}
-          onClick={() => setActiveCategory(cat.key)}
-          className={`rounded-full px-5 py-2.5 text-sm font-medium border transition-all duration-300 ${
-            activeCategory === cat.key
-              ? 'bg-teal-600 text-white border-teal-600 shadow-sm'
-              : 'bg-white text-gray-700 border-gray-200 hover:border-teal-300 hover:text-teal-700'
-          }`}
-        >
-          {cat.label}
-        </button>
-      ))}
+
+        {/* Filters Section */}
+        <GsapReveal triggerOnView>
+          <section className="py-8 lg:py-10 bg-gray-50 border-t border-b border-gray-100">
+            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+              {/* Category Filter */}
+              <div className="flex flex-wrap gap-3">
+                {categories.map(cat => (
+                  <button
+                    key={cat}
+                    onClick={() => setActiveCategory(cat)}
+                    className={`rounded-full px-5 py-2.5 text-sm font-medium border transition-all duration-300 ${
+                      activeCategory === cat
+                        ? 'bg-teal-600 text-white border-teal-600 shadow-sm'
+                        : 'bg-white text-gray-700 border-gray-200 hover:border-teal-300 hover:text-teal-700'
+                    }`}
+                  >
+                    {cat === 'all' ? 'All Categories' : cat}
+                  </button>
+                ))}
+              </div>
+
+              {/* Service Type Filter */}
+              <div className="flex flex-wrap gap-3">
+                {serviceTypes.map(type => (
+                  <button
+                    key={type}
+                    onClick={() => setActiveServiceType(type)}
+                    className={`rounded-full px-5 py-2.5 text-sm font-medium border transition-all duration-300 ${
+                      activeServiceType === type
+                        ? 'bg-teal-600 text-white border-teal-600 shadow-sm'
+                        : 'bg-white text-gray-700 border-gray-200 hover:border-teal-300 hover:text-teal-700'
+                    }`}
+                  >
+                    {type === 'all' ? 'All Services' : type}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </section>
+        </GsapReveal>
+<div className="max-w-6xl mx-auto bg-gray-50 flex gap-4 justify-center items-center px-4">
+<div className='w-full h-0.5 bg-sky-800 '/>
+<h1 className='whitespace-nowrap text-4xl font-bold text-teal-600'>Our Projects</h1>
+<div className='w-full h-0.5 bg-sky-800'/>
+</div>
+
+        {/* Projects Grid */}
+        <GsapReveal triggerOnView>
+          <section className="py-16 lg:py-24 bg-gray-50">
+            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {filteredProjects.length === 0 && (
+                  <p className="text-center text-gray-500">No projects found.</p>
+                )}
+{filteredProjects.map(project => (
+  <div
+    key={project.id}
+    className={`group relative flex flex-col rounded-xl border border-gray-200 bg-white shadow-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1`}
+  >
+    {/* Image Section */}
+    <div className="relative overflow-hidden rounded-t-xl">
+      <Image
+        src={project.imgSource}
+        alt={project.title}
+        width={400}
+        height={300}
+        className="w-full aspect-[4/3] object-cover transition-transform duration-500 group-hover:scale-105"
+      />
+      {/* Key Project Ribbon in a subtle corner */}
+      {project.keyProject && (
+        <div className="absolute top-2 right-0 bg-teal-600 text-white text-xs font-semibold px-2 py-0.5 rounded-bl-md shadow-md">
+          Key Project
+        </div>
+      )}
     </div>
 
-    {/* Sort Buttons */}
-    <div className="flex items-center gap-2">
-      <span className="text-sm text-gray-600">Sort:</span>
-      <div className="flex flex-wrap gap-2">
-        {SORTS.map(s => (
-          <button
-            key={s.key}
-            onClick={() => setActiveSort(s.key)}
-            className={`rounded-md px-4 py-2 text-sm font-medium border transition-all duration-300 ${
-              activeSort === s.key
-                ? 'bg-teal-50 text-teal-700 border-teal-200 shadow-sm'
-                : 'bg-white text-gray-700 border-gray-200 hover:border-teal-300 hover:text-teal-700'
-            }`}
-          >
-            {s.label}
-          </button>
-        ))}
+    {/* Content */}
+    <div className="p-4 flex flex-col gap-2 justify-between h-36 max-h-40 min-h-fit">
+      <h3 className="text-md font-semibold text-gray-900 group-hover:text-teal-700 transition-colors duration-300">
+        {project.title}
+      </h3>
+      <p className="mt-1 text-gray-600 text-sm line-clamp-2">{project.description}</p>
+      <div className="mt-3 flex justify-end">
+        <Link
+          href={`/projects/${project.slug}`}
+          className="text-sm font-medium text-teal-700 hover:text-teal-800 transition-colors duration-300 flex items-center gap-1"
+          aria-label={`View details for ${project.title}`}
+        >
+          {project.cta} <span className="transform transition-transform duration-300 group-hover:translate-x-1">→</span>
+        </Link>
       </div>
     </div>
-
   </div>
-</section>
-</GsapReveal>
+))}
 
-<GsapReveal triggerOnView>
-<section className="py-16 lg:py-24 bg-gray-50">
-  <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-    <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      {projects.map(card => (
-        <div
-          key={card.id}
-          className="rounded-xl border border-gray-200 bg-white overflow-hidden shadow-none hover:shadow-md transition-shadow duration-300 group"
-        >
-          <div className="relative">
-            <Image
-            alt={`${card.title}`}
-            src={card.image}
-            width={400}
-            height={500}
-            className="aspect-[4/3] w-full bg-gray-100 border-b border-gray-200 group-hover:opacity-95 transition-opacity duration-300" />
-            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-t from-black/20 to-transparent" />
-          </div>
-          <div className="p-6">
-            <h3 className="font-medium text-gray-900">{card.title}</h3>
-            <p className="mt-1 text-sm text-gray-600">{card.location}</p>
-            <div className="mt-4 flex items-center justify-between">
-              <span className=" capitalize inline-flex items-center rounded-full bg-teal-50 text-teal-700 border border-teal-200 px-3 py-1 text-xs font-medium">
-                {card.category}
-              </span>
-              <button className="text-sm text-teal-700 hover:text-teal-800 font-medium">
-                View Details →
-              </button>
-            </div>
-          </div>
-        </div>
-      ))}
-    </div>
-  </div>
-</section>
-</GsapReveal>
-
-        {/* Featured Project Highlight */}
-        <GsapReveal triggerOnView>
-        <section className="py-16 lg:py-24 bg-white">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-12 lg:items-center">
-            <div>
-              <Image
-              src='/images/apartments.png'
-              width={200}
-              height={300}
-              alt='Appartments'
-              className="w-full rounded-xl border border-dashed border-gray-300 bg-gray-50" />
-              </div>
-            <div>
-              <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-teal-700">Flagship High-Rise Balcony Series</h2>
-              <p className="mt-4 text-gray-600">12-tower installation featuring 316-grade cables for coastal resistance, child-safe spacing, and custom anchoring for cantilevered slabs.</p>
-              <p className="mt-3 text-gray-600">Result: unobstructed skyline views, near-zero maintenance, and uniform façade aesthetics.</p>
-              <div className="mt-6 flex flex-wrap gap-3">
-                <Link href="/contact" className="inline-flex rounded-md bg-teal-600 px-5 py-3 text-sm font-medium text-white hover:bg-teal-700 transition">Contact for Case Study</Link>
-                <Link href="/services" className="inline-flex rounded-md border border-gray-300 px-5 py-3 text-sm font-medium hover:bg-gray-50 text-teal-700 hover:border-teal-300">View Related Service</Link>
               </div>
             </div>
-          </div>
-        </section>
+          </section>
         </GsapReveal>
-        {/* Testimonials (reuse) */}
+
+        {/* Featured Project Highlight (optional) */}
+        {/* Additional page sections like Testimonials, CTA etc. */}
         <GsapReveal triggerOnView>
-        <Testimonials />
+          <Testimonials />
         </GsapReveal>
-        {/* CTA (reuse) */}
+
         <GsapReveal triggerOnView>
-        <CtaSection />
+          <CtaSection />
         </GsapReveal>
       </main>
     </div>
@@ -183,5 +178,3 @@ const ProjectsPage = () => {
 }
 
 export default ProjectsPage
-
-

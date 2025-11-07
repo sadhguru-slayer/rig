@@ -1,12 +1,32 @@
-import React from 'react'
+'use client'
+import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
-const projects = [
+import projectsData from '@/data/projects'
+
+const projecs = [
   { id: 1, imgSource:'/images/balcony2.png', title: 'High-Rise Balcony, Bengaluru', desc: 'Invisible grills installed across 12 balconies, enhancing views and safety.', cta: 'View Project Details' },
   { id: 2, imgSource:'/images/apartments.png', title: 'Premium Apartment, Hyderabad', desc: 'Discreet window grills preserving natural light in living spaces.', cta: 'View Project Details' },
   { id: 3, imgSource:'/images/high_rise.png', title: 'Seaside Residence, Mumbai', desc: '316-grade SS cables for superior corrosion resistance in coastal air.', cta: 'View Project Details' },
 ]
 
 const KeyProjects = () => {
+  const [projects, setProjects] = useState([]);
+
+  useEffect(() => {
+    const keyProjects = projectsData.filter((project) => project.keyProject);
+
+    // Map only required fields including default cta
+    const simplifiedProjects = keyProjects.map(({ id, imgSource, name, description }) => ({
+      id,
+      imgSource,
+      title: name,
+      description,
+      cta: 'View Project Details',
+    }));
+    console.log(simplifiedProjects)
+
+    setProjects(simplifiedProjects);
+  }, []);
   return (
     <section id="projects" className="py-16 lg:py-24 bg-gray-50">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -28,7 +48,7 @@ const KeyProjects = () => {
               className=" aspect-[4/3] w-full bg-gray-100 border-b border-gray-200" />
               <div className="p-5">
                 <h3 className="font-medium text-gray-900">{p.title}</h3>
-                <p className="mt-2 text-sm text-gray-600">{p.desc}</p>
+                <p className="mt-2 text-sm text-gray-600">{p.description}</p>
                 <div className="mt-4">
                   <button className="inline-flex items-center rounded-md bg-teal-700 px-4 py-2 text-sm font-medium text-white hover:bg-teal-800">
                     {p.cta}

@@ -53,7 +53,7 @@ export default function RootLayout({ children }) {
         <div className="fixed bottom-5 right-5 z-50 flex flex-col gap-3">
           {/* 💬 WhatsApp Button */}
           <Link
-            href="https://wa.me/919000000000" // change to your WhatsApp number
+            href="https://wa.me/+919676491117" // change to your WhatsApp number
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Chat on WhatsApp"
