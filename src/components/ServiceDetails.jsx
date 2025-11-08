@@ -109,39 +109,41 @@ const ServiceDetails = ({ service }) => {
 </GsapReveal>
 
 
-      {/* FEATURES */}
-      {features?.length > 0 && (
-        <GsapReveal triggerOnView>
-          <section className="py-20 bg-white">
-            <div className="max-w-7xl mx-auto px-6">
-              <h2 className="text-3xl font-semibold text-teal-700 text-center mb-12">
-                Highlights & Key Features
-              </h2>
-              <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                {features.map((feature, index) => (
-                  <div
-                    key={index}
-                    className="p-6 border rounded-xl shadow-md hover:shadow-xl transform  transition-all duration-300 bg-white flex flex-col items-center text-center"
-                  >
-                    {feature.icon && (
-                      <div className="w-16 h-16 mb-4">
-                        <Image
-                          src={feature.icon}
-                          alt={feature.title}
-                          width={64}
-                          height={64}
-                        />
-                      </div>
-                    )}
-                    <h3 className="font-semibold text-gray-900 text-lg mb-2">{feature.title}</h3>
-                    <p className="text-gray-600 text-sm">{feature.detail}</p>
-                  </div>
-                ))}
-              </div>
+{/* FEATURES */}
+{features?.length > 0 && (
+  <GsapReveal triggerOnView>
+    <section className="py-20 bg-gray-50">
+      <div className="max-w-7xl mx-auto px-6">
+        <h2 className="text-3xl font-bold text-teal-700 text-center mb-12">
+          Highlights & Key Features
+        </h2>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          {features.map((feature, index) => (
+            <div
+              key={index}
+              className="p-6 border border-gray-200 rounded-2xl shadow-md hover:shadow-xl transform hover:-translate-y-2 hover:scale-105 transition-all duration-300 bg-gradient-to-b from-white to-teal-50 flex flex-col items-center text-center"
+            >
+              {feature.icon && (
+                <div className="w-16 h-16 mb-4 rounded-full bg-teal-100 flex items-center justify-center">
+                  <Image
+                    src={feature.icon}
+                    alt={feature.title}
+                    width={48}
+                    height={48}
+                    className="object-contain"
+                  />
+                </div>
+              )}
+              <h3 className="font-semibold text-teal-700 text-lg mb-2">{feature.title}</h3>
+              <p className="text-gray-700 text-sm">{feature.detail}</p>
             </div>
-          </section>
-        </GsapReveal>
-      )}
+          ))}
+        </div>
+      </div>
+    </section>
+  </GsapReveal>
+)}
+
 
       {/* SPECIFICATIONS */}
 {specifications && (

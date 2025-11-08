@@ -2,9 +2,13 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { FaInstagram, FaFacebookF, FaLinkedinIn } from 'react-icons/fa'; // Importing social icons from react-icons
+import { FaInstagram, FaFacebookF, FaLinkedinIn, FaArrowRight ,FaChevronRight} from 'react-icons/fa'; // Importing social icons from react-icons
 import { LinkIcon } from '@heroicons/react/outline'; // Import Heroicons' LinkIcon (you can also import others as needed)
 import Image from 'next/image';
+import services from '@/data/services';
+import projectsData from '@/data/projects';
+
+
 
 const Navbar = ({
   variant = "light",
@@ -31,6 +35,7 @@ const socialIcons = {
   const isDark = variant === 'dark'
 
   // Scroll-aware state for subtle navbar animation
+  const [openDropdown, setOpenDropdown] = useState(null); // tracks which parent menu is open
   const [scrolled, setScrolled] = useState(false)
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8)
@@ -70,14 +75,32 @@ const socialIcons = {
   const navRef = useRef(null)
   const linkRefs = useRef([])
   const [underline, setUnderline] = useState({ left: 0, width: 0, visible: false })
-
+  
   const links = [
     { href: "/", label: "Home", active: pathname === "/" },
     { href: "/about", label: "About", active: pathname?.startsWith("/about") },
-    { href: "/services", label: "Services", active: pathname?.startsWith("/services") },
-    { href: "/projects", label: "Projects", active: pathname?.startsWith("/projects") },
+    { 
+      href: "/services", 
+      label: "Services", 
+      active: pathname?.startsWith("/services"),
+      children: [
+        ...services.slice(0, 4).map(s => ({ label: s.title, href: `/services/${s.slug}` })),
+        { label: "See All", href: "/services" } // CTA at bottom
+      ]
+    },
+    { 
+      href: "/projects", 
+      label: "Projects", 
+      active: pathname?.startsWith("/projects"),
+      children: [
+        ...projectsData.slice(0, 4).map(p => ({ label: p.name, href: `/projects/${p.slug}` })),
+        { label: "See All", href: "/projects" } // CTA at bottom
+      ]
+    },
     { href: "/contact", label: "Contact", active: pathname?.startsWith("/contact") },
-  ]
+  ];
+  
+  
 
   const recalcUnderline = () => {
     const container = navRef.current
@@ -171,24 +194,53 @@ const socialIcons = {
 
             </Link>
 
-          {/* Desktop Nav */}
-          <nav ref={navRef} className="hidden md:flex items-center gap-8 relative">
-            {links.map((l, i) => (
-              <Link
-                key={l.href}
-                href={l.href}
-                ref={el => { linkRefs.current[i] = el }}
-                className={`${linkBase} ${l.active ? active : ""}`}
-              >
-                {l.label}
-              </Link>
-            ))}
-            <span
-              aria-hidden="true"
-              className={`absolute -bottom-1 h-0.5 bg-teal-600 transition-all duration-300 ease-out ${underline.visible ? 'opacity-100' : 'opacity-0'}`}
-              style={{ left: underline.left, width: underline.width }}
-            />
-          </nav>
+            <nav ref={navRef} className="hidden md:flex items-center gap-8 relative">
+  {links.map((l, i) => (
+    <div key={l.href} className="relative group">
+      <Link
+        href={l.href}
+        ref={el => { linkRefs.current[i] = el }}
+        className={`${linkBase} ${l.active ? active : ""} flex items-center gap-1`}
+      >
+        {l.label}
+        {l.children && (
+          <svg className="h-3 w-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+            <path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.293l3.71-4.062a.75.75 0 111.08 1.04l-4.25 4.65a.75.75 0 01-1.08 0l-4.25-4.65a.75.75 0 01.02-1.06z" clipRule="evenodd" />
+          </svg>
+        )}
+      </Link>
+
+      {l.children && (
+        <div className="absolute left-0 top-full mt-2 min-w-[220px] max-w-sm bg-white border border-gray-200 rounded-lg shadow-lg opacity-0 group-hover:opacity-100 invisible group-hover:visible transition-all duration-300 z-50">
+          {l.children.map((child, j) => (
+            <Link
+  key={j}
+  href={child.href}
+  className={`
+    group block px-4 py-2 text-gray-700 hover:text-teal-600 hover:bg-teal-50 text-sm
+    ${j === l.children.length - 1 ? 'font-medium text-teal-600' : ''}
+  `}
+>
+  {child.label}
+  {j === l.children.length - 1 && (
+    <FaArrowRight className="w-3 h-3 inline-block ml-2 transition-all duration-200 group-hover:translate-x-1" />
+  )}
+</Link>
+
+          
+          ))}
+        </div>
+      )}
+    </div>
+  ))}
+  <span
+    aria-hidden="true"
+    className={`absolute -bottom-1 h-0.5 bg-teal-600 transition-all duration-300 ease-out ${underline.visible ? 'opacity-100' : 'opacity-0'}`}
+    style={{ left: underline.left, width: underline.width }}
+  />
+</nav>
+
+          
 
           {/* CTA + Mobile button */}
           <div className="flex items-center gap-3">
@@ -215,24 +267,48 @@ const socialIcons = {
         {isMobileMenuOpen && (
           <div
             className={`
-              absolute ${isUtilityBarVisible?'top-28':'top-16'} left-0 w-full
+              absolute ${isUtilityBarVisible ? 'top-28' : 'top-16'} left-0 w-full
               bg-white shadow-lg border-t border-gray-200
-              md:hidden flex flex-col gap-3 py-4 px-4
+              md:hidden flex flex-col gap-2 py-4 px-4
               z-50
               animate-fadeIn
             `}
           >
-            {links.map((l) => (
-              <Link
-                key={l.href}
-                href={l.href}
-                onClick={() => setMobileMenuOpen(false)} // close on click
-                className={`${linkBase} ${l.active ? active : ""} block py-2`}
+          {links.map((l, i) => (
+            <div key={l.href} className="flex flex-col gap-1">
+              <button
+                onClick={() =>
+                  l.children
+                    ? setOpenDropdown(openDropdown === i ? null : i)
+                    : setMobileMenuOpen(false)
+                }
+                className={`${linkBase} ${l.active ? active : ""} w-full text-left flex justify-between items-center py-2`}
               >
                 {l.label}
-              </Link>
-            ))}
-
+                {l.children && (
+                  <span className={`transition-transform duration-200 ${openDropdown === i ? 'rotate-90' : ''}`}>
+                  <FaChevronRight/>
+                  </span>
+                )}
+              </button>
+          
+              {l.children && openDropdown === i && (
+                <div className="pl-4 flex flex-col gap-1">
+                  {l.children.map((child, j) => (
+                    <Link
+                      key={j}
+                      href={child.href}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="text-gray-600 hover:text-teal-600 block py-1 text-sm"
+                    >
+                      {child.label}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
+        
             <Link
               href={cta.href}
               onClick={() => setMobileMenuOpen(false)}
@@ -242,6 +318,7 @@ const socialIcons = {
             </Link>
           </div>
         )}
+        
 
       </div>
     </header>

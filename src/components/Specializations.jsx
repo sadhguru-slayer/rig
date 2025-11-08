@@ -1,124 +1,122 @@
 'use client';
 import { usePathname } from 'next/navigation';
-import services from '../data/services'; // Assuming your services.js file has the necessary data
+import services from '../data/services';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Suspense } from 'react';
+import { FiCheckCircle, FiArrowRight } from 'react-icons/fi';
 
 const SpecializationsComponent = () => {
   const pathname = usePathname();
-  const isServicePage = pathname === '/services';  // Ensure we match the correct route
-
-  // Define the services layout based on the columns you mentioned
-  const specializationGroups = [
-    [services[0], services[1]],  // Invisible Grills, Bird Safety Nets (First Row)
-    [services[2], services[3]],  // Ceiling Clothes Hangers, Balcony Safety Nets (Second Row)
-    [services[4]]               // Cricket Practice Nets (Third Row)
-  ];
+  const isServicePage = pathname === '/services';
 
   return (
     <section className="py-16 bg-gray-50">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <h2 className="text-4xl font-semibold text-teal-700 mb-8 text-center">
-          Our Specializations
-        </h2>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Header */}
+        <div className="text-center mb-12">
+          <h2 className="text-3xl sm:text-4xl font-bold text-teal-700">
+            Our Specializations
+          </h2>
+          <p className="mt-3 text-gray-600 max-w-2xl mx-auto">
+            Explore our range of safety and performance-driven solutions — engineered to protect, perform, and impress.
+          </p>
+        </div>
 
-        {/* Grid Layout */}
-        <div className="flex flex-col gap-4">
-          {/* First Row: 50/50 */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {specializationGroups[0].map((service) => (
-              <div
-                key={service.id}
-                className={`relative group rounded-4xl overflow-hidden ${isServicePage ? 'h-80' : ''}`} // Apply increased height on services page
-              >
-                {/* Service Image as Background */}
-                <div
-                  className="absolute inset-0 bg-cover bg-center transition-all duration-500 group-hover:opacity-90"
-                  style={{
-                    backgroundImage: `url('${service.imageUrl}')`
-                  }}
-                ></div>
+        {/* Services Grid - 2 per row */}
+        <div className="grid sm:grid-cols-1 lg:grid-cols-2 gap-10">
+          {services.map((service) => (
+            <div
+  key={service.id}
+  className="bg-white rounded-2xl border border-gray-200 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col"
+>
+  {/* Image */}
+  <div className="relative w-full h-56">
+    <Image
+      src={service.imageUrl}
+      alt={service.title}
+      fill
+      className="object-cover"
+    />
+  </div>
 
-                {/* Service Content */}
-                <div className="relative flex flex-col  justify-end h-full z-10 text-center p-6 bg-black/20 bg-opacity-50 transition-all duration-300 group-hover:bg-black/60 text-gray-100 group-hover:text-white">
-                  <h3 className="text-2xl font-semibold">{service.title}</h3>
-                  <p className="mt-2 text-sm">{service.shortDescription}</p> {/* Use description if on service page */}
-                  <Link href={service.moreInfoUrl}>
-                    <p className="mt-4 inline-block text-sm text-teal-300 hover:text-teal-500 transition-colors duration-200">
-                      Learn more →
-                    </p>
-                  </Link>
-                </div>
-              </div>
+  {/* Content */}
+  <div className="p-6 flex flex-col flex-grow">
+    <h3 className="text-xl font-semibold text-gray-900 mb-2">
+      {service.title}
+    </h3>
+    <p className="text-gray-600 text-sm mb-6">{service.shortDescription}</p>
+
+    {/* Features + Specifications */}
+    <div className="flex flex-col gap-6">
+      
+      {/* Key Features Grid */}
+      <div className="flex-1 bg-gradient-to-r from-teal-700/30 via-teal-700/20 to-sky-700/20 shadow-inner p-4 rounded-lg">
+        <h4 className="text-teal-700 font-semibold mb-2 text-sm uppercase tracking-wide">
+          Key Features
+        </h4>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          {service.features.slice(0, 4).map((feature, index) => (
+            <div
+              key={index}
+              className="border bg-white border-gray-200 rounded-lg p-2 flex items-center gap-2 hover:shadow-md transition-shadow duration-200"
+            >
+              <FiCheckCircle className="text-teal-600 flex-shrink-0" />
+              <span className="text-gray-700 text-sm">{feature.title}</span>
+            </div>
+          ))}
+          {service.features.length > 4 && (
+            <div className="text-teal-600 text-xs font-medium mt-1">+ More</div>
+          )}
+        </div>
+      </div>
+
+      {/* Specifications Vertical */}
+      <div className="flex-1  border-gray-100">
+        <h4 className="text-teal-700 font-semibold mb-2 text-sm uppercase tracking-wide">
+          Specifications
+        </h4>
+        <ul className="space-y-1 text-gray-600 text-sm list-disc list-inside marker:text-teal-600">
+          {Object.entries(service.specifications)
+            .slice(0, 4)
+            .map(([key, value], i) => (
+              <li key={i}>
+                <span className="font-medium text-gray-800 capitalize">
+                  {key.replace(/([A-Z])/g, ' $1')}:
+                </span>{' '}
+                {value}
+              </li>
             ))}
-          </div>
+        </ul>
+      </div>
+    </div>
 
-          {/* Second Row: 40/60 */}
-          <div className="grid grid-cols-1 sm:grid-cols-5 gap-4">
-            {specializationGroups[1].map((service, index) => (
-              <div
-                key={service.id}
-                className={`relative group ${index === 0 ? 'col-span-2' : 'col-span-3'} rounded-4xl overflow-hidden ${isServicePage ? 'h-80' : ''}`} // Apply increased height on services page
-              >
-                {/* Service Image as Background */}
-                <div
-                  className="absolute inset-0 bg-cover bg-center transition-all duration-500 group-hover:opacity-90"
-                  style={{
-                    backgroundImage: `url('${service.imageUrl}')`
-                  }}
-                ></div>
+    {/* CTA */}
+    <div className="mt-6">
+      <Link
+        href={service.moreInfoUrl}
+        className="inline-flex items-center text-teal-700 font-medium hover:text-teal-500 transition-colors"
+      >
+        Learn More
+        <FiArrowRight className="ml-1" />
+      </Link>
+    </div>
+  </div>
+</div>
 
-                {/* Service Content */}
-                <div className="relative flex flex-col justify-end h-full z-10 text-center p-6 bg-black/20 bg-opacity-50 transition-all duration-300 group-hover:bg-black/60 text-gray-100 group-hover:text-white">
-                  <h3 className="text-2xl font-semibold">{service.title}</h3>
-                  <p className="mt-2 text-sm">{service.shortDescription}</p> {/* Use description if on service page */}
-                  <Link href={service.moreInfoUrl}>
-                    <p className="mt-4 inline-block text-sm text-teal-300 hover:text-teal-500 transition-colors duration-200">
-                      Learn more →
-                    </p>
-                  </Link>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Third Row: 100% */}
-          <div className="grid grid-cols-1 gap-4">
-            {specializationGroups[2].map((service) => (
-              <div
-                key={service.id}
-                className={`relative group rounded-4xl overflow-hidden ${isServicePage ? 'h-80' : ''}`} // Apply increased height on services page
-              >
-                {/* Service Image as Background */}
-                <div
-                  className="absolute inset-0 bg-cover bg-center transition-all duration-500 group-hover:opacity-80"
-                  style={{
-                    backgroundImage: `url('${service.imageUrl}')`
-                  }}
-                ></div>
-
-                {/* Service Content */}
-                <div className="relative flex flex-col  justify-end h-full z-10 text-center p-6 bg-black/20 bg-opacity-50 transition-all duration-300 group-hover:bg-black/60 text-gray-100 group-hover:text-white">
-                  <h3 className="text-2xl font-semibold">{service.title}</h3>
-                  <p className="mt-2 text-sm">{service.shortDescription}</p> {/* Use description if on service page */}
-                  <Link href={service.moreInfoUrl}>
-                    <p className="mt-4 inline-block text-sm text-teal-300 hover:text-teal-500 transition-colors duration-200">
-                      Learn more →
-                    </p>
-                  </Link>
-                </div>
-              </div>
-            ))}
-          </div>
+          ))}
         </div>
       </div>
     </section>
   );
 };
 
-
 const Specializations = () => (
-  <Suspense fallback={<div className="text-center py-8 h-screen text-teal-500">Loading...</div>}>
+  <Suspense
+    fallback={
+      <div className="text-center py-8 h-screen text-teal-500">Loading...</div>
+    }
+  >
     <SpecializationsComponent />
   </Suspense>
 );

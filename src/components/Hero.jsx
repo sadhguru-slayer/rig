@@ -3,20 +3,84 @@ import React, { useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
+
+const features = [
+  "Child-safe",
+  "Corrosion-resistant",
+  "Low maintenance",
+  "Quick installation"
+];
 
 const Hero = () => {
   const heroRef = useRef(null);
 
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      const tl = gsap.timeline({ defaults: { duration: 0.8, ease: "power3.out" } });
+    const ctx = gsap.context((self) => {
+      const tl = gsap.timeline({ defaults: { duration: 0.9, ease: "power3.out" } });
 
-      tl.from(".hero-badge", { opacity: 0, y: -20 })
-        .from(".hero-title", { opacity: 0, x: -30 }, "-=0.5")
-        .from(".hero-subtitle", { opacity: 0, y: 20 }, "-=0.5")
-        .from(".hero-cta", { opacity: 0, y: 20, stagger: 0.2 }, "-=0.4")
-        .from(".hero-feature", { opacity: 0, y: 10, stagger: 0.15 }, "-=0.6")
-        .from(".hero-image", { opacity: 0, scale: 0.95 }, "-=0.7");
+      // Initial intro animations
+      gsap.set(self.selector(".banner-feature-btn"), { autoAlpha: 0 });
+      gsap.set(self.selector(".banner-cta"), { autoAlpha: 0, y: 20 });
+      gsap.set(self.selector(".banner-subtitle"), { autoAlpha: 0 });
+      gsap.set(self.selector(".banner-title"), { autoAlpha: 0, y: 30 });
+      gsap.set(self.selector(".banner-badge"), { autoAlpha: 0, y: -25, scale: 0.95 });
+
+      tl.to(self.selector(".banner-badge"), { autoAlpha: 1, y: 0, scale: 0.95 })
+        .to(self.selector(".banner-title"), { autoAlpha: 1, y: 0 }, "-=0.6")
+        .to(self.selector(".banner-subtitle"), { autoAlpha: 1, y: 0 }, "-=0.5")
+        .to(self.selector(".banner-cta"), { autoAlpha: 1, y: 0, stagger: 0.15 }, "-=0.1")
+        .to(self.selector(".banner-feature-btn"), { autoAlpha: 1, scale: 1, stagger: 0.08, duration: 0.9, ease: "power3.out" }, "-=0.1");
+
+      // ----------- Subtle Scale Parallax on Scroll -----------
+      // Image zoom
+      gsap.to(self.selector("img"), {
+        scale: 1.05, // slightly zoom in
+        y:20,
+        ease: "none",
+        scrollTrigger: {
+          trigger: heroRef.current,
+          start: "top top",
+          end: "bottom top",
+          scrub: 0.6, // smooth transition
+        }
+      });
+
+      // Badge, title, subtitle scale down slightly
+      gsap.to(self.selector(".banner-badge"), {
+        scale: 0.98,
+        ease: "none",
+        scrollTrigger: {
+          trigger: heroRef.current,
+          start: "top top",
+          end: "bottom top",
+          scrub: 0.6,
+        }
+      });
+
+      gsap.to(self.selector(".banner-title"), {
+        scale: 0.98,
+        ease: "none",
+        scrollTrigger: {
+          trigger: heroRef.current,
+          start: "top top",
+          end: "bottom top",
+          scrub: 0.6,
+        }
+      });
+
+      gsap.to(self.selector(".banner-subtitle"), {
+        scale: 0.98,
+        ease: "none",
+        scrollTrigger: {
+          trigger: heroRef.current,
+          start: "top top",
+          end: "bottom top",
+          scrub: 0.6,
+        }
+      });
     }, heroRef);
 
     return () => ctx.revert();
@@ -26,69 +90,72 @@ const Hero = () => {
     <section
       ref={heroRef}
       id="home"
-      className="relative min-h-[85vh] flex items-center overflow-hidden bg-gradient-to-br from-white via-teal-50 to-sky-100"
+      className="relative min-h-[70vh] md:min-h-[85vh] flex items-center justify-center overflow-hidden"
     >
-      {/* Background floating shapes */}
-      <div className="absolute -top-32 -left-32 w-96 h-96 bg-teal-200 rounded-full opacity-20 animate-pulse-slow pointer-events-none"></div>
-      <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-sky-200 rounded-full opacity-20 animate-pulse-slow pointer-events-none"></div>
+      {/* Background Image */}
+      <div className="absolute inset-0 z-0">
+        <Image
+          src="/images/premium_apartment.png"
+          alt="Premium Invisible Grills"
+          fill
+          priority
+          className="object-cover"
+          sizes="100vw"
+          quality={90}
+        />
+        {/* Dark overlay for readability */}
+        <div className="absolute inset-0 bg-gradient-to-r from-gray-900/70 via-gray-900/50 to-gray-900/30"></div>
+        {/* Subtle teal accent gradient */}
+        <div className="absolute inset-0 bg-gradient-to-t from-teal-900/20 via-transparent to-transparent"></div>
+      </div>
 
-      <div className="mx-auto max-w-7xl px-6 lg:px-12 py-20 grid lg:grid-cols-2 gap-16 items-center relative z-10">
-        {/* Left Text Section */}
-        <div className="relative z-10">
-          <div className="hero-badge inline-flex items-center gap-2 rounded-full border border-teal-300/40 bg-white/70 px-4 py-1.5 text-sm font-medium text-teal-700 backdrop-blur-sm shadow-sm">
-            <span className="h-2 w-2 rounded-full bg-teal-600 animate-pulse"></span>
-            Premium Invisible Grills • Safety Meets Design
-          </div>
-
-          <h1 className="hero-title mt-6 text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-gray-900 leading-tight">
-            Unobstructed Views.
-            <br />
-            <span className="bg-gradient-to-r from-teal-600 to-sky-500 bg-clip-text text-transparent">
-              Uncompromised Safety.
-            </span>
-          </h1>
-
-          <p className="hero-subtitle mt-5 text-gray-600 text-lg leading-relaxed max-w-xl">
-            Elevate your living spaces with sleek, durable, and rust-proof invisible grills — engineered with high-tensile SS cables and precision locking systems for ultimate safety and elegance.
-          </p>
-
-          <div className="mt-8 flex flex-wrap gap-4">
-            <Link
-              href="/contact"
-              className="hero-cta inline-flex items-center justify-center rounded-lg bg-gradient-to-r from-teal-600 to-sky-500 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-teal-200/30 hover:from-teal-700 hover:to-sky-600 transition-all duration-300"
-            >
-              Get a Free Quote
-            </Link>
-            <Link
-              href="/benefits"
-              className="hero-cta inline-flex items-center justify-center rounded-lg border border-gray-300 px-6 py-3 text-sm font-medium text-teal-700 hover:bg-teal-50 hover:border-teal-400 transition-all duration-300"
-            >
-              See Benefits
-            </Link>
-          </div>
-
-          <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-3 text-sm text-gray-500 font-medium">
-            {["Child-safe", "Corrosion-resistant", "Low maintenance", "Quick installation"].map((text, i) => (
-              <div key={i} className="hero-feature flex items-center gap-2">
-                <span className="h-1.5 w-1.5 rounded-full bg-teal-500"></span>
-                <span>{text}</span>
-              </div>
-            ))}
-          </div>
+      {/* Content Overlay */}
+      <div className="relative z-10 w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24 flex flex-col items-center text-center">
+        {/* Badge */}
+        <div className="banner-badge inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 backdrop-blur-md px-4 sm:px-5 py-1 sm:py-2 text-xs sm:text-sm font-semibold text-white shadow-lg mb-4">
+          <span className="h-2 w-2 rounded-full bg-teal-400 animate-pulse"></span>
+          Premium Invisible Grills • Safety Meets Design
         </div>
 
-        {/* Right Image Section */}
-        <div className="relative group hero-image">
-          <div className="absolute inset-0 bg-gradient-to-tr from-teal-200/20 to-transparent rounded-2xl scale-105 blur-2xl transition-transform duration-500 group-hover:scale-110"></div>
-          <Image
-            src="/images/premium_apartment.png"
-            alt="Invisible Grill"
-            width={800}
-            height={600}
-            priority
-            className="relative z-10 w-full aspect-[4/3] rounded-2xl border border-gray-200 shadow-2xl shadow-teal-100/40 object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-            sizes="(max-width: 768px) 90vw, 50vw"
-          />
+        {/* Main Title */}
+        <h1 className="banner-title text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-snug sm:leading-tight md:leading-[4rem]">
+          Unobstructed Views.
+          <br />
+          <span className="bg-gradient-to-r from-teal-300 via-teal-200 to-sky-200 bg-clip-text text-transparent">
+            Uncompromised Safety.
+          </span>
+        </h1>
+
+        {/* Subtitle */}
+        <p className="banner-subtitle mt-4 text-sm sm:text-base md:text-lg text-gray-100 leading-relaxed max-w-md sm:max-w-xl md:max-w-2xl">
+          Elevate your space with sleek, rust-proof invisible grills — strong SS cables and secure locks for safety and style.
+        </p>
+
+        {/* CTA Buttons */}
+        <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row gap-3 sm:gap-4 w-full sm:w-auto justify-center">
+          <Link
+            href="/contact"
+            className="banner-cta w-full sm:w-auto inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-teal-600 to-sky-500 px-6 py-3 text-base sm:text-lg font-semibold text-white shadow-xl shadow-teal-500/30 hover:from-teal-700 hover:to-sky-600 hover:shadow-2xl hover:shadow-teal-500/40 transition-all duration-300 transform hover:scale-105"
+          >
+            Get a Free Quote
+          </Link>
+        </div>
+
+        {/* Feature Buttons */}
+        <div className="mt-8 flex flex-wrap justify-center gap-2 sm:gap-3">
+          {features.map((text, i) => (
+            <button
+              key={i}
+              type="button"
+              className="banner-feature-btn cursor-pointer inline-flex items-center gap-2 rounded-xl border border-white/30 px-4 sm:px-5 py-1 sm:py-2 text-xs sm:text-sm font-semibold text-white bg-white/15 backdrop-blur-md shadow-lg hover:bg-white/25 hover:border-white/50 hover:shadow-xl active:scale-95 transition-all duration-200"
+              style={{
+                boxShadow: "0 4px 20px 0 rgba(0,0,0,0.15), 0 0 0 1px rgba(255,255,255,0.1)",
+              }}
+            >
+              <span className="h-2 w-2 rounded-full bg-gradient-to-tr from-teal-300 to-sky-300 shadow-sm"></span>
+              {text}
+            </button>
+          ))}
         </div>
       </div>
     </section>

@@ -205,47 +205,6 @@ const AboutPage = () => {
 </GsapReveal>
 
 
-        {/* Our Team */}
-<GsapReveal triggerOnView>
-  <section className="py-16 lg:py-24 bg-white">
-    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      {/* Section Header */}
-      <div className="max-w-2xl">
-        <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-teal-700">Our Team</h2>
-        <p className="mt-3 text-gray-600">Engineers, installers, and customer success—aligned on quality and care.</p>
-      </div>
-
-      {/* Team Grid */}
-      <div className="mt-10 grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
-        {[1, 2, 3, 4].map((id) => (
-          <div
-            key={id}
-            className="relative rounded-2xl border border-gray-200 p-6 text-center bg-white shadow-sm hover:shadow-xl transition-shadow duration-500 group overflow-hidden"
-          >
-            {/* Avatar */}
-            <div className="mx-auto relative h-24 w-24 rounded-full bg-gray-200 ring-4 ring-teal-100 shadow-md overflow-hidden">
-              {/* Optional: Replace with <Image src="/teamX.png" ... /> */}
-            </div>
-
-            {/* Name */}
-            <h4 className="mt-4 font-semibold text-gray-900 text-lg">Member {id}</h4>
-
-            {/* Role */}
-            <p className="text-sm text-teal-700 font-medium">Role / Title</p>
-
-            {/* Short Bio */}
-            <p className="mt-2 text-sm text-gray-600 leading-relaxed">
-              Short bio or area of expertise.
-            </p>
-
-            
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-</GsapReveal>
-
 
         {/* CTA */}
         <GsapReveal triggerOnView>
