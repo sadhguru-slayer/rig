@@ -39,7 +39,7 @@ export default function RootLayout({ children }) {
         <div className="fixed bottom-5 left-5 z-50 flex flex-col gap-3">
           {/* 📞 Call Button */}
           <Link
-            href="tel:+919676491117" // change to your actual number
+            href="tel:+919676282296" // change to your actual number
             aria-label="Call Us"
             className="bg-sky-600 hover:bg-sky-700 text-white p-3 rounded-full shadow-lg transition-all duration-300 flex items-center justify-center"
           >
@@ -58,7 +58,7 @@ export default function RootLayout({ children }) {
         <div className="fixed bottom-5 right-5 z-50 flex flex-col gap-3">
           {/* 💬 WhatsApp Button */}
           <Link
-            href="https://wa.me/+919676491117" // change to your WhatsApp number
+            href="https://wa.me/+919676282296" // change to your WhatsApp number
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Chat on WhatsApp"
