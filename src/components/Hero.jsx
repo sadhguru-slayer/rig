@@ -28,11 +28,19 @@ const Hero = () => {
       gsap.set(self.selector(".banner-title"), { autoAlpha: 0, y: 30 });
       gsap.set(self.selector(".banner-badge"), { autoAlpha: 0, y: -25, scale: 0.95 });
 
-      tl.to(self.selector(".banner-badge"), { autoAlpha: 1, y: 0, scale: 0.95 })
-        .to(self.selector(".banner-title"), { autoAlpha: 1, y: 0 }, "-=0.6")
-        .to(self.selector(".banner-subtitle"), { autoAlpha: 1, y: 0 }, "-=0.5")
-        .to(self.selector(".banner-cta"), { autoAlpha: 1, y: 0, stagger: 0.15 }, "-=0.1")
-        .to(self.selector(".banner-feature-btn"), { autoAlpha: 1, scale: 1, stagger: 0.08, duration: 0.9, ease: "power3.out" }, "-=0.1");
+      tl.to([
+        self.selector(".banner-badge"),
+        self.selector(".banner-title"),
+        self.selector(".banner-subtitle"),
+        self.selector(".banner-cta"),
+        self.selector(".banner-feature-btn")
+      ], { 
+        autoAlpha: 1, 
+        y: 0, 
+        scale: 1,
+        duration: 0.9,
+        ease: "power3.out"
+      });
 
       // ----------- Subtle Scale Parallax on Scroll -----------
       // Image zoom

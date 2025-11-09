@@ -23,7 +23,6 @@ const KeyProjects = () => {
       description,
       cta: 'View Project Details',
     }));
-    console.log(simplifiedProjects)
 
     setProjects(simplifiedProjects);
   }, []);
@@ -47,7 +46,7 @@ const KeyProjects = () => {
 
               className=" aspect-[4/3] w-full bg-gray-100 border-b border-gray-200" />
               <div className="p-5">
-                <h3 className="font-medium text-gray-900">{p.title}</h3>
+                <h3 className="font-bold text-teal-700">{p.title}</h3>
                 <p className="mt-2 text-sm text-gray-600">{p.description}</p>
                 <div className="mt-4">
                   <button className="inline-flex items-center rounded-md bg-teal-700 px-4 py-2 text-sm font-medium text-white hover:bg-teal-800">

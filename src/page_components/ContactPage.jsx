@@ -89,10 +89,10 @@ const ContactInfo = () => {
                 <span className="font-medium">Phone:</span>
                 <a
                   className="text-teal-700 hover:text-teal-800"
-                  href="tel:+919676491117"
-                  aria-label="Call us at +91 96764 91117"
+                  href="tel:+919676282296"
+                  aria-label="Call us at +91 9676282296"
                 >
-                  +91 96764 91117
+                  +91 9676282296
                 </a>
               </p>
               {/* Email */}
@@ -101,16 +101,16 @@ const ContactInfo = () => {
                 <span className="font-medium">Email:</span>
                 <a
                   className="text-teal-700 hover:text-teal-800"
-                  href="mailto:sales@invisiblegrills.example"
-                  aria-label="Send an email to sales@invisiblegrills.example"
+                  href="mailto:reddyinvisiblegrills@gmail.com"
+                  aria-label="Send an email to reddyinvisiblegrills@gmail.com"
                 >
-                  sales@invisiblegrills.example
+                  reddyinvisiblegrills@gmail.com
                 </a>
               </p>
               {/* Office */}
               <p className="flex items-center gap-2 flex-wrap">
                 <LocationMarkerIcon className="h-5 w-5 text-teal-700" />
-                <span className="font-medium">Office:</span> 123, Paradise, Hyderabad, Telangana
+                <span className="font-medium">Office:</span> 1-2-101/3/1, Budwel, Rajendranagar,Hyderabad, 500030
               </p>
               {/* Google Maps */}
               <p>
@@ -118,10 +118,12 @@ const ContactInfo = () => {
                   className="text-teal-700 hover:text-teal-800"
                   target="_blank"
                   rel="noreferrer"
-                  href="https://maps.google.com/?q=Business+District+Bengaluru"
+                  href="https://maps.google.com/?q=1-2-101/3/1%2C%20Budwel%2C%20Rajendranagar%2C%20Hyderabad%2C%20500030"
+
                   aria-label="View location in Google Maps"
                 >
                   Open in Google Maps →
+                  
                 </a>
               </p>
             </div>
@@ -148,7 +150,7 @@ const ContactInfo = () => {
               {/* Social Links */}
               <div className="flex flex-wrap items-center gap-6 pt-4">
                 <a
-                  href="https://wa.me/+919676491117"
+                  href="https://wa.me/+919676282296"
                   className="inline-flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium text-white bg-teal-700 rounded-full hover:bg-teal-800 focus:outline-none focus:ring-2 focus:ring-teal-500"
                   aria-label="Chat with us on WhatsApp"
                 >
@@ -188,15 +190,18 @@ const MapSection = () => {
     <section className="py-16 lg:py-24 bg-gray-50">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="rounded-2xl overflow-hidden border border-gray-200">
-          <iframe
+         
+        <iframe
             title="Office Location"
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3807.668482268989!2d78.50210827488347!3d17.386295489369317!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bcb9191e43a4707%3A0xf885a760d32c6e0d!2sHomeoCare%20Multispeciality%20Hospital%20-%20Paradise!5e0!3m2!1sen!2sin!4v1700000000000"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3808.595632196084!2d78.40162287516372!3d17.335048783543254!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bcb961f27be91a5%3A0x3007c31c87f23668!2s1-2-99%2C%20Saikrishna%20Colony%2C%20Sri%20Krishna%20Colony%2C%20Langar%20House%2C%20Budwel%2C%20Hyderabad%2C%20Telangana%20500030!5e0!3m2!1sen!2sin!4v1762706129181!5m2!1sen!2sin"
+           
             className="w-full aspect-[4/3]"
           />
         </div>
-        <p className="mt-2 text-xs text-gray-500">Map location: 17.3863° N, 78.5021° E (HomeoCare Multispeciality Hospital, Paradise, Hyderabad)</p>
+        <p className="mt-2 text-xs text-gray-500">
+        1-2-101/3/1, Budwel, Rajendranagar,Hyderabad, 500030</p>
       </div>
     </section>
   );
@@ -212,10 +217,10 @@ const ContactPage = () => {
             eyebrow="Get in Touch"
             title="Let’s Secure Your Space with Invisible Grills"
             subtitle="Have a question or need a quote? Our team is here to help."
-            primaryCta={{ label: "Call Now", href: "tel:+919676491117" }}
+            primaryCta={{ label: "Call Now", href: "tel:+919676282296" }}
             secondaryCta={{
               label: "WhatsApp Us",
-              href: "https://wa.me/919676491117",
+              href: "https://wa.me/919676282296",
             }}
             mediaNote="Team or showroom image placeholder"
             mediaSrc="/images/contact/hero.png"

@@ -15,7 +15,6 @@ const ServiceDetails = ({ service }) => {
     shortDescription,
     description,
     imageUrl,
-    category,
     priceRange,
     moreInfoUrl,
     features,
@@ -37,9 +36,7 @@ const ServiceDetails = ({ service }) => {
         <section className="relative bg-gradient-to-br from-teal-50 to-sky-50 overflow-hidden">
           <div className="max-w-7xl mx-auto px-6 lg:px-8 py-12 grid lg:grid-cols-2 gap-12 items-center relative z-10">
             <div>
-              <span className="inline-flex items-center gap-2 rounded-full border border-teal-300 bg-teal-100 px-3 py-1 text-sm font-semibold text-teal-800 uppercase tracking-wider animate-pulse">
-                {category}
-              </span>
+              
               <h1 className="mt-4 text-5xl sm:text-6xl font-extrabold text-teal-700 leading-tight">
                 {title}
               </h1>

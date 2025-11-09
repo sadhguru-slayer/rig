@@ -1,5 +1,6 @@
 import React from 'react'
 import Image from "next/image";
+import CollapsibleFeatures from './CollapsibleFeatures';
 
 const AboutUs = () => {
   return (
@@ -13,24 +14,7 @@ const AboutUs = () => {
               and facades—ideal for homes, high-rises, and commercial spaces.
             </p>
 
-            <dl className="mt-8 grid sm:grid-cols-2 gap-6">
-              <div className="rounded-lg border border-gray-200 p-5">
-                <dt className="font-medium text-teal-700">High-Tensile Cables</dt>
-                <dd className="mt-1 text-sm text-gray-600">304/316 grade stainless steel with up to 400kg tensile strength.</dd>
-              </div>
-              <div className="rounded-lg border border-gray-200 p-5">
-                <dt className="font-medium text-teal-700">Minimal Visual Impact</dt>
-                <dd className="mt-1 text-sm text-gray-600">Slimline wires maintain open views and natural light.</dd>
-              </div>
-              <div className="rounded-lg border border-gray-200 p-5">
-                <dt className="font-medium text-teal-700">Weather & Rust Resistant</dt>
-                <dd className="mt-1 text-sm text-gray-600">Built to withstand coastal and urban environments.</dd>
-              </div>
-              <div className="rounded-lg border border-gray-200 p-5">
-                <dt className="font-medium text-teal-700">Custom Fit</dt>
-                <dd className="mt-1 text-sm text-gray-600">Tailored to your balcony dimensions and safety needs.</dd>
-              </div>
-            </dl>
+          <CollapsibleFeatures/>
           </div>
 
 

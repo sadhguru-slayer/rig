@@ -75,7 +75,7 @@ const services = [
     description:
       "Invisible grills are the perfect blend of safety and aesthetics, ideal for modern homes, offices, and apartments. Made of high-tensile stainless steel wires, they provide unobstructed views while ensuring top-notch safety for children, pets, and loved ones.",
     imageUrl: "/images/ourspecialization/invinsible_grills.png",
-    category: "Main Service",
+    // category: "Main Service",
     priceRange: "$$$",
     moreInfoUrl: "/services/invisible-grills",
 
@@ -188,7 +188,7 @@ const services = [
   description:
     "Keep your property free from bird-related damage and health risks with our discreet, durable bird safety nets. Ideal for balconies, rooftops, and terraces, they are designed for long-term use and maximum protection.",
   imageUrl: "/images/ourspecialization/bird_safety_net.png",
-  category: "Additional Service",
+  // category: "Additional Service",
   priceRange: "$$",
   moreInfoUrl: "/services/bird-safety-nets",
 
@@ -314,7 +314,7 @@ const services = [
   description:
     "Ceiling clothes hangers are the perfect space-saving solution for modern homes and apartments. Designed to utilize overhead space efficiently, these hangers help you dry and organize clothes with ease while keeping your living areas clutter-free. Built with corrosion-resistant stainless steel pipes and a pulley system, they ensure smooth operation and long-lasting performance.",
   imageUrl: "/images/ourspecialization/cloth_hangers.png",
-  category: "Additional Service",
+  // category: "Additional Service",
   priceRange: "$$",
   moreInfoUrl: "/services/ceiling-clothes-hangers",
 
@@ -443,7 +443,7 @@ const services = [
   description:
     "Cricket practice nets provide a controlled and safe environment for players to train, practice, and refine their skills. Built with premium-grade, weather-resistant materials, our nets are suitable for both indoor and outdoor use. They are easy to install, customizable in size, and designed to endure regular impact from practice sessions. Perfect for schools, academies, clubs, and individuals, they ensure convenience and durability for long-term use.",
   imageUrl: "/images/ourspecialization/cricket_nets.png",
-  category: "Additional Service",
+  // category: "Additional Service",
   priceRange: "$$",
   moreInfoUrl: "/services/cricket-practice-nets",
 

@@ -13,8 +13,8 @@ import projectsData from '@/data/projects';
 const Navbar = ({
   variant = "light",
   showUtilityBar = true,
-  phone = "+91 96764 91117",
-  email = "sales@invisiblegrills.example",
+  phone = "+91 9676282296",
+  email = "reddyinvisiblegrills@gmail.com ",
   socials = [
   { label: "Instagram", href: "https://www.instagram.com/invisiblegrills/" },
   { label: "Facebook", href: "https://www.facebook.com/invisiblegrills" },
@@ -51,7 +51,7 @@ const socialIcons = {
       ? 'bg-gray-900/40 border-gray-800 backdrop-blur-sm'
       : scrolled
         ? 'bg-white/70 border-gray-200 backdrop-blur-md shadow-sm'
-        : 'bg-gray-50/80 border-gray-200 backdrop-blur-md'
+        : 'bg-gray-50/80 border-gray-200 backdrop-blur-'
     }
   `
 
@@ -179,7 +179,7 @@ const socialIcons = {
     
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 transition-[padding] duration-300">
-        <div className={`flex ${scrolled ? 'h-14' : 'h-16'} items-center justify-between transition-all duration-300`}>
+        <div className={`flex items-center justify-between transition-all duration-300`}>
           {/* Logo */}
           <Link href="/" className="inline-flex items-center gap-2">
             <div className="h-8 w-8" />
@@ -188,7 +188,7 @@ const socialIcons = {
   alt='RIG'
   height={400} // restrict height to navbar height
   width={400}  // optional, Next.js will auto-scale if you omit
-  className="h-14 w-auto" // h-10 = 2.5rem ~ 40px
+  className="h-12 w-auto" // h-10 = 2.5rem ~ 40px
   priority // optional: preloads logo for better LCP
 />
 

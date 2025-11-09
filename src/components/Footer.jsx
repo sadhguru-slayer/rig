@@ -1,5 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 
 const Footer = () => {
   return (
@@ -8,11 +9,18 @@ const Footer = () => {
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
           <div>
             <Link href="/" className="inline-flex items-center gap-2">
-              <span className="px-4 py-1 text-xl tracking-tight rounded bg-teal-700 font-bold text-white">RIG
-                <span className="w-1 h-1 bg-teal-500 rounded-full inline-block ml-1"></span>
-              </span>
+            <div className="h-8 w-8" />
+            <Image
+  src='/logo_c.png'
+  alt='RIG'
+  height={400} // restrict height to navbar height
+  width={400}  // optional, Next.js will auto-scale if you omit
+  className="h-12 w-auto rounded-xl" // h-10 = 2.5rem ~ 40px
+  priority // optional: preloads logo for better LCP
+/>
+
             </Link>
-            <p className="mt-3 text-sm text-teal-300">
+            <p className="mt-3 text-sm text-teal-300 capitalize">
               Premium invisible grill solutions for modern homes and high-rises.
             </p>
           </div>
@@ -39,8 +47,8 @@ const Footer = () => {
 
           <div>
             <h5 className="text-sm font-semibold text-teal-300">Get in touch</h5>
-            <p className="mt-3 text-sm text-gray-400">sales@invisiblegrills.example</p>
-            <p className="text-sm text-gray-400">+91 90000 00000</p>
+            <p className="mt-3 text-sm text-gray-400">reddyinvisiblegrills@gmail.com </p>
+            <p className="text-sm text-gray-400">+91 9676282296</p>
           </div>
         </div>
 

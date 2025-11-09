@@ -14,8 +14,8 @@ const ContactUs = () => {
             {/* Contact Info Card */}
             <div className="rounded-2xl bg-white  p-6 border border-gray-200">
               <h4 className="text-lg font-semibold text-teal-700">Contact Info</h4>
-              <p className="mt-2 text-sm text-gray-600">+91 96764 91117</p>
-              <p className="text-sm text-gray-600">sales@invisiblegrills.example</p>
+              <p className="mt-2 text-sm text-gray-600">+91 9676282296</p>
+              <p className="text-sm text-gray-600">reddyinvisiblegrills@gmail.com </p>
             </div>
 
             {/* Service Areas Card */}
@@ -29,7 +29,7 @@ const ContactUs = () => {
               <h4 className="text-lg font-semibold text-teal-700">Connect with Us</h4>
               <div className="mt-3 space-x-4 flex">
                 <a
-                  href="https://wa.me/+919676491117"
+                  href="https://wa.me/+919676282296"
                   className="text-teal-700 hover:text-teal-800 transition-colors"
                   aria-label="Chat with us on WhatsApp"
                 >
@@ -77,7 +77,7 @@ const ContactUs = () => {
                 <input
                   type="tel"
                   className="mt-1 w-full rounded-xl border border-gray-300 px-4 py-3 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-teal-500 transition-all"
-                  placeholder="+91 96764 91117"
+                  placeholder="+91 9676282296"
                 />
               </div>
 
