@@ -190,7 +190,7 @@ const socialIcons = {
   height={400} // restrict height to navbar height
   width={400}  // optional, Next.js will auto-scale if you omit
   className="h-12 w-auto" // h-10 = 2.5rem ~ 40px
-  priority // optional: preloads logo for better LCP
+  fetchPriority="high" // optional: preloads logo for better LCP
 />
 
             </Link>

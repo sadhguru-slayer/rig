@@ -74,7 +74,7 @@ const ProjectDetails = ({ project }) => {
           layout="fill"
           objectFit="cover"
           className="rounded-3xl"
-          priority
+          fetchPriority="high"
         />
       </div>
     </div>

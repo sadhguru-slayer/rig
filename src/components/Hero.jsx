@@ -106,7 +106,7 @@ const Hero = () => {
           src="/images/premium_apartment.png"
           alt="Premium Invisible Grills"
           fill
-          priority
+          fetchPriority="high"
           className="object-cover"
           sizes="100vw"
           quality={90}

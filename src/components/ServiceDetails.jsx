@@ -72,7 +72,7 @@ const ServiceDetails = ({ service }) => {
                 placeholder="blur"
                 blurDataURL="/low_res.png"
                 className="rounded-3xl"
-                priority
+                fetchPriority="high"
               />
             </div>
           </div>

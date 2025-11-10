@@ -25,7 +25,7 @@ const AboutUs = () => {
     alt="Invisible Grill Main"
     width={500}
     height={300}
-    priority
+    fetchPriority="high"
     className="w-full aspect-[4/3] rounded-2xl border border-gray-200 shadow-2xl shadow-teal-100/40 object-cover transition-transform duration-500 group-hover:scale-[1.02]"
   />
 

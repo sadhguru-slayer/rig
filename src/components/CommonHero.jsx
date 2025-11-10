@@ -69,7 +69,7 @@ const CommonHero = ({
             src={mediaSrc}
             alt={mediaAlt}
             fill
-            priority
+            fetchPriority="high"
             className="object-cover"
             sizes="100vw"
             quality={90}
