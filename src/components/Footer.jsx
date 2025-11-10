@@ -36,14 +36,7 @@ const Footer = () => {
             </ul>
           </div>
 
-          <div>
-            <h5 className="text-sm font-semibold text-teal-300">Support</h5>
-            <ul className="mt-3 space-y-2 text-sm text-gray-400">
-              <li><Link href="/" className="hover:text-teal-400">Warranty</Link></li>
-              <li><Link href="/" className="hover:text-teal-400">Installation</Link></li>
-              <li><Link href="/" className="hover:text-teal-400">Maintenance</Link></li>
-            </ul>
-          </div>
+          
 
           <div>
             <h5 className="text-sm font-semibold text-teal-300">Get in touch</h5>

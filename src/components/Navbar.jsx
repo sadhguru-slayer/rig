@@ -1,7 +1,7 @@
 "use client"
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { FaInstagram, FaFacebookF, FaLinkedinIn, FaArrowRight ,FaChevronRight} from 'react-icons/fa'; // Importing social icons from react-icons
 import { LinkIcon } from '@heroicons/react/outline'; // Import Heroicons' LinkIcon (you can also import others as needed)
 import Image from 'next/image';
@@ -24,6 +24,7 @@ const Navbar = ({
   language = "EN",
   cta = { label: "Get Quote", href: "#cta" },
 }) => {
+  const router = useRouter();
   const pathname = usePathname()
   const [isUtilityBarVisible, setUtilityBarVisible] = useState(showUtilityBar)
   const toggleUtilityBar = () => setUtilityBarVisible(!isUtilityBarVisible)
@@ -278,9 +279,14 @@ const socialIcons = {
             <div key={l.href} className="flex flex-col gap-1">
               <button
                 onClick={() =>
-                  l.children
-                    ? setOpenDropdown(openDropdown === i ? null : i)
-                    : setMobileMenuOpen(false)
+                {
+                  if (l.children) {
+      setOpenDropdown(openDropdown === i ? null : i);
+    } else {
+      router.push(l.href); // navigate to the link
+      setMobileMenuOpen(false);
+    }
+                }
                 }
                 className={`${linkBase} ${l.active ? active : ""} w-full text-left flex justify-between items-center py-2`}
               >
