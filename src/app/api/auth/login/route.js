@@ -32,7 +32,9 @@ export async function POST(req) {
       }
 
       // OTP verified → issue JWT
-      const token = signToken({ sub: admin.id, username: admin.username });
+      // OTP verified → issue JWT
+      const token = await signToken({ sub: admin.id, username: admin.username });
+
 
       // Clear OTP
       delete otpStore[username];

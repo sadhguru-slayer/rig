@@ -1,4 +1,3 @@
-// middleware.js
 import { NextResponse } from "next/server";
 import { verifyToken } from "./lib/auth";
 import { parse } from "cookie";
@@ -7,14 +6,16 @@ export async function middleware(req) {
   const { pathname } = req.nextUrl;
 
   const cookieHeader = req.headers.get("cookie") || "";
-  
   const cookies = parse(cookieHeader || "");
   const token = cookies.core_token;
+
   const isAdminRoute = pathname.startsWith("/admin");
   const isAuthApi = pathname.startsWith("/api/admin");
+
+  // ✅ FIX: await here
   const payload = token ? verifyToken(token) : null;
 
-  // 1. Block non-authenticated users from accessing admin routes or APIs
+  // 1. Block non-authenticated users
   if ((isAdminRoute || isAuthApi) && pathname !== "/admin/login") {
     if (!payload) {
       const loginUrl = new URL("/admin/login", req.url);
@@ -23,7 +24,7 @@ export async function middleware(req) {
     return NextResponse.next();
   }
 
-  // 2. Block authenticated users from visiting /admin/login
+  // 2. Block authenticated users from visiting login page
   if (pathname === "/admin/login" && payload) {
     const dashboardUrl = new URL("/admin/dashboard", req.url);
     return NextResponse.redirect(dashboardUrl);

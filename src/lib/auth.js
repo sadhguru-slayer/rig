@@ -10,6 +10,7 @@ export async function signToken(payload) {
 }
 
 export async function verifyToken(token) {
+   const resolvedToken = token; // this resolves the Promise if it is one
   try {
     const { payload } = await jwtVerify(token, SECRET);
     return payload;

@@ -3,7 +3,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL") // This will use DATABASE_URL from your .env file
 }
 
@@ -155,10 +155,12 @@ model Seo {
 
 
 model Admin {
-  id        Int      @id @default(autoincrement())
-  username  String   @unique
-  password  String
-  email     String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id            Int       @id @default(autoincrement())
+  username      String    @unique
+  password      String
+  email         String?
+  otpCode       String?       // <-- For storing OTP
+  otpExpiresAt  DateTime?     // <-- For storing OTP expiry
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 }
