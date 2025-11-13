@@ -4,7 +4,8 @@ import { useState } from "react";
 import { toast } from "sonner";
 
 export default function ChangePasswordPage() {
-  const [mode, setMode] = useState("old"); // "old" or "otp"
+  const [mode, setMode] = useState("old");
+  
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [otp, setOtp] = useState("");
