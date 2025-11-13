@@ -314,7 +314,6 @@ const services = [
   description:
     "Ceiling clothes hangers are the perfect space-saving solution for modern homes and apartments. Designed to utilize overhead space efficiently, these hangers help you dry and organize clothes with ease while keeping your living areas clutter-free. Built with corrosion-resistant stainless steel pipes and a pulley system, they ensure smooth operation and long-lasting performance.",
   imageUrl: "/images/ourspecialization/cloth_hangers.png",
-  // category: "Additional Service",
   priceRange: "$$",
   moreInfoUrl: "/services/ceiling-clothes-hangers",
 

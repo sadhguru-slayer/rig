@@ -1,0 +1,164 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL") // This will use DATABASE_URL from your .env file
+}
+
+model Service {
+  id             Int              @id @default(autoincrement())
+  slug           String           @unique
+  title          String
+  shortTitle     String
+  shortDescription String
+  description    String
+  imageUrl       String
+  priceRange     String?
+  moreInfoUrl    String?
+  applications   Json?
+  seoId Int?
+  seo   Seo? @relation(fields: [seoId], references: [id])
+  callToAction   Json?            // optional JSON
+
+  features       Feature[]
+  specifications Specification[]
+  gallery        GalleryImage[]
+  faqs           Faq[]
+  testimonials   Testimonial[]
+
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+
+model Feature {
+  id          Int      @id @default(autoincrement())
+  title       String
+  detail      String
+  icon        String?
+  serviceId   Int
+  service     Service  @relation(fields: [serviceId], references: [id])
+}
+
+model Specification {
+  id        Int      @id @default(autoincrement())
+  key       String
+  value     String
+  serviceId Int
+  service   Service  @relation(fields: [serviceId], references: [id])
+}
+
+model GalleryImage {
+  id          Int       @id @default(autoincrement())
+  url         String
+  altText     String?
+  serviceId   Int?
+  service     Service?   @relation(fields: [serviceId], references: [id])
+  projectId   Int?
+  project     Project?   @relation(fields: [projectId], references: [id])
+  uploadedAt  DateTime   @default(now())
+}
+
+
+
+model Faq {
+  id        Int      @id @default(autoincrement())
+  question  String
+  answer    String
+  serviceId Int
+  service   Service  @relation(fields: [serviceId], references: [id])
+}
+
+model Testimonial {
+  id        Int      @id @default(autoincrement())
+  name      String
+  feedback  String
+  rating    Int?
+  link      String?
+  serviceId Int
+  service   Service  @relation(fields: [serviceId], references: [id])
+}
+
+
+
+model Project {
+  id                     Int       @id @default(autoincrement())
+  slug                   String    @unique
+  name                   String
+  client                 String?
+  location               String?
+  completedOn            DateTime?
+  imgSource              String?
+  description            String?
+  serviceType            String?
+  category               String?
+  seoId                  Int?
+  seo                    Seo? @relation(fields: [seoId], references: [id])
+  images                 GalleryImage[]
+  scope                  Json?
+  highlights             Json?
+  clientBenefits         Json?
+  finalOutcome           String?
+  keyProject             Boolean   @default(false)
+
+  // Relation: One Project → Many ChallengesAndSolutions
+  challengesAndSolutions ChallengesAndSolutions[]
+  
+  createdAt              DateTime  @default(now())
+  updatedAt              DateTime  @updatedAt
+}
+
+
+
+
+model ChallengesAndSolutions {
+  id          Int      @id @default(autoincrement())
+  challenge   String
+  solution    String
+  projectId   Int
+  project     Project  @relation(fields: [projectId], references: [id])
+}
+
+model Blog {
+  id          Int       @id @default(autoincrement())
+  title       String
+  slug        String    @unique
+  excerpt     String?
+  coverImage  String?
+  author      String?
+  published   Boolean   @default(false)
+  content     Json
+  tags        Json?
+  readTime    Int?
+  views       Int?      @default(0)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  seoId       Int?
+  seo         Seo?      @relation(fields: [seoId], references: [id])
+}
+
+model Seo {
+  id            Int       @id @default(autoincrement())
+  title         String
+  description   String
+  keywords      Json
+  canonicalUrl  String?
+  ogImage       String?
+
+  services      Service[]
+  projects      Project[]
+  blogs         Blog[]      // ✅ added reverse relation
+}
+
+
+model Admin {
+  id        Int      @id @default(autoincrement())
+  username  String   @unique
+  password  String
+  email     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

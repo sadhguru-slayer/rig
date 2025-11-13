@@ -7,7 +7,7 @@ import { LinkIcon } from '@heroicons/react/outline'; // Import Heroicons' LinkIc
 import Image from 'next/image';
 import services from '@/data/services';
 import projectsData from '@/data/projects';
-
+import { useMediaQuery } from "@mui/material";
 
 
 const Navbar = ({
@@ -28,6 +28,8 @@ const Navbar = ({
   const pathname = usePathname()
   const [isUtilityBarVisible, setUtilityBarVisible] = useState(showUtilityBar)
   const toggleUtilityBar = () => setUtilityBarVisible(!isUtilityBarVisible)
+  const isMobile = useMediaQuery("(max-width:750px)");
+
 const socialIcons = {
   Instagram: <FaInstagram className="h-4 w-4 text-white" />,
   Facebook: <FaFacebookF className="h-4 w-4  text-white" />,
@@ -135,7 +137,7 @@ const socialIcons = {
 
   return (
     <header className={headerClass} data-scrolled={scrolled ? 'true' : 'false'}>
-      {isUtilityBarVisible && (
+      {isUtilityBarVisible && !isMobile && (
         <div className="bg-teal-700 w-full transition-all duration-300">
           <div className="
             mx-auto max-w-7xl w-full 

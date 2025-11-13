@@ -1,0 +1,37 @@
+// middleware.js
+import { NextResponse } from "next/server";
+import { verifyToken } from "./lib/auth";
+import { parse } from "cookie";
+
+export async function middleware(req) {
+  const { pathname } = req.nextUrl;
+
+  const cookieHeader = req.headers.get("cookie") || "";
+  
+  const cookies = parse(cookieHeader || "");
+  const token = cookies.core_token;
+  const isAdminRoute = pathname.startsWith("/admin");
+  const isAuthApi = pathname.startsWith("/api/admin");
+  const payload = token ? verifyToken(token) : null;
+
+  // 1. Block non-authenticated users from accessing admin routes or APIs
+  if ((isAdminRoute || isAuthApi) && pathname !== "/admin/login") {
+    if (!payload) {
+      const loginUrl = new URL("/admin/login", req.url);
+      return NextResponse.redirect(loginUrl);
+    }
+    return NextResponse.next();
+  }
+
+  // 2. Block authenticated users from visiting /admin/login
+  if (pathname === "/admin/login" && payload) {
+    const dashboardUrl = new URL("/admin/dashboard", req.url);
+    return NextResponse.redirect(dashboardUrl);
+  }
+
+  return NextResponse.next();
+}
+
+export const config = {
+  matcher: ["/admin/:path*", "/api/admin/:path*"],
+};
