@@ -3,8 +3,6 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
 import RoleBasedNavbar from "@/components/RoleBasedNavbar";
 import RoleBasedFooter from "@/components/RoleBasedFooter";
-import PhoneButton from "@/components/PhoneButton";
-import WhatsAppButton from "@/components/WhatsAppButton";
 import AppLayoutClient from "@/components/AppLayoutClient";
 import "./globals.css";
 
@@ -40,8 +38,7 @@ export default function RootLayout({ children }) {
         <AppLayoutClient>{children}</AppLayoutClient>
 
         {/* Floating buttons stay globally */}
-        <PhoneButton />
-        <WhatsAppButton />
+        
       </body>
     </html>
   );

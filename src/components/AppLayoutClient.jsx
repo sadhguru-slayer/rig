@@ -5,6 +5,9 @@ import { useState } from "react";
 import RoleBasedNavbar from "@/components/RoleBasedNavbar";
 import RoleBasedFooter from "@/components/RoleBasedFooter";
 import AdminSidebar from "@/components/AdminSidebar";
+import PhoneButton from "@/components/PhoneButton";
+import WhatsAppButton from "@/components/WhatsAppButton";
+
 
 export default function AppLayoutClient({ children }) {
   const pathname = usePathname();
@@ -50,6 +53,14 @@ export default function AppLayoutClient({ children }) {
 
       {/* Footer */}
       <RoleBasedFooter />
+{!isAdminRoute && !pathname.includes("/login") &&(
+<>
+<PhoneButton />
+<WhatsAppButton />
+</>
+)
+}
+
     </>
   );
 }
