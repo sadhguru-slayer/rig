@@ -1,15 +1,18 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import Image from "next/image";
 import { FiLogOut, FiUser } from "react-icons/fi";
 
+
 export default function AdminNavbar() {
   const router = useRouter();
   const [admin, setAdmin] = useState(null);
+  const pathname = usePathname();
 
+  const isLoginPage = pathname.includes('login');
   useEffect(() => {
     async function checkAuth() {
       try {
@@ -37,7 +40,7 @@ export default function AdminNavbar() {
         <span>Admin</span>
       </div>
 
-      {admin && (
+      {admin && !isLoginPage && (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <button className="flex items-center gap-2 text-sm bg-gray-100 px-3 py-1 rounded-md hover:bg-gray-200 transition">
