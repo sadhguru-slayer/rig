@@ -19,7 +19,7 @@ const navItems = [
   { label: "Blogs", href: "/admin/blog", icon: FileText, createHref: "/admin/blog/create" },
 ];
 
-export default function AdminSidebar({ open, toggleSidebar }) {
+export default function AdminSidebar({ open, toggleSidebar, isSuperUser }) {
   const pathname = usePathname();
 
   return (
@@ -73,6 +73,35 @@ export default function AdminSidebar({ open, toggleSidebar }) {
             </div>
           );
         })}
+
+        {
+  isSuperUser && (
+    <div className="mb-1">
+      <Link
+        href="/admin/user"
+        className={`flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+          pathname === "/admin/user"
+            ? "bg-teal-100 text-teal-600"
+            : "text-gray-700 hover:bg-gray-100"
+        }`}
+      >
+        <Folder size={18} />
+        {open && <span>Users</span>}
+      </Link>
+
+      {open && (
+        <Link
+          href="/admin/user/create"
+          className="flex items-center gap-2 ml-9 mt-1 text-xs text-gray-500 hover:text-teal-600 hover:bg-gray-50 px-2 py-1 rounded-md transition"
+        >
+          <PlusCircle size={14} />
+          Create User
+        </Link>
+      )}
+    </div>
+  )
+}
+
       </nav>
 
       {/* Footer */}

@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { verifyToken } from "./lib/auth";
 import { parse } from "cookie";
 
-export async function middleware(req) {
+export async function proxy(req) {
   const { pathname } = req.nextUrl;
 
   const cookieHeader = req.headers.get("cookie") || "";
@@ -13,7 +13,7 @@ export async function middleware(req) {
   const isAuthApi = pathname.startsWith("/api/admin");
 
   // ✅ FIX: await here
-  const payload = token ? verifyToken(token) : null;
+  const payload = token ? await verifyToken(token) : null;
 
   // 1. Block non-authenticated users
   if ((isAdminRoute || isAuthApi) && pathname !== "/admin/login") {
@@ -29,6 +29,14 @@ export async function middleware(req) {
     const dashboardUrl = new URL("/admin/dashboard", req.url);
     return NextResponse.redirect(dashboardUrl);
   }
+
+  // Restrict /admin/user routes only to superusers
+if (pathname.startsWith("/admin/user")) {
+  if (!payload?.isSuperUser) {
+    return NextResponse.redirect(new URL("/admin/dashboard", req.url));
+  }
+}
+
 
   return NextResponse.next();
 }

@@ -159,8 +159,10 @@ model Admin {
   username      String    @unique
   password      String
   email         String?
-  otpCode       String?       // <-- For storing OTP
-  otpExpiresAt  DateTime?     // <-- For storing OTP expiry
+  isActive      Boolean   @default(true)
+  isSuperUser   Boolean   @default(false)
+  otpCode       String?
+  otpExpiresAt  DateTime?
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 }

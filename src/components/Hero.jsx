@@ -109,7 +109,7 @@ const Hero = () => {
           fetchPriority="high"
           className="object-cover"
           sizes="100vw"
-          quality={90}
+          loading="eager"
         />
         {/* Dark overlay for readability */}
         <div className="absolute inset-0 bg-gradient-to-r from-gray-900/70 via-gray-900/50 to-gray-900/30"></div>
