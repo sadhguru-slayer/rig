@@ -23,7 +23,9 @@ export async function POST(req) {
 
     const admin = await prisma.admin.findUnique({ where: { username } });
     if (!admin) return NextResponse.json({ error: "Invalid credentials" }, { status: 401 });
-
+    if (!admin.isActive) {
+  return NextResponse.json({ error: "You're not allowed to login" }, { status: 401 });
+}
     // If OTP is provided, verify it
     if (otp) {
       const record = otpStore[username];
