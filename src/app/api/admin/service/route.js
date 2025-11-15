@@ -35,7 +35,14 @@ export async function POST(request) {
     const shortTitle = formData.get("shortTitle");
     const shortDescription = formData.get("shortDescription");
     const description = formData.get("description");
-    const imageUrl = formData.get("imageUrl");
+    const imageUrl = formData.get('imageFile')
+    let coverImageUrl = null;
+    const coverImage =  formData.get("imageFile");
+;
+    if (coverImage instanceof File) {
+      // Upload the file to S3 (assuming the uploadToS3 function returns a URL)
+      coverImageUrl = await uploadToS3(coverImage, `service/${slug}`);
+    }
     const priceRange = formData.get("priceRange");
     const moreInfoUrl = formData.get("moreInfoUrl");
     const applications = formData.get("applications");
@@ -72,7 +79,7 @@ export async function POST(request) {
         shortTitle: shortTitle || "",
         shortDescription: shortDescription || "",
         description: description || "",
-        imageUrl: imageUrl || "",
+        imageUrl:  coverImageUrl || imageUrl,
         priceRange: priceRange || "",
         moreInfoUrl: moreInfoUrl || "",
         applications: parsedApplications || null,

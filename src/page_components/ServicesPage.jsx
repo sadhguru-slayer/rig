@@ -8,7 +8,7 @@ import CtaSection from '@/components/CtaSection'
 import GsapReveal from '@/components/GsapReveal'
 import Link from 'next/link'
 import Specializations from '@/components/Specializations'
-const ServicesPage = () => {
+const ServicesPage = ({services}) => {
   return (
     <div className="min-h-screen bg-white flex flex-col">
       <main className="flex-1 ">

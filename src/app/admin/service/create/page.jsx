@@ -18,7 +18,7 @@ const AdminCreatePage = () => {
   const [shortTitle, setShortTitle] = useState("");
   const [shortDescription, setShortDescription] = useState("");
   const [description, setDescription] = useState("");
-  const [imageUrl, setImageUrl] = useState("");
+  const [imageFile, setImageFile] = useState(null); // State to store the uploaded file
   const [priceRange, setPriceRange] = useState("");
   const [moreInfoUrl, setMoreInfoUrl] = useState("");
   const [applications, setApplications] = useState([]);
@@ -60,6 +60,7 @@ const handleCreateService = async (e) => {
     formData.append("description", description);
     formData.append("priceRange", priceRange);
     formData.append("moreInfoUrl", moreInfoUrl);
+    formData.append("imageFile", imageFile);
 
     // Convert arrays and objects into JSON strings
     formData.append("features", JSON.stringify(features || []));
@@ -212,15 +213,14 @@ const handleCreateService = async (e) => {
   </div>
 
   <div>
-    <label className="block text-sm font-medium mb-1">Image URL</label>
-    <Input
-      type="text"
-      placeholder="Image URL"
-      value={imageUrl}
-      onChange={(e) => setImageUrl(e.target.value)}
-      required
-    />
-  </div>
+  <label className="block text-sm font-medium mb-1">Cover Image</label>
+  <input
+    type="file"
+    accept="image/*"  // Optional: restricts file selection to images
+    onChange={(e) => setImageFile(e.target.files[0])}  // Store the selected file in state
+    required
+  />
+</div>
 
   <div>
     <label className="block text-sm font-medium mb-1">Price Range</label>

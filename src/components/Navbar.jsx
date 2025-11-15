@@ -29,6 +29,28 @@ const Navbar = ({
   const [isUtilityBarVisible, setUtilityBarVisible] = useState(showUtilityBar)
   const toggleUtilityBar = () => setUtilityBarVisible(!isUtilityBarVisible)
   const isMobile = useMediaQuery("(max-width:750px)");
+  const [services,setServices] = useState([]);
+  const [projectsData,setProjectsData] = useState([]);
+  useEffect(()=>{
+    const fetchServicesAndProjects = async () =>{
+      try {
+        const res_s = await fetch("/api/service/");
+        const res_p = await fetch("/api/project/");
+        const data_s = await res_s.json();
+        const data_p = await res_p.json();
+        if (data_s.success && data_p.success) {
+          setServices(data_s.data || []);
+          setProjectsData(data_p.data || []);
+  
+        } else {
+          console(data.error || "Failed to fetch data");
+        }
+      } catch (err) {
+        console.log(err.message);
+      }
+    }
+    fetchServicesAndProjects();
+  },[])
 
 const socialIcons = {
   Instagram: <FaInstagram className="h-4 w-4 text-white" />,
@@ -81,11 +103,11 @@ const socialIcons = {
   
   const links = [
     { href: "/", label: "Home", active: pathname === "/" },
-    { href: "/about", label: "About", active: pathname?.startsWith("/about") },
+    { href: "/about", label: "About", active: pathname?.includes("/about") },
     { 
       href: "/services", 
       label: "Services", 
-      active: pathname?.startsWith("/services"),
+      active: pathname?.includes("/services"),
       children: [
         ...services.slice(0, 4).map(s => ({ label: s.title, href: `/services/${s.slug}` })),
         { label: "See All", href: "/services" } // CTA at bottom
@@ -94,13 +116,14 @@ const socialIcons = {
     { 
       href: "/projects", 
       label: "Projects", 
-      active: pathname?.startsWith("/projects"),
+      active: pathname?.includes("/projects"),
       children: [
         ...projectsData.slice(0, 4).map(p => ({ label: p.name, href: `/projects/${p.slug}` })),
         { label: "See All", href: "/projects" } // CTA at bottom
       ]
     },
-    { href: "/contact", label: "Contact", active: pathname?.startsWith("/contact") },
+    { href: "/contact", label: "Contact", active: pathname?.includes("/contact") },
+    { href: "/blog", label: "Blog", active: pathname?.includes("/blog") },
   ];
   
   

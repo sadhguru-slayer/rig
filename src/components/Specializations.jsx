@@ -3,12 +3,39 @@ import { usePathname } from 'next/navigation';
 import services from '../data/services';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Suspense } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { FiCheckCircle, FiArrowRight } from 'react-icons/fi';
 
 const SpecializationsComponent = () => {
   const pathname = usePathname();
   const isServicePage = pathname === '/services';
+
+  const [services, setServices] = useState([]);
+  const [loading, setLoading] = useState(false);   // ✅ FIXED
+  const [error, setError] = useState(null);        // ✅ FIXED
+
+
+  
+  useEffect(() => {
+        const fetchServices = async () => {
+      setLoading(true);
+      try {
+        const res = await fetch("/api/service/");
+        const data = await res.json();
+        if (data.success) {
+          setServices(data.data || []);
+  
+        } else {
+          setError(data.error || "Failed to fetch data");
+        }
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchServices();
+  }, []);
 
   return (
     <section className="py-16 bg-gray-50">
@@ -33,7 +60,7 @@ const SpecializationsComponent = () => {
   {/* Image */}
   <div className="relative w-full h-56">
     <Image
-      src={service.imageUrl}
+      src={service.imageUrl || '/logo_c.png'}
       alt={service.title}
       fill
       className="object-cover"
@@ -117,7 +144,7 @@ const Specializations = () => (
       <div className="text-center py-8 h-screen text-teal-500">Loading...</div>
     }
   >
-    <SpecializationsComponent />
+    <SpecializationsComponent/>
   </Suspense>
 );
 

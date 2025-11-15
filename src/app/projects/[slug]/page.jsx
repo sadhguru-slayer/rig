@@ -1,10 +1,17 @@
 import projectsData from '@/data/projects';
 import { notFound } from 'next/navigation';
 import ProjectDetails from '@/components/ProjectDetails';
+import { PrismaClient } from '@prisma/client';
 
+const prisma = new PrismaClient();
 export async function generateMetadata({ params }) {
   const { slug } = await params;
-  const project = projectsData.find((p) => p.slug === slug);
+  const project = await prisma.project.findUnique({
+    where: { slug },
+    include: {
+      seo: true,
+    },
+  }) || [];
 
   if (!project) {
     return {
@@ -23,7 +30,15 @@ export async function generateMetadata({ params }) {
 
 export default async function ProjectPage({ params }) {
   const { slug } = await params;
-  const project = projectsData.find((p) => p.slug === slug);
+  const project = await prisma.project.findUnique({
+    where: { slug },
+    include: {
+      challengesAndSolutions: true,
+      seo: true,
+      images:true
+    },
+  }) || [];
+
 
   if (!project) {
     notFound();

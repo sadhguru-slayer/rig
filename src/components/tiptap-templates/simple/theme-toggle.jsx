@@ -9,7 +9,7 @@ import { SunIcon } from "@/components/tiptap-icons/sun-icon"
 import { useEffect, useState } from "react"
 
 export function ThemeToggle() {
-  const [isDarkMode, setIsDarkMode] = useState(false)
+  const [isDarkMode, setIsDarkMode] = useState(true)
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)")

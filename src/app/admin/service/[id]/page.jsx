@@ -24,6 +24,7 @@ const ServiceDetailsPage = () => {
 
     if (data.success) {
       setService(data.data);
+      console.log(data.data);
     } else {
       console.error("Failed to fetch service:", data.error);
     }
@@ -163,15 +164,27 @@ useEffect(() => {
   </div>
 
   {/* Image URL */}
-  <div className="space-y-1">
-    <Label htmlFor="imageUrl">Image URL</Label>
-    <Input
-      id="imageUrl"
-      value={service.imageUrl}
-      onChange={(e) => handleBasicChange("imageUrl", e.target.value)}
-      placeholder="Enter image URL"
-    />
-  </div>
+  
+<div className="space-y-1">
+  <Label htmlFor="imageUrl">Upload Image</Label>
+
+  {service?.imageUrl && (
+        <div className="my-2">
+          <img
+            src={service.imageUrl}
+            alt="Service Preview"
+            className="w-24 max-h-64 object-cover rounded"
+          />
+        </div>
+      )}
+  <Input
+    id="imageUrl"
+    type="file"  // Change the input type to 'file'
+    onChange={(e) => handleBasicChange("imageUrl", e.target.files[0])}  // Store the selected file in state
+    accept="image/*"  // Optional: restricts file selection to images only
+  />
+</div>
+
 
   {/* Price Range */}
   <div className="space-y-1">

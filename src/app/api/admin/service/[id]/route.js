@@ -63,7 +63,13 @@ export async function PATCH(request, { params }) {
     const shortTitle = formData.get("shortTitle");
     const shortDescription = formData.get("shortDescription");
     const description = formData.get("description");
-    const imageUrl = formData.get("imageUrl");
+    let coverImageUrl = null;
+    const coverImage =  formData.get("imageUrl");
+;
+    if (coverImage instanceof File) {
+      // Upload the file to S3 (assuming the uploadToS3 function returns a URL)
+      coverImageUrl = await uploadToS3(coverImage, `services/${slug}`);
+    }
     const priceRange = formData.get("priceRange");
     const moreInfoUrl = formData.get("moreInfoUrl");
     const applications = formData.get("applications");
@@ -147,7 +153,7 @@ const updated = await prisma.service.update({
     shortTitle,
     shortDescription,
     description,
-    imageUrl,
+    imageUrl:  coverImageUrl || formData.get("imageUrl"),
     priceRange,
     moreInfoUrl,
     applications: JSON.parse(applications || "[]"),

@@ -6,19 +6,19 @@ import CtaSection from '@/components/CtaSection'
 import Link from 'next/link'
 import GsapReveal from '@/components/GsapReveal'
 import Image from 'next/image'
-import projectsData from '@/data/projects' // Adjust the import path accordingly
 
-const ProjectsPage = () => {
-  // Extract unique categories and serviceTypes from projects dynamically
+const ProjectsPage = ({ projectsData = [] }) => {
+  // Categories
   const categories = useMemo(() => {
     const allCats = projectsData.map(p => p.category)
     return ['all', ...Array.from(new Set(allCats))]
-  }, [])
+  }, [projectsData])
 
+  // Service Types
   const serviceTypes = useMemo(() => {
     const allTypes = projectsData.map(p => p.serviceType)
     return ['all', ...Array.from(new Set(allTypes))]
-  }, [])
+  }, [projectsData])
 
   // States for active filters
   const [activeCategory, setActiveCategory] = useState('all')

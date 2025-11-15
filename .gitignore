@@ -45,3 +45,6 @@ next-env.d.ts
 accessKeys.csv
 /scripts/
 texts.txt
+
+# Authentication tokens
+.npmrc

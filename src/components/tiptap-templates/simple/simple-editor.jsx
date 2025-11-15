@@ -7,6 +7,8 @@ import { EditorContent, EditorContext, useEditor } from "@tiptap/react"
 import { StarterKit } from "@tiptap/starter-kit"
 import { Image } from "@tiptap/extension-image"
 import { TaskItem, TaskList } from "@tiptap/extension-list"
+import Youtube from "@tiptap/extension-youtube";
+
 import { TextAlign } from "@tiptap/extension-text-align"
 import { Typography } from "@tiptap/extension-typography"
 import { Highlight } from "@tiptap/extension-highlight"
@@ -74,8 +76,18 @@ import { handleImageUpload, MAX_FILE_SIZE } from "@/lib/tiptap-utils"
 import "@/components/tiptap-templates/simple/simple-editor.scss"
 
 import content from "@/components/tiptap-templates/simple/data/content.json"
+import YouTubeAddIcon from "@/components/tiptap-icons/YouTubeAddIcon"
+
+function getYoutubeId(url) {
+  const regExp =
+    /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+  const match = url.match(regExp);
+  return match && match[2].length === 11 ? match[2] : null;
+}
+
 
 const MainToolbarContent = ({
+  editor,
   onHighlighterClick,
   onLinkClick,
   isMobile
@@ -123,12 +135,27 @@ const MainToolbarContent = ({
       <ToolbarSeparator />
       <ToolbarGroup>
         <ImageUploadButton text="Add" />
+        <Button
+  onClick={() => {
+    const url = prompt("Paste YouTube URL:");
+    if (!url) return;
+
+    const youtubeId = getYoutubeId(url);
+    if (!youtubeId) {
+      alert("Invalid YouTube URL");
+      return;
+    }
+
+    editor.chain().focus().setYoutubeVideo({ src: url }).run();
+  }}
+>
+<YouTubeAddIcon className="tiptap-button-icon" />
+</Button>
+
       </ToolbarGroup>
       <Spacer />
       {isMobile && <ToolbarSeparator />}
-      <ToolbarGroup>
-        <ThemeToggle />
-      </ToolbarGroup>
+      
     </>
   );
 }
@@ -189,6 +216,15 @@ export function SimpleEditor({ content: initialContent = "", onChange,setUploade
           enableClickSelection: true,
         },
       }),
+      Youtube.configure({
+  controls: true,
+  autoplay: false,
+  modestBranding: true,
+  nocookie: false,
+  allowFullscreen: true,
+  inline: false,   // YouTube embeds are always block elements
+}),
+
       HorizontalRule,
       TextAlign.configure({ types: ["heading", "paragraph"] }),
       TaskList,
@@ -229,6 +265,7 @@ export function SimpleEditor({ content: initialContent = "", onChange,setUploade
           >
           {mobileView === "main" ? (
             <MainToolbarContent
+            editor={editor}
               onHighlighterClick={() => setMobileView("highlighter")}
               onLinkClick={() => setMobileView("link")}
               isMobile={isMobile} />

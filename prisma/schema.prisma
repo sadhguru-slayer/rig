@@ -14,7 +14,7 @@ model Service {
   shortTitle     String
   shortDescription String
   description    String
-  imageUrl       String
+  imageUrl       String?
   priceRange     String?
   moreInfoUrl    String?
   applications   Json?

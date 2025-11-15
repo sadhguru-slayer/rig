@@ -4,6 +4,7 @@ import { NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
 import { uploadBlobsInContent } from "@/lib/uploadBlobsInContent";
 import {deleteS3Folder, deleteS3File } from "@/lib/deleteS3Folder";
+import { uploadToS3 } from "@/lib/uploadToS3";
 
 const prisma = new PrismaClient();
 
@@ -109,7 +110,12 @@ export async function PATCH(request, { params }) {
     const contentJSON = JSON.parse(formData.get("content"));
     const tags = JSON.parse(formData.get("tags") || "[]");
     const seo = JSON.parse(formData.get("seo") || "{}");
-
+let coverImageUrl = null;
+    const coverImage = formData.get("coverImage");
+    if (coverImage instanceof File) {
+      // Upload the file to S3 (assuming the uploadToS3 function returns a URL)
+      coverImageUrl = await uploadToS3(coverImage, `blogs/${slug}`);
+    }
     // Build files map from FormData (newly uploaded images)
     const filesMap = {};
     for (const file of formData.getAll("images")) {
@@ -157,7 +163,7 @@ export async function PATCH(request, { params }) {
       data: {
         title: formData.get("title"),
         excerpt: formData.get("excerpt"),
-        coverImage: formData.get("coverImage"),
+        coverImage: coverImageUrl || formData.get("coverImage"),
         author: formData.get("author"),
         published: formData.get("published") === "true",
         content: contentWithDoc,

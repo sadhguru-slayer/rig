@@ -4,8 +4,10 @@ import Image from "next/image";
 import Link from "next/link";
 import GsapReveal from "@/components/GsapReveal";
 import CtaSection from "@/components/CtaSection";
+import Divider from "./Divider";
 
 const ProjectDetails = ({ project }) => {
+
   if (!project) return null;
 
   const [openChallenge, setOpenChallenge] = useState(null);
@@ -102,7 +104,9 @@ const ProjectDetails = ({ project }) => {
                 <h3 className="text-gray-500 font-semibold mb-2">
                   {item.label}
                 </h3>
-                <p className="text-xl font-bold text-teal-700">{item.value}</p>
+                <p className="text-xl font-bold text-teal-700">
+                 {item.value instanceof Date ? item.value.toLocaleDateString() : item.value}
+                </p>
               </div>
             ))}
           </div>
@@ -182,7 +186,7 @@ const ProjectDetails = ({ project }) => {
                     className="relative aspect-[4/3] rounded-3xl overflow-hidden shadow-md hover:shadow-xl transform transition duration-500"
                   >
                     <Image
-                      src={img}
+                      src={img.url}
                       alt={`${project.name} image ${idx + 1}`}
                       layout="fill"
                       objectFit="cover"
@@ -196,42 +200,45 @@ const ProjectDetails = ({ project }) => {
         </GsapReveal>
       )}
 
-      {/* CHALLENGES & SOLUTIONS – CLEAN CARDS */}
-      {project.challengesAndSolutions?.length > 0 && (
-        <GsapReveal triggerOnView>
-          <section className="py-20 bg-gradient-to-b from-sky-50 to-white">
-            <div className="max-w-6xl mx-auto px-6">
-              <h2 className="text-3xl font-semibold text-teal-700 text-center mb-12">
-                Challenges & Solutions
-              </h2>
+{/* CHALLENGES & SOLUTIONS – MINIMAL DESIGN */}
+{project.challengesAndSolutions?.length > 0 && (
+  <GsapReveal triggerOnView>
+    <section className="py-20 bg-white">
+      <div className="max-w-5xl mx-auto px-6">
+        <h2 className="text-3xl font-semibold text-teal-700 text-center mb-12">
+          Challenges & Solutions
+        </h2>
 
-              <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-8">
-                {project.challengesAndSolutions.map((cs, idx) => (
-                  <div
-                    key={idx}
-                    className="bg-white rounded-3xl shadow-lg p-8 flex flex-col justify-between hover:shadow-xl transform transition duration-300"
-                  >
-                    <div className="mb-6">
-                      <h3 className="text-xl font-semibold text-gray-800 mb-2 flex items-center">
-                        <span className="w-4 h-4 bg-red-400 rounded-full mr-2"></span>
-                        Challenge
-                      </h3>
-                      <p className="text-gray-700">{cs.challenge}</p>
-                    </div>
-                    <div>
-                      <h3 className="text-xl font-semibold text-gray-800 mb-2 flex items-center">
-                        <span className="w-4 h-4 bg-teal-400 rounded-full mr-2"></span>
-                        Solution
-                      </h3>
-                      <p className="text-gray-700">{cs.solution}</p>
-                    </div>
-                  </div>
-                ))}
+        <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-8">
+          {project.challengesAndSolutions.map((cs, idx) => (
+            <div
+              key={idx}
+              className="border border-gray-200 rounded-2xl p-6 flex flex-col gap-4 transition-all duration-200 hover:shadow-md"
+            >
+              {/* Challenge */}
+              <div>
+                <h3 className="text-lg font-medium text-red-500 mb-1">
+                  Challenge
+                </h3>
+                <p className="text-gray-700 text-base">{cs.challenge}</p>
+              </div>
+              <Divider/>
+
+              {/* Solution */}
+              <div>
+                <h3 className="text-lg font-medium text-teal-600 mb-1">
+                  Solution
+                </h3>
+                <p className="text-gray-700 text-base">{cs.solution}</p>
               </div>
             </div>
-          </section>
-        </GsapReveal>
-      )}
+          ))}
+        </div>
+      </div>
+    </section>
+  </GsapReveal>
+)}
+
 
       {/* FINAL OUTCOME */}
       {project.finalOutcome && (

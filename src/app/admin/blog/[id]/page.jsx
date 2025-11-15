@@ -25,7 +25,7 @@ export default function BlogDetails() {
   const { id } = params;
 
   const [formData, setFormData] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [uploadedFilesMap, setUploadedFilesMap] = useState({});
   const [oldImageUrls, setOldImageUrls] = useState([]); // Store old image URLs
 
@@ -37,7 +37,6 @@ export default function BlogDetails() {
         const data = await res.json();
         if (data.success) {
           const oldImages = extractImageUrls(data.data.content);
-          console.log(data.data.content)
           setOldImageUrls(oldImages); // Set initial old image URLs
           setFormData({
             ...data.data,
@@ -206,13 +205,23 @@ const handleUpdate = async () => {
 
   {/* Cover Image */}
   <div className="space-y-1">
-    <Label htmlFor="coverImage">Cover Image URL</Label>
+    <Label htmlFor="coverImage">Cover Image</Label>
+     {formData.coverImage && (
+        <div className="my-2">
+          <img
+            src={formData.coverImage}
+            alt="Blog Preview"
+            className="w-24 max-h-64 object-cover rounded"
+          />
+        </div>
+      )}
     <Input
-      id="coverImage"
-      placeholder="Cover Image URL"
-      value={formData.coverImage || ""}
-      onChange={(e) => setFormData({ ...formData, coverImage: e.target.value })}
-    />
+    id="coverImage"
+    type="file"
+    onChange={(e) =>
+      setFormData({ ...formData, coverImage: e.target.files[0] })
+    }
+  />
   </div>
 
   {/* Author */}

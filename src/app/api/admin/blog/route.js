@@ -1,7 +1,9 @@
 import { NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
 import { uploadBlobsInContent } from "@/lib/uploadBlobsInContent";
+
 import { generateUniqueSlug } from "@/lib/slugMaker";
+import { uploadToS3 } from "@/lib/uploadToS3";
 const prisma = new PrismaClient();
 
 export async function POST(request) {
@@ -13,7 +15,12 @@ export async function POST(request) {
     const tags = JSON.parse(formData.get("tags") || "[]");
     const seo = JSON.parse(formData.get("seo") || "{}");
     const slug = await generateUniqueSlug(formData.get("title"), "blog");
-
+    let coverImageUrl = null;
+    const coverImage = formData.get("coverImage");
+    if (coverImage instanceof File) {
+      // Upload the file to S3 (assuming the uploadToS3 function returns a URL)
+      coverImageUrl = await uploadToS3(coverImage, `blogs/${slug}`);
+    }
     // Build files map from FormData
     const filesMap = {};
     for (const file of formData.getAll("images")) {
@@ -34,7 +41,7 @@ export async function POST(request) {
         title: formData.get("title"),
         slug,
         excerpt: formData.get("excerpt"),
-        coverImage: formData.get("coverImage"),
+        coverImage: coverImageUrl || formData.get("coverImage"),
         author: formData.get("author"),
         published: formData.get("published") === "true",
         content: contentWithDoc,
