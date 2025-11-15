@@ -4,12 +4,14 @@ import { useEditor, EditorContent } from "@tiptap/react";
 import { StarterKit } from "@tiptap/starter-kit";
 import { Image } from "@tiptap/extension-image";
 import { TaskItem, TaskList } from "@tiptap/extension-list";
+import Youtube from "@tiptap/extension-youtube";
 import { TextAlign } from "@tiptap/extension-text-align";
 import { Typography } from "@tiptap/extension-typography";
 import { Highlight } from "@tiptap/extension-highlight";
 import { Subscript } from "@tiptap/extension-subscript";
 import { Superscript } from "@tiptap/extension-superscript";
 
+// Styles
 import "@/components/tiptap-node/blockquote-node/blockquote-node.scss";
 import "@/components/tiptap-node/code-block-node/code-block-node.scss";
 import "@/components/tiptap-node/horizontal-rule-node/horizontal-rule-node.scss";
@@ -22,19 +24,29 @@ import "@/components/tiptap-templates/simple/simple-editor.scss";
 export default function ReadOnlyEditor({ content }) {
   const editor = useEditor({
     immediatelyRender: false,
-    editable: false,
+    editable: false, // ← REQUIRED FOR READ-ONLY
+    content,
+
     extensions: [
       StarterKit,
       TextAlign.configure({ types: ["heading", "paragraph"] }),
       TaskList,
       TaskItem.configure({ nested: true }),
       Highlight.configure({ multicolor: true }),
-      Image,
       Typography,
       Superscript,
       Subscript,
+      Image,
+
+      Youtube.configure({
+        controls: true,
+        autoplay: false,
+        modestBranding: true,
+        nocookie: false,
+        allowFullscreen: true,
+        inline: false, 
+      }),
     ],
-    content,
   });
 
   return <EditorContent editor={editor} className="simple-editor-content" />;
