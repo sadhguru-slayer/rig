@@ -1,0 +1,180 @@
+/* Wrapper */
+.warranty-wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+/* Main Card */
+.warranty-card {
+    position: relative;
+    background: white;
+    border: 2px solid #99e6e6;
+    /* teal-200 */
+    border-radius: 16px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    padding: 40px;
+    width: 1000px;
+    max-width: 1000px;
+    min-height: 700px;
+    margin: auto;
+}
+
+/* Watermarks */
+.watermark {
+    position: absolute;
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+}
+
+.watermark-top-right {
+    top: -60px;
+    right: -60px;
+    background: #e6fffa;
+    /* teal-50 */
+    opacity: 0.4;
+}
+
+.watermark-bottom-left {
+    bottom: -60px;
+    left: -60px;
+    background: #f3f4f6;
+    /* gray-100 */
+    opacity: 0.3;
+}
+
+/* Content Layer */
+.content {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+}
+
+/* Header */
+.title {
+    font-size: 32px;
+    font-family: serif;
+    font-weight: bold;
+    color: #0f4a46;
+    /* teal-900 */
+    margin-bottom: 4px;
+}
+
+.title-underline {
+    width: 110px;
+    height: 4px;
+    background: #14b8a6;
+    /* teal-500 */
+    margin: 0 auto 30px;
+}
+
+/* Customer Details Grid */
+.details-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    text-align: left;
+    font-size: 14px;
+    margin-bottom: 40px;
+}
+
+.label {
+    color: #6b7280;
+    /* gray-500 */
+    margin-bottom: 2px;
+}
+
+.value {
+    font-weight: 600;
+    color: #374151;
+    /* gray-800 */
+}
+
+/* Certificate Body */
+.certificate-body {
+    background: #f9fafb;
+    /* gray-50 */
+    padding: 24px;
+    border-radius: 14px;
+    text-align: left;
+}
+
+.service-title {
+    font-size: 20px;
+    font-weight: bold;
+    color: #0e766e;
+    /* teal-800 */
+    border-left: 4px solid #0d9488;
+    /* teal-600 */
+    padding-left: 12px;
+    margin-bottom: 10px;
+}
+
+.subservice-title {
+    font-size: 18px;
+    color: #4b5563;
+    /* gray-700 */
+    font-weight: 600;
+    padding-left: 12px;
+    margin-bottom: 20px;
+}
+
+/* Warranty Coverage */
+.coverage-title {
+    font-weight: 600;
+    font-size: 16px;
+    color: #0d9488;
+    /* teal-700 */
+    padding-bottom: 6px;
+    border-bottom: 1px solid #99e6e6;
+    /* teal-200 */
+    margin-bottom: 16px;
+}
+
+.coverage-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.coverage-row {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px dashed #d1d5db;
+    /* gray-300 */
+    padding-bottom: 8px;
+    font-size: 14px;
+}
+
+.coverage-label {
+    font-weight: 500;
+    color: #4b5563;
+    /* gray-700 */
+}
+
+.coverage-value {
+    font-weight: 600;
+    color: #111827;
+    /* gray-900 */
+}
+
+/* Footer */
+.footer {
+    margin-top: 40px;
+    padding-top: 16px;
+    border-top: 1px solid #e5e7eb;
+    /* gray-200 */
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    font-size: 12px;
+    color: #6b7280;
+}
+
+.signature-block {
+    text-align: right;
+}
+
+.signature-space {
+    height: 40px;
+}

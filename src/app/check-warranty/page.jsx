@@ -6,8 +6,31 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "sonner";
 import { Loader2, Search, Download, ChevronDown, ChevronUp } from "lucide-react";
 import { format } from "date-fns";
-import html2canvas from "html2canvas";
-import jsPDF from "jspdf";
+import generatePDF, { Resolution, Margin } from 'react-to-pdf';
+import './warranty.css'
+import WarrantyPDF from "./WarrantyPdf";
+import { pdf } from '@react-pdf/renderer';
+import { PDFViewer } from '@react-pdf/renderer';
+import { BlobProvider } from '@react-pdf/renderer';
+const pdfOptions = {
+    method: 'save',
+    resolution: Resolution.HIGH,
+    page: {
+        margin: Margin.SMALL,
+        format: 'a4',
+        orientation: 'landscape',
+    },
+    canvas: {
+        mimeType: 'image/png',
+        qualityRatio: 1,
+    },
+    overrides: {
+        pdf: { compress: true },
+        canvas: { useCORS: true }
+    },
+};
+
+
 
 const WarrantyCheckPage = () => {
     const [phone, setPhone] = useState("");
@@ -50,38 +73,14 @@ const WarrantyCheckPage = () => {
         setExpandedOrder(expandedOrder === orderId ? null : orderId);
     };
 
-    const downloadCertificate = async (itemId, customerName, serviceName) => {
-        const element = document.getElementById(`warranty-card-${itemId}`);
-        if (!element) return;
+    const downloadCertificate = async (item, customerName, order) => {
+        const blob = await pdf(<WarrantyPDF item={item} customerName={customerName} order={order} />).toBlob();
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
 
-        try {
-            const canvas = await html2canvas(element, {
-                scale: 3,
-                useCORS: true,
-                backgroundColor: "#ffffff",
-            });
-
-            const imgData = canvas.toDataURL("image/png");
-            const pdf = new jsPDF({
-                orientation: "landscape",
-                unit: "mm",
-                format: "a4",
-            });
-
-            const pageWidth = pdf.internal.pageSize.getWidth();
-            const pageHeight = pdf.internal.pageSize.getHeight();
-
-            const imgWidth = pageWidth;
-            const imgHeight = (canvas.height * imgWidth) / canvas.width;
-
-            pdf.addImage(imgData, "PNG", 0, (pageHeight - imgHeight) / 2, imgWidth, imgHeight);
-            pdf.save(`Warranty_${customerName}_${serviceName}.pdf`);
-
-            toast.success("Warranty certificate downloaded!");
-        } catch (error) {
-            console.error("Error generating PDF:", error);
-            toast.error("Failed to generate PDF");
-        }
+        link.href = url;
+        link.download = `Warranty_${customerName}_${item.service.title}.pdf`;
+        link.click();
     };
 
 
@@ -156,7 +155,7 @@ const WarrantyCheckPage = () => {
                                                             <Button
                                                                 variant="outline"
                                                                 size="sm"
-                                                                onClick={() => downloadCertificate(item.id, order.customer.name, item.service.name)}
+                                                                onClick={() => downloadCertificate(item, order.customer.name, order)}
                                                                 className="text-teal-700 border-teal-200 hover:bg-teal-50 hover:cursor-pointer"
                                                             >
                                                                 <Download size={16} className="mr-2" />
@@ -168,104 +167,13 @@ const WarrantyCheckPage = () => {
                                                         {/* Actually, let's show the details and have a hidden container for the "Certificate" look if we want a specific design */}
                                                         {/* For now, let's make the visible card THE certificate design */}
 
-                                                        <div className="flex justify-center">
-                                                            <div
-                                                                id={`warranty-card-${item.id}`}
-                                                                className="relative bg-white border-2 border-teal-200 shadow-xl rounded-xl p-10"
-                                                                style={{
-                                                                    width: "1000px",           // fixed desktop width
-                                                                    maxWidth: "1000px",
-                                                                    minHeight: "700px",        // keeps certificate height consistent
-                                                                    margin: "auto",
-                                                                    backgroundColor: "white",
-                                                                }}
-                                                            >
-                                                                {/* WATERMARK */}
-                                                                <div className="absolute top-0 right-0 -mt-16 -mr-16 w-64 h-64 bg-teal-50 rounded-full opacity-40"></div>
-                                                                <div className="absolute bottom-0 left-0 -mb-16 -ml-16 w-64 h-64 bg-gray-100 rounded-full opacity-30"></div>
+                                                        <PDFViewer
+                                                            showToolbar={false}
+                                                            width="100%" height="700">
+                                                            <WarrantyPDF item={item} customerName={order.customer.name} order={order} />
+                                                        </PDFViewer>
 
-                                                                {/* CONTENT */}
-                                                                <div className="relative z-10 text-center">
-                                                                    <h2 className="text-3xl font-serif font-bold text-teal-900 mb-1">
-                                                                        WARRANTY CERTIFICATE
-                                                                    </h2>
-                                                                    <div className="h-1 w-28 bg-teal-500 mx-auto mb-8"></div>
 
-                                                                    {/* Top customer details */}
-                                                                    <div className="grid grid-cols-2 gap-6 text-sm text-left mb-10">
-                                                                        <div>
-                                                                            <p className="text-gray-500">Customer Name</p>
-                                                                            <p className="font-semibold text-gray-800">{order.customer.name}</p>
-                                                                        </div>
-                                                                        <div>
-                                                                            <p className="text-gray-500">Order Number</p>
-                                                                            <p className="font-semibold text-gray-800">{order.orderNo}</p>
-                                                                        </div>
-                                                                        <div>
-                                                                            <p className="text-gray-500">Service</p>
-                                                                            <p className="font-semibold text-gray-800">{item.service.title}</p>
-                                                                        </div>
-                                                                        <div>
-                                                                            <p className="text-gray-500">Installation Date</p>
-                                                                            <p className="font-semibold text-gray-800">
-                                                                                {order.installDate ? format(new Date(order.installDate), "PPP") : "N/A"}
-                                                                            </p>
-                                                                        </div>
-                                                                    </div>
-
-                                                                    {/* Grey certificate body */}
-                                                                    <div className="bg-gray-50 p-6 rounded-xl text-left space-y-6">
-
-                                                                        {/* SERVICE TITLE */}
-                                                                        <h4 className="text-xl font-bold text-teal-800 border-l-4 border-teal-600 pl-4">
-                                                                            {item.service.title}
-                                                                        </h4>
-
-                                                                        {/* SUBSERVICE TITLE IF EXISTS */}
-                                                                        {item.subService && (
-                                                                            <h5 className="text-lg font-semibold text-gray-700 pl-4">
-                                                                                {item.subService.title}
-                                                                            </h5>
-                                                                        )}
-
-                                                                        {/* WARRANTY COVERAGE */}
-                                                                        <div>
-                                                                            <h5 className="font-semibold text-teal-700 border-b border-teal-200 pb-1 mb-3">
-                                                                                Warranty Coverage
-                                                                            </h5>
-
-                                                                            <div className="space-y-3">
-                                                                                {Object.entries(item.warranty).map(([key, w]) => (
-                                                                                    <div
-                                                                                        key={key}
-                                                                                        className="flex justify-between text-sm border-b border-dashed border-gray-300 pb-2"
-                                                                                    >
-                                                                                        <span className="text-gray-700 font-medium">{w.label}</span>
-                                                                                        <span className="text-gray-900">
-                                                                                            {w.durationMonths} Months
-                                                                                            {w.expiresOn &&
-                                                                                                ` (Expires: ${format(new Date(w.expiresOn), "PP")})`}
-                                                                                        </span>
-                                                                                    </div>
-                                                                                ))}
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-
-                                                                    {/* FOOTER */}
-                                                                    <div className="mt-10 pt-4 border-t border-gray-200 flex justify-between items-end text-xs text-gray-500">
-                                                                        <div>
-                                                                            <p>InvisibleGrills</p>
-                                                                            <p>Support: +91 1234567890</p>
-                                                                        </div>
-                                                                        <div className="text-right">
-                                                                            <p>Authorized Signature</p>
-                                                                            <div className="h-10"></div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
 
 
                                                     </div>

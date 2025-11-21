@@ -12,6 +12,7 @@ import {
   Calendar,
 } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
+import DashboardChart from "@/components/admin/dashboard/DashboardChart";
 
 const AdminDashboard = () => {
   const [stats, setStats] = useState(null);
@@ -20,9 +21,10 @@ const AdminDashboard = () => {
   useEffect(() => {
     async function fetchStats() {
       try {
-       const res = await fetch(`/api/admin/overview/`);
-      const json = await res.json();
-      if (json.success) setStats(json.data);
+        const res = await fetch(`/api/admin/overview/`);
+        const json = await res.json();
+        console.log(json.data);
+        if (json.success) setStats(json.data);
       } catch (error) {
         console.error("Error fetching dashboard data:", error);
       } finally {
@@ -50,10 +52,10 @@ const AdminDashboard = () => {
 
   // Example data for bar chart (you can replace with backend data)
   const chartData = [
-    { name: "Projects", value: stats.projects || 0 },
-    { name: "Services", value: stats.services || 0 },
-    { name: "Blogs", value: stats.blogs || 0 },
-    { name: "Clients", value: stats.clients || 0 },
+    { name: "Projects", value: stats.counts.projects || 0 },
+    { name: "Services", value: stats.counts.services || 0 },
+    { name: "Blogs", value: stats.counts.blogs || 0 },
+    { name: "Clients", value: stats.counts.customers || 0 },
   ];
 
   return (
@@ -70,65 +72,48 @@ const AdminDashboard = () => {
       </div>
 
       {/* Stat Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+      <div className="
+  grid
+  grid-cols-1 
+  sm:grid-cols-2 
+  md:grid-cols-3 
+  xl:grid-cols-5 
+  gap-5
+">
         <StatCard
           title="Projects"
-          value={stats.projects}
+          value={stats.counts.projects}
           icon={<Folder className="text-blue-500" size={20} />}
         />
+
         <StatCard
           title="Services"
-          value={stats.services}
+          value={stats.counts.services}
           icon={<Briefcase className="text-purple-500" size={20} />}
         />
+
         <StatCard
           title="Blogs"
-          value={stats.blogs}
+          value={stats.counts.blogs}
           icon={<FileText className="text-green-500" size={20} />}
         />
+
         <StatCard
-          title="Clients"
-          value={stats.clients}
+          title="Customers"
+          value={stats.counts.customers}
           icon={<Users className="text-orange-500" size={20} />}
+        />
+
+        <StatCard
+          title="Orders"
+          value={stats.counts.orders}
+          icon={<TrendingUp className="text-red-500" size={20} />}
         />
       </div>
 
-      {/* Chart Section */}
-      <Card className="shadow-sm border border-gray-100">
-        <CardContent className="p-6">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold text-gray-700 flex items-center gap-2">
-              <TrendingUp size={18} className="text-blue-500" />
-              Activity Overview
-            </h2>
-            <span className="text-sm text-gray-400">Last 30 days</span>
-          </div>
-          <ResponsiveContainer width="100%" height={280}>
-            <BarChart data={chartData} barSize={35}>
-              <XAxis
-                dataKey="name"
-                tick={{ fill: "#888", fontSize: 12 }}
-                axisLine={false}
-                tickLine={false}
-              />
-              <YAxis
-                tick={{ fill: "#888", fontSize: 12 }}
-                axisLine={false}
-                tickLine={false}
-              />
-              <Tooltip
-                cursor={{ fill: "#f9fafb" }}
-                contentStyle={{
-                  borderRadius: "10px",
-                  border: "1px solid #e5e7eb",
-                  background: "#fff",
-                }}
-              />
-              <Bar dataKey="value" radius={[6, 6, 0, 0]} fill="#3b82f6" />
-            </BarChart>
-          </ResponsiveContainer>
-        </CardContent>
-      </Card>
+      {stats && (
+        <DashboardChart monthly={stats.monthly} />
+      )}
     </div>
   );
 };

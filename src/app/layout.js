@@ -30,6 +30,9 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+      <head>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-50 text-gray-900`}
       >
@@ -38,7 +41,7 @@ export default function RootLayout({ children }) {
         <AppLayoutClient>{children}</AppLayoutClient>
 
         {/* Floating buttons stay globally */}
-        
+
       </body>
     </html>
   );
