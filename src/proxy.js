@@ -4,6 +4,9 @@ import { parse } from "cookie";
 
 export async function proxy(req) {
   const { pathname } = req.nextUrl;
+    if (pathname === "/api/admin/service/create") {
+    return NextResponse.next();
+  }
 
   const cookieHeader = req.headers.get("cookie") || "";
   const cookies = parse(cookieHeader || "");
