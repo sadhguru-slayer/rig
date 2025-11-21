@@ -1,23 +1,3 @@
-"use client";
-import React, { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { MdDeleteForever } from "react-icons/md";
-import LoadingCard from "@/components/ui/LoadingCard";
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Spinner } from "@/components/ui/spinner";
-import { SlReload } from "react-icons/sl";
-import { toast } from "sonner";
-import EmptyCard from "@/components/ui/EmptyCard";
-import ConfirmDeleteDialog from "@/components/ui/ConfirmDeleteDialog";
 
 "use client";
 import React, { useEffect, useState } from "react";
