@@ -1,91 +1,102 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { toast } from "sonner";
-import { SlReload } from "react-icons/sl";
 import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { MdDeleteForever } from "react-icons/md";
 import LoadingCard from "@/components/ui/LoadingCard";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Spinner } from "@/components/ui/spinner";
+import { SlReload } from "react-icons/sl";
+import { toast } from "sonner";
 import EmptyCard from "@/components/ui/EmptyCard";
 import ConfirmDeleteDialog from "@/components/ui/ConfirmDeleteDialog";
 
-
-const AdminBlogsPage = () => {
-  const [blogs, setBlogs] = useState([]);
+const CustomersPage = () => {
+  const [customers, setCustomers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-  const [blogToDelete, setBlogToDelete] = useState(null);
+  const [selectedCustomers, setSelectedCustomers] = useState(null);
   const [bulkDeleteOpen, setBulkDeleteOpen] = useState(false);
   const [bulkDeleting, setBulkDeleting] = useState(false);
   const [selectedIds, setSelectedIds] = useState([]);
   const [bulkCurrentIndex, setBulkCurrentIndex] = useState(0);
   const router = useRouter();
 
-  const fetchBlogs = async () => {
+  // ✅ Fetch all customers
+  const fetchcustomers = async () => {
     setLoading(true);
     try {
-      const res = await fetch("/api/admin/blog");
+      const res = await fetch("/api/admin/customer");
       const data = await res.json();
       if (data.success) {
-        setBlogs(data.data || []);
+        setCustomers(data.data || []);
       } else {
-        toast.error(data.error || "Failed to fetch blogs");
+        toast.error(data.error || "Failed to fetch customers");
       }
-    } catch (err) {
-      toast.error(err.message);
+    } catch (error) {
+      toast.error(error.message);
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchBlogs();
+    fetchcustomers();
   }, []);
 
-  const handleOpenDeleteModal = (blog) => {
-    setBlogToDelete(blog);
+  const handleOpenDeleteModal = (customer) => {
+    setSelectedCustomers(customer);
     setDeleteModalOpen(true);
   };
 
   const handleConfirmDelete = async () => {
-    if (!blogToDelete) return;
-    setLoading(true);
+    if (!selectedCustomers) return;
 
+    setLoading(true);
     try {
-      const res = await fetch(`/api/admin/blog/${blogToDelete.id}`, {
+      const res = await fetch(`/api/admin/customer/${selectedCustomers.id}`, {
         method: "DELETE",
       });
       const data = await res.json();
 
       if (data.success) {
-        toast.success("Blog deleted successfully!");
-        setSelectedIds((prev) => prev.filter((id) => id !== blogToDelete.id));
-        await fetchBlogs();
+        toast.success("Project deleted successfully!");
+        setSelectedIds((prev) =>
+          prev.filter((id) => id !== selectedCustomers.id)
+        );
+        await fetchcustomers();
       } else {
-        toast.error(data.error || "Failed to delete blog");
+        toast.error(data.error || "Failed to delete customer");
       }
-    } catch (err) {
-      toast.error(err.message);
+    } catch (error) {
+      toast.error(error.message);
     } finally {
       setLoading(false);
       setDeleteModalOpen(false);
-      setBlogToDelete(null);
+      setSelectedCustomers(null);
     }
   };
 
   // selection helpers
   const toggleSelectAll = () => {
-    if (selectedIds.length === blogs.length) {
+    if (selectedIds.length === customers.length) {
       setSelectedIds([]);
     } else {
-      setSelectedIds(blogs.map((b) => b.id));
+      setSelectedIds(customers.map((c) => c.id));
     }
   };
 
   const toggleSelectOne = (id) => {
     setSelectedIds((prev) =>
-      prev.includes(id) ? prev.filter((bid) => bid !== id) : [...prev, id]
+      prev.includes(id) ? prev.filter((cid) => cid !== id) : [...prev, id]
     );
   };
 
@@ -105,7 +116,7 @@ const AdminBlogsPage = () => {
         setBulkCurrentIndex(i + 1);
 
         try {
-          const res = await fetch(`/api/admin/blog/${id}`, {
+          const res = await fetch(`/api/admin/customer/${id}`, {
             method: "DELETE",
           });
           const data = await res.json();
@@ -118,13 +129,13 @@ const AdminBlogsPage = () => {
       }
 
       if (failedIds.length) {
-        toast.error("Some blogs could not be deleted.");
+        toast.error("Some customers could not be deleted.");
       } else {
-        toast.success("Selected blogs deleted successfully!");
+        toast.success("Selected customers deleted successfully!");
       }
 
       setSelectedIds([]);
-      await fetchBlogs();
+      await fetchcustomers();
     } catch (err) {
       toast.error(err.message);
     } finally {
@@ -135,10 +146,10 @@ const AdminBlogsPage = () => {
 
   // export helpers
   const handleExportSelected = () => {
-    const rows = blogs.filter((b) => selectedIds.includes(b.id));
+    const rows = customers.filter((c) => selectedIds.includes(c.id));
     if (!rows.length) return;
 
-    const headers = ["ID", "Title", "Author", "Published", "Created On"];
+    const headers = ["ID", "Name", "Phone", "Email", "Created At"];
 
     const escape = (val) => {
       const str = val == null ? "" : String(val);
@@ -148,14 +159,14 @@ const AdminBlogsPage = () => {
 
     const csv = [
       headers.join(","),
-      ...rows.map((b) =>
+      ...rows.map((c) =>
         [
-          escape(b.id),
-          escape(b.title),
-          escape(b.author),
-          escape(b.published ? "Yes" : "No"),
+          escape(c.id),
+          escape(c.name),
+          escape(c.phone),
+          escape(c.email),
           escape(
-            b.createdAt ? new Date(b.createdAt).toLocaleDateString() : ""
+            c.createdAt ? new Date(c.createdAt).toLocaleDateString() : ""
           ),
         ].join(",")
       ),
@@ -165,7 +176,7 @@ const AdminBlogsPage = () => {
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.setAttribute("download", "blogs.csv");
+    link.setAttribute("download", "customers.csv");
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -174,22 +185,29 @@ const AdminBlogsPage = () => {
 
   return (
     <div className="p-1 md:p-4">
-      <h1 className="text-2xl font-bold mb-4">Blogs</h1>
+      <h1 className="text-2xl font-bold mb-4">Customers</h1>
 
+      {/* Top Action Bar */}
       <div className="flex items-center justify-between mb-4">
-        <Button variant="default" size="sm" onClick={() => router.push("/admin/blog/create")}>
-          Create Blog
+        <Button
+          variant="default"
+          size="sm"
+          onClick={() => router.push("/admin/customer/create")}
+        >
+          Create Project
         </Button>
         <Button
           variant="outline"
           size="sm"
-          onClick={fetchBlogs}
+          onClick={fetchcustomers}
           disabled={loading}
           className={loading ? "cursor-not-allowed" : ""}
         >
           <SlReload
             className="transition-transform"
-            style={{ animation: loading ? "spin-reverse 1s linear infinite" : "none" }}
+            style={{
+              animation: loading ? "spin-reverse 1s linear infinite" : "none",
+            }}
           />
         </Button>
       </div>
@@ -227,12 +245,13 @@ const AdminBlogsPage = () => {
         </div>
       )}
 
+      {/* Content States */}
       {loading ? (
-        <LoadingCard text="Loading blogs..." />
-      ) : blogs?.length === 0 ? (
+        <LoadingCard text="Loading customers..." />
+      ) : customers?.length === 0 ? (
         <EmptyCard
-          title="No blogs found"
-          message='Click the "Create Blog" button to add your first blog.'
+          title="No customers found"
+          message='Click the "Create Project" button to add your first customer.'
         />
       ) : (
         <Table>
@@ -241,42 +260,54 @@ const AdminBlogsPage = () => {
               <TableHead>
                 <input
                   type="checkbox"
-                  aria-label="Select all blogs"
+                  aria-label="Select all customers"
                   checked={
-                    blogs.length > 0 && selectedIds.length === blogs.length
+                    customers.length > 0 &&
+                    selectedIds.length === customers.length
                   }
                   onChange={toggleSelectAll}
                 />
               </TableHead>
-              <TableHead>Title</TableHead>
-              <TableHead>Author</TableHead>
-              <TableHead>Published</TableHead>
-              <TableHead>Created On</TableHead>
-              <TableHead>Actions</TableHead>
+              <TableHead>Id</TableHead>
+              <TableHead>Name</TableHead>
+              <TableHead>Phone</TableHead>
+              <TableHead>Email</TableHead>
+              <TableHead>Created At</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {blogs.map((blog) => (
-              <TableRow key={blog.id}>
+            {customers.map((customer) => (
+              <TableRow key={customer.id}>
                 <TableCell>
                   <input
                     type="checkbox"
-                    aria-label={`Select blog ${blog.title}`}
-                    checked={selectedIds.includes(blog.id)}
-                    onChange={() => toggleSelectOne(blog.id)}
+                    aria-label={`Select customer ${customer.name}`}
+                    checked={selectedIds.includes(customer.id)}
+                    onChange={() => toggleSelectOne(customer.id)}
                   />
                 </TableCell>
+
+                <TableCell>{customer.id || "-"}</TableCell>
+
                 <TableCell
                   className="text-blue-600 cursor-pointer hover:underline"
-                  onClick={() => router.push(`/admin/blog/${blog.id}`)}
+                  onClick={() => router.push(`/admin/customer/${customer.id}`)}
                 >
-                  {blog.title}
+                  {customer.name}
                 </TableCell>
-                <TableCell>{blog.author || "-"}</TableCell>
-                <TableCell>{blog.published ? "✅ Yes" : "❌ No"}</TableCell>
-                <TableCell>{new Date(blog.createdAt).toLocaleDateString()}</TableCell>
+                <TableCell>{customer.phone || "-"}</TableCell>
+                <TableCell>{customer.email || "-"}</TableCell>
                 <TableCell>
-                  <Button variant="destructive" size="sm" onClick={() => handleOpenDeleteModal(blog)}>
+                  {customer.createdAt
+                    ? new Date(customer.createdAt).toLocaleDateString()
+                    : "-"}
+                </TableCell>
+                <TableCell>
+                  <Button
+                    variant="destructive"
+                    size="sm"
+                    onClick={() => handleOpenDeleteModal(customer)}
+                  >
                     <MdDeleteForever />
                   </Button>
                 </TableCell>
@@ -286,11 +317,12 @@ const AdminBlogsPage = () => {
         </Table>
       )}
 
+      {/* Delete Confirmation Dialog */}
       <ConfirmDeleteDialog
         open={deleteModalOpen}
         setOpen={setDeleteModalOpen}
-        title="Delete Blog"
-        description={`Are you sure you want to delete “${blogToDelete?.title}”? This action cannot be undone.`}
+        title="Delete Project"
+        description={`Are you sure you want to delete “${selectedCustomers?.name}”? This action cannot be undone.`}
         onConfirm={handleConfirmDelete}
         loading={loading}
       />
@@ -299,13 +331,13 @@ const AdminBlogsPage = () => {
       <ConfirmDeleteDialog
         open={bulkDeleteOpen}
         setOpen={setBulkDeleteOpen}
-        title="Delete Selected Blogs"
-        description={`Are you sure you want to delete ${selectedIds.length} selected blog(s)? This action cannot be undone.`}
+        title="Delete Selected Customers"
+        description={`Are you sure you want to delete ${selectedIds.length} selected customer(s)? This action cannot be undone.`}
         onConfirm={handleBulkDelete}
         loading={bulkDeleting}
         progressText={
           bulkDeleting && selectedIds.length
-            ? `Deleting ${bulkCurrentIndex}/${selectedIds.length} blogs...`
+            ? `Deleting ${bulkCurrentIndex}/${selectedIds.length} customers...`
             : ""
         }
       />
@@ -313,4 +345,4 @@ const AdminBlogsPage = () => {
   );
 };
 
-export default AdminBlogsPage;
+export default CustomersPage;

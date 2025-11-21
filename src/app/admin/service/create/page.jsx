@@ -2,6 +2,7 @@
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+import SubServicesForm from "@/components/admin/service/SubServicesForm";
 
 
 import { TestimonialsForm,FaqsForm,FeaturesForm,SpecificationsForm ,GalleryForm,SeoForm } from "@/components/admin/service";
@@ -9,6 +10,10 @@ import React, { useEffect, useState } from "react";
 import Divider from "@/components/Divider";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import WarrantyComponent from "@/components/admin/service/WarrantyComponent";
+
 
 const AdminCreatePage = () => {
   const [loading, setLoading] = useState(false);
@@ -32,6 +37,8 @@ const [gallery, setGallery] = useState([]);
 const [faqs, setFaqs] = useState([]);
 const [testimonials, setTestimonials] = useState([]);
 const [seoList, setSeoList] = useState([]);
+const [subServices, setSubServices] = useState([]);
+const [warrantyComponents, setWarrantyComponents] = useState([]);
 
 
 const handleCreateService = async (e) => {
@@ -69,7 +76,13 @@ const handleCreateService = async (e) => {
     formData.append("faqs", JSON.stringify(faqs || []));
     formData.append("testimonials", JSON.stringify(testimonials || []));
     formData.append("seo", JSON.stringify(seoList || {}));
-
+    formData.append("subServices", JSON.stringify(subServices || []));
+    subServices.forEach((sub, i) => {
+  if (sub.imageFile) {
+    formData.append(`subServiceImage_${i}`, sub.imageFile);
+  }
+});
+    formData.append("warrantyComponents", JSON.stringify(warrantyComponents || []));
     // Append gallery files
     gallery.forEach((img) => {
       if (img.file) {
@@ -111,6 +124,9 @@ const handleCreateService = async (e) => {
         canonicalUrl: "",
         ogImage: "",
       });
+      setSubServices([]);
+      setWarrantyComponents([]);
+
 
     } else {
       setError(data.error || "Failed to create service");
@@ -245,7 +261,18 @@ const handleCreateService = async (e) => {
 
 <Divider/>
 
+<Tabs defaultValue="applications" className="overflow-x-auto">
+<TabsList>
+    <TabsTrigger className="cursor-pointer" value="applications">Applications</TabsTrigger>
+    <TabsTrigger className="cursor-pointer" value="featuresandspecifications">Features & Specifications</TabsTrigger>
+    <TabsTrigger className="cursor-pointer" value="gallery">Gallery</TabsTrigger>
+    <TabsTrigger className="cursor-pointer" value="faq">FAQ</TabsTrigger>
+    <TabsTrigger className="cursor-pointer" value="testimonials">Testimonials</TabsTrigger>
+    <TabsTrigger className="cursor-pointer" value="seo">SEO</TabsTrigger>
+  </TabsList>
+
 {/* Applications JSON field */}
+<TabsContent value="applications">
 <div className="mt-4 rounded-lg ">
   <label className="font-semibold">Applications</label>
   {applications.map((app, index) => (
@@ -266,27 +293,45 @@ const handleCreateService = async (e) => {
     Add Application
   </Button>
 </div>
-<Divider/>
+</TabsContent>
 
-
-
+<TabsContent value="featuresandspecifications">
     <FeaturesForm existingFeatures={features} onChange={setFeatures} />
 <Divider/>
-    
     <SpecificationsForm existingSpecs={specifications} onChange={setSpecifications} />
-<Divider/>
-    
-    <GalleryForm existingGallery={gallery} onChange={setGallery} />
-<Divider/>
-    
-    <FaqsForm  onChange={setFaqs} />
-<Divider/>
-    
-    <TestimonialsForm existingTestimonials={testimonials} onChange={setTestimonials} />
-<Divider/>
-    
-    <SeoForm existingSeo={seoList} onChange={setSeoList} />
+</TabsContent>
 
+<TabsContent value="gallery">    
+    <GalleryForm existingGallery={gallery} onChange={setGallery} />
+</TabsContent>
+
+<TabsContent value="faq">    
+    <FaqsForm  onChange={setFaqs} />
+</TabsContent>
+       
+<TabsContent value="testimonials">
+    <TestimonialsForm existingTestimonials={testimonials} onChange={setTestimonials} />
+</TabsContent>
+
+<TabsContent value="seo">
+    <SeoForm existingSeo={seoList} onChange={setSeoList} />
+</TabsContent>
+
+</Tabs>
+
+<Divider />
+
+<SubServicesForm
+  existingSubServices={subServices}
+  onChange={setSubServices}
+/>
+
+<Divider/>
+
+<WarrantyComponent
+existing={warrantyComponents}
+onChange={setWarrantyComponents}
+/>
 
 <Divider/>
 

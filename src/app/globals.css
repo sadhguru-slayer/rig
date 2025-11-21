@@ -5,14 +5,29 @@
 
 @custom-variant dark (&:is(.dark *));
 
-body{
+body {
   background-color: white;
   scroll-behavior: smooth;
 }
 
 html {
-  font-size: 18px; /* default is 16px */
+  font-size: 18px;
+  /* default is 16px */
 }
+
+button {
+  cursor: pointer;
+}
+
+/* Prevent Tailwind from affecting the certificate captured for PDF */
+.html2canvas-reset,
+.html2canvas-reset * {
+  all: unset;
+  display: revert;
+  font-family: Arial, sans-serif;
+  box-sizing: border-box;
+}
+
 
 /* globals.css or a component css file (imported globally) */
 
@@ -127,8 +142,8 @@ html {
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
 }
-

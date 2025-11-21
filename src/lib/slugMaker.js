@@ -16,6 +16,9 @@ export async function generateUniqueSlug(title, type) {
     case "service":
       model = prisma.service;
       break;
+    case "subservice":
+      model = prisma.subService;
+      break;
     case "blog":
       model = prisma.blog;
       break;

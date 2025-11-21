@@ -2,6 +2,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { TestimonialsForm,FaqsForm,FeaturesForm,SpecificationsForm ,GalleryForm,SeoForm } from "@/components/admin/service";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+
 import { toast } from "sonner"
 
 import { Input } from "@/components/ui/input";
@@ -9,13 +11,17 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import Divider from "@/components/Divider";
+import SubServicesForm from "@/components/admin/service/SubServicesForm";
+import WarrantyComponent from "@/components/admin/service/WarrantyComponent";
+
 
 const ServiceDetailsPage = () => {
   const { id } = useParams();
   const [service, setService] = useState(null);
   const [loading, setLoading] = useState(true);
   const [openSection, setOpenSection] = useState("basic");
-
+  const [rawSubServices, setRawSubServices] = useState([]);
+  
  const fetchService = async () => {
   setLoading(true); // start loading
   try {
@@ -47,6 +53,7 @@ useEffect(() => {
     setService({ ...service, [field]: value });
 
   const handleSave = async () => {
+    setLoading(true);
   const formData = new FormData();
 
   // append basic fields
@@ -62,9 +69,18 @@ useEffect(() => {
   // append JSON arrays
   formData.append("features", JSON.stringify(service.features || []));
   formData.append("specifications", JSON.stringify(service.specifications || []));
+  formData.append("warrantyComponents", JSON.stringify(service.warrantyComponents || []));
   formData.append("faqs", JSON.stringify(service.faqs || []));
   formData.append("testimonials", JSON.stringify(service.testimonials || []));
   formData.append("seo", JSON.stringify(service.seo || {}));
+  service.subServices.forEach((sub, i) => {
+  if (sub.imageFile) {
+    formData.append(`subServiceImage_${i}`, sub.imageFile);
+  }
+});
+
+  formData.append("subServices", JSON.stringify(service.subServices || []));
+
 
   // gallery updates
   const keepIds = []; // gallery images to keep (existing DB images)
@@ -95,6 +111,8 @@ useEffect(() => {
     description: data.error || "Failed to save service",
   });
 }
+    setLoading(false);
+
 
 };
 
@@ -257,16 +275,23 @@ useEffect(() => {
     })()}
   </div>
 </div>
+
 <Divider/>
+<Tabs defaultValue="featuresandspecifications" className="overflow-x-auto">
+<TabsList>
+    <TabsTrigger className="cursor-pointer" value="featuresandspecifications">Features & Specifications</TabsTrigger>
+    <TabsTrigger className="cursor-pointer" value="gallery">Gallery</TabsTrigger>
+    <TabsTrigger className="cursor-pointer" value="faq">FAQ</TabsTrigger>
+    <TabsTrigger className="cursor-pointer" value="testimonials">Testimonials</TabsTrigger>
+    <TabsTrigger className="cursor-pointer" value="seo">SEO</TabsTrigger>
+  </TabsList>
 
-
+<TabsContent value="featuresandspecifications">
 
       {/* ✅ Related Components */}
         <FeaturesForm existingFeatures={service.features} onChange={(features) => setService({ ...service, features })} />
-<Divider/>
-      
-      
-      <SpecificationsForm
+<Divider/>     
+<SpecificationsForm
   existingSpecs={service?.specifications || []}
   onChange={(updatedSpecs) =>
   {
@@ -274,26 +299,56 @@ useEffect(() => {
   }
   }/>
 
-      
-<Divider/>
+  </TabsContent>
+
+      <TabsContent value="faq">   
       
         <FaqsForm existingFaqs={service.faqs} onChange={(faqs) => setService({ ...service, faqs })} />
-<Divider/>
+        </TabsContent>
       
+<TabsContent value="gallery">    
+
       <GalleryForm
   existingGallery={service.gallery}
   onChange={(updatedGallery) =>
     setService((prev) => ({ ...prev, gallery: updatedGallery }))
   }
 />
-<Divider/>
+        </TabsContent>
 
+
+<TabsContent value="testimonials">
       
         <TestimonialsForm existingTestimonials={service.testimonials} onChange={(testimonials) => setService({ ...service, testimonials })} />
-<Divider/>
-      
+        </TabsContent>
+
+<TabsContent value="seo">
         <SeoForm existingSeo={service.seo} onChange={(seo) => setService({ ...service, seo })} />
-<Divider/>
+        </TabsContent>
+</Tabs>
+        <Divider/>
+
+<SubServicesForm
+  existingSubServices={service.subServices}
+  onChange={(cleaned, raw) => {
+    setService({ ...service, subServices: cleaned }); // safe version
+    setRawSubServices(raw); // store actual files with imageFile
+  }}
+/>
+
+        
+        <Divider/>
+       <WarrantyComponent
+  existing={service.warrantyComponents}
+  onChange={(updatedWarrantyComponents) => {
+    setService(prevService => ({
+      ...prevService,
+      warrantyComponents: updatedWarrantyComponents,
+    }));
+  }}
+/>
+
+        <Divider/>
       
       <div className="mt-6 flex justify-end">
         <button onClick={handleSave} className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">

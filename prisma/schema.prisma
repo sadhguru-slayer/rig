@@ -4,8 +4,12 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL") // This will use DATABASE_URL from your .env file
+  url      = env("DATABASE_URL")
 }
+
+//
+// ─── CORE SERVICE MODELS ─────────────────────────────────────────
+//
 
 model Service {
   id             Int              @id @default(autoincrement())
@@ -18,9 +22,11 @@ model Service {
   priceRange     String?
   moreInfoUrl    String?
   applications   Json?
-  seoId Int?
-  seo   Seo? @relation(fields: [seoId], references: [id])
-  callToAction   Json?            // optional JSON
+
+  seoId          Int?
+  seo            Seo?             @relation(fields: [seoId], references: [id])
+
+  callToAction   Json?
 
   features       Feature[]
   specifications Specification[]
@@ -28,47 +34,135 @@ model Service {
   faqs           Faq[]
   testimonials   Testimonial[]
 
+  warrantyComponents Json?
+  subServices       SubService[]
+
+  orderItems        OrderItem[]   // ← REQUIRED for relation clarity
+
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 }
 
+model SubService {
+  id          Int       @id @default(autoincrement())
+  serviceId   Int
+  service     Service   @relation(fields: [serviceId], references: [id])
+
+  title       String
+  slug        String    @unique
+  description String?
+  imageUrl    String?
+  applications Json?
+
+  seoId       Int?
+  seo         Seo?      @relation(fields: [seoId], references: [id])
+
+  features       Feature[]
+  specifications Specification[]
+  faqs           Faq[]
+  
+  testimonials   Testimonial[]
+
+  warrantyComponents Json?
+
+  orderItems  OrderItem[]  // ← REQUIRED
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+//
+// ─── ORDER / WARRANTY MODELS ─────────────────────────────────────
+//
+
+model Order {
+  id          Int      @id @default(autoincrement())
+  orderNo     String   @unique
+
+  customerId  Int
+  customer    Customer @relation(fields: [customerId], references: [id])
+
+  installDate DateTime
+  issueDate   DateTime
+  address     String
+
+  orderItems  OrderItem[]
+
+  createdAt   DateTime @default(now())
+}
+
+model OrderItem {
+  id            Int           @id @default(autoincrement())
+  orderId       Int
+  order         Order         @relation(fields: [orderId], references: [id])
+
+  serviceId     Int?
+  service       Service?      @relation(fields: [serviceId], references: [id])
+
+  subServiceId  Int?
+  subService    SubService?   @relation(fields: [subServiceId], references: [id])
+
+  quantity      Int           @default(1)
+
+  warranty      Json
+
+  createdAt      DateTime @default(now())
+}
+
+//
+// ─── SHARED MODELS ───────────────────────────────────────────────
+//
 
 model Feature {
-  id          Int      @id @default(autoincrement())
-  title       String
-  detail      String
-  icon        String?
-  serviceId   Int
-  service     Service  @relation(fields: [serviceId], references: [id])
+  id            Int      @id @default(autoincrement())
+  title         String
+  detail        String
+  icon          String?
+
+  // optional relations (one feature can belong to only ONE of them)
+  serviceId     Int?
+  service       Service? @relation(fields: [serviceId], references: [id])
+
+  subServiceId  Int?
+  subService    SubService? @relation(fields: [subServiceId], references: [id])
 }
 
 model Specification {
   id        Int      @id @default(autoincrement())
   key       String
   value     String
-  serviceId Int
-  service   Service  @relation(fields: [serviceId], references: [id])
+
+  serviceId Int?
+  service   Service?  @relation(fields: [serviceId], references: [id])
+
+  subServiceId Int?
+  subService   SubService? @relation(fields: [subServiceId], references: [id])
 }
 
 model GalleryImage {
   id          Int       @id @default(autoincrement())
   url         String
   altText     String?
+
   serviceId   Int?
   service     Service?   @relation(fields: [serviceId], references: [id])
+
   projectId   Int?
   project     Project?   @relation(fields: [projectId], references: [id])
+
   uploadedAt  DateTime   @default(now())
 }
-
-
 
 model Faq {
   id        Int      @id @default(autoincrement())
   question  String
   answer    String
-  serviceId Int
-  service   Service  @relation(fields: [serviceId], references: [id])
+
+  serviceId Int?
+  service   Service?  @relation(fields: [serviceId], references: [id])
+
+  subServiceId Int?
+  subService   SubService? @relation(fields: [subServiceId], references: [id])
 }
 
 model Testimonial {
@@ -77,11 +171,35 @@ model Testimonial {
   feedback  String
   rating    Int?
   link      String?
-  serviceId Int
-  service   Service  @relation(fields: [serviceId], references: [id])
+
+  serviceId Int?
+  service   Service?  @relation(fields: [serviceId], references: [id])
+
+  subServiceId Int?
+  subService   SubService? @relation(fields: [subServiceId], references: [id])
 }
 
+//
+// ─── SEO MODEL ───────────────────────────────────────────────────
+//
 
+model Seo {
+  id            Int       @id @default(autoincrement())
+  title         String
+  description   String
+  keywords      Json
+  canonicalUrl  String?
+  ogImage       String?
+
+  services      Service[]
+  projects      Project[]
+  blogs         Blog[]
+  subServices   SubService[]
+}
+
+//
+// ─── BLOG / PROJECT (unchanged) ───────────────────────────────────
+//
 
 model Project {
   id                     Int       @id @default(autoincrement())
@@ -95,23 +213,20 @@ model Project {
   serviceType            String?
   category               String?
   seoId                  Int?
-  seo                    Seo? @relation(fields: [seoId], references: [id])
+  seo                    Seo?      @relation(fields: [seoId], references: [id])
   images                 GalleryImage[]
+
   scope                  Json?
   highlights             Json?
   clientBenefits         Json?
   finalOutcome           String?
   keyProject             Boolean   @default(false)
 
-  // Relation: One Project → Many ChallengesAndSolutions
   challengesAndSolutions ChallengesAndSolutions[]
-  
+
   createdAt              DateTime  @default(now())
   updatedAt              DateTime  @updatedAt
 }
-
-
-
 
 model ChallengesAndSolutions {
   id          Int      @id @default(autoincrement())
@@ -133,26 +248,17 @@ model Blog {
   tags        Json?
   readTime    Int?
   views       Int?      @default(0)
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
 
   seoId       Int?
   seo         Seo?      @relation(fields: [seoId], references: [id])
+
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 }
 
-model Seo {
-  id            Int       @id @default(autoincrement())
-  title         String
-  description   String
-  keywords      Json
-  canonicalUrl  String?
-  ogImage       String?
-
-  services      Service[]
-  projects      Project[]
-  blogs         Blog[]      // ✅ added reverse relation
-}
-
+//
+// ─── ADMIN / CUSTOMER / WARRANTY ─────────────────────────────────
+//
 
 model Admin {
   id            Int       @id @default(autoincrement())
@@ -165,4 +271,13 @@ model Admin {
   otpExpiresAt  DateTime?
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
+}
+
+model Customer {
+  id        Int      @id @default(autoincrement())
+  name      String
+  phone     String   @unique
+  email     String?
+  orders    Order[]
+  createdAt DateTime @default(now())
 }

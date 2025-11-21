@@ -1,17 +1,16 @@
 import { NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
+import { uploadToS3 } from "@/lib/uploadToS3";
+import { generateUniqueSlug } from "@/lib/slugMaker";
 
 const prisma = new PrismaClient();
 
 export async function GET() {
   try {
-    const services = await prisma.service.findMany({
-      include: {
-        features: true,
-        specifications: true
-      },
+    const customers = await prisma.customer.findMany({
+        orderBy: { createdAt: "desc" }
     });
-    return NextResponse.json({ success: true, data: services });
+    return NextResponse.json({ success: true, data: customers });
   } catch (error) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }

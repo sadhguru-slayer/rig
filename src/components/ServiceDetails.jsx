@@ -5,6 +5,7 @@ import Image from 'next/image';
 import GsapReveal from '@/components/GsapReveal';
 import Testimonials from '@/components/Testimonials';
 import CtaSection from '@/components/CtaSection';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 const ServiceDetails = ({ service }) => {
   if (!service) return null;
@@ -36,7 +37,7 @@ const ServiceDetails = ({ service }) => {
         <section className="relative bg-gradient-to-br from-teal-50 to-sky-50 overflow-hidden">
           <div className="max-w-7xl mx-auto px-6 lg:px-8 py-12 grid lg:grid-cols-2 gap-12 items-center relative z-10">
             <div>
-              
+
               <h1 className="mt-4 text-5xl sm:text-6xl font-extrabold text-teal-700 leading-tight">
                 {title}
               </h1>
@@ -63,9 +64,9 @@ const ServiceDetails = ({ service }) => {
               </div>
             </div>
 
-            <div className="relative aspect-[4/3] w-full rounded-3xl overflow-hidden shadow-2xl transform  transition duration-500">
+            <div className="relative aspect-[4/3] w-full rounded-3xl overflow-hidden shadow-xl transform  transition duration-500">
               <Image
-                src={imageUrl}
+                src={imageUrl || '/logo_c.png'}
                 alt={title}
                 layout="fill"
                 objectFit="cover"
@@ -73,6 +74,7 @@ const ServiceDetails = ({ service }) => {
                 blurDataURL="/low_res.png"
                 className="rounded-3xl"
                 fetchPriority="high"
+                unoptimized
               />
             </div>
           </div>
@@ -84,99 +86,268 @@ const ServiceDetails = ({ service }) => {
       </GsapReveal>
 
       {/* DESCRIPTION */}
-<GsapReveal triggerOnView>
-  <section className="py-24 bg-gradient-to-b from-sky-50 to-white">
-    <div className="max-w-4xl mx-auto px-6 text-center">
-      <h2 className="text-4xl sm:text-5xl font-extrabold text-teal-700 mb-6 relative inline-block">
-        Service Overview
-        <span className="absolute left-1/2 transform -translate-x-1/2 -bottom-2 w-24 h-1 bg-teal-400 rounded-full"></span>
-      </h2>
+      <GsapReveal triggerOnView>
+        <section className="py-24 bg-gradient-to-b from-sky-50 to-white">
+          <div className="max-w-4xl mx-auto px-6 text-center">
+            <h2 className="text-4xl sm:text-5xl font-extrabold text-teal-700 mb-6 relative inline-block">
+              Service Overview
+              <span className="absolute left-1/2 transform -translate-x-1/2 -bottom-2 w-24 h-1 bg-teal-400 rounded-full"></span>
+            </h2>
 
-      <p className="text-gray-700 text-lg sm:text-xl leading-relaxed mt-6">
-        {description}
-      </p>
+            <p className="text-gray-700 text-lg sm:text-xl leading-relaxed mt-6">
+              {description}
+            </p>
 
-      {/* Optional visual accent: floating abstract shape */}
-      <div className="mt-10 relative">
-        <div className="absolute -top-10 left-1/4 w-20 h-20 bg-teal-100 rounded-full opacity-30 animate-pulse"></div>
-        <div className="absolute -bottom-10 right-1/4 w-32 h-32 bg-teal-200 rounded-full opacity-20 animate-pulse"></div>
-      </div>
-    </div>
-  </section>
-</GsapReveal>
+            {/* Optional visual accent: floating abstract shape */}
+            <div className="mt-10 relative">
+              <div className="absolute -top-10 left-1/4 w-20 h-20 bg-teal-100 rounded-full opacity-30 animate-pulse"></div>
+              <div className="absolute -bottom-10 right-1/4 w-32 h-32 bg-teal-200 rounded-full opacity-20 animate-pulse"></div>
+            </div>
+          </div>
+        </section>
+      </GsapReveal>
 
-
-{/* FEATURES */}
-{features?.length > 0 && (
+      {/* SUB-SERVICES */}
+{service.subServices?.length > 0 && (
   <GsapReveal triggerOnView>
-    <section className="py-20 bg-gray-50">
+    <section className="py-20 bg-white">
       <div className="max-w-7xl mx-auto px-6">
-        <h2 className="text-3xl font-bold text-teal-700 text-center mb-12">
-          Highlights & Key Features
+        
+        <h2 className="text-4xl font-bold text-teal-700 text-center mb-12">
+          {service.title} — Options & Variants
         </h2>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          {features.map((feature, index) => (
-            <div
-              key={index}
-              className="p-6 border border-gray-200 rounded-2xl shadow-md hover:shadow-xl transform hover:-translate-y-2 hover:scale-105 transition-all duration-300 bg-gradient-to-b from-white to-teal-50 flex flex-col items-center text-center"
-            >
-              {feature.icon && (
-                <div className="w-16 h-16 mb-4 rounded-full bg-teal-100 flex items-center justify-center">
+
+        <Tabs defaultValue={service.subServices[0].slug} className="w-full">
+
+          {/* TAB HEADERS */}
+          <TabsList className="w-full flex overflow-x-auto border-b bg-gray-50 rounded-md p-2">
+            {service.subServices.map((sub) => (
+              <TabsTrigger
+                key={sub.slug}
+                value={sub.slug}
+                className="px-6 py-2 whitespace-nowrap data-[state=active]:bg-teal-600 
+                           data-[state=active]:text-white font-semibold rounded-xl transition"
+              >
+                {sub.title}
+              </TabsTrigger>
+            ))}
+          </TabsList>
+
+          {/* TAB CONTENT */}
+          {service.subServices.map((sub, index) => (
+            <TabsContent key={index} value={sub.slug} className="pt-10 bg-teal-50 p-4 rounded-xl">
+
+              {/* TOP SECTION */}
+              <div className="grid lg:grid-cols-2 gap-10">
+
+                {/* IMAGE */}
+                <div className="relative w-full aspect-[4/3] rounded-3xl overflow-hidden shadow-xl">
                   <Image
-                    src={feature.icon}
-                    alt={feature.title}
-                    width={48}
-                    height={48}
-                    className="object-contain"
+                    src={sub.imageUrl || "/logo_c.png"}
+                    alt={sub.title}
+                    fill
+                    className="object-cover rounded-3xl"
+                    unoptimized
                   />
                 </div>
+
+                {/* BASIC INFO */}
+                <div className="flex flex-col justify-center">
+                  <h3 className="text-3xl font-bold text-teal-700 mb-4">{sub.title}</h3>
+                  <p className="text-gray-700 text-lg leading-relaxed">{sub.description}</p>
+
+                  {/* CTA */}
+                  <div className="mt-8">
+                    <a
+                      href="/contact"
+                      className="px-8 py-3 rounded-xl bg-teal-600 text-white font-semibold
+                                 hover:bg-teal-700 transition"
+                    >
+                      Enquire for {sub.title}
+                    </a>
+                  </div>
+                </div>
+
+              </div>
+
+              {/* APPLICATIONS */}
+              {sub.applications?.length > 0 && (
+                <div className="mt-16">
+                  <h4 className="text-2xl font-bold text-teal-700 mb-6">Applications</h4>
+
+                  <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {sub.applications.map((app, idx) => (
+                      <div
+                        key={idx}
+                        className="p-6 bg-white border rounded-2xl shadow hover:shadow-xl
+                                   transition flex items-center gap-4"
+                      >
+                        <div className="w-12 h-12 bg-teal-100 rounded-full flex items-center justify-center font-bold text-teal-700">
+                          {idx + 1}
+                        </div>
+                        <p className="font-medium text-gray-800">{app}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               )}
-              <h3 className="font-semibold text-teal-700 text-lg mb-2">{feature.title}</h3>
-              <p className="text-gray-700 text-sm">{feature.detail}</p>
-            </div>
+
+              {/* FEATURES */}
+              {sub.features?.length > 0 && (
+                <div className="mt-16">
+                  <h4 className="text-2xl font-bold text-teal-700 mb-6">Key Features</h4>
+
+                  <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {sub.features.map((feature, idx) => (
+                      <div key={idx} className="p-6 bg-teal-50 rounded-2xl shadow">
+                        <h5 className="text-teal-700 font-semibold mb-2">{feature.title}</h5>
+                        <p className="text-gray-700">{feature.detail}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* SPECIFICATIONS */}
+              {sub.specifications?.length > 0 && (
+                <div className="mt-16">
+                  <h4 className="text-2xl font-bold text-teal-700 mb-6">Technical Specifications</h4>
+
+                  <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {sub.specifications.map((spec, idx) => (
+                      <div key={spec.id ?? idx} className="p-6 border-l-4 border-teal-500 bg-white rounded-xl shadow">
+                        <p className="text-teal-700 font-semibold mb-1 capitalize">
+                          {spec.key.replace(/([A-Z])/g, " $1")}
+                        </p>
+                        <p className="text-gray-700">{spec.value}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* FAQ */}
+              {sub.faqs?.length > 0 && (
+                <div className="mt-16">
+                  <h4 className="text-2xl font-bold text-teal-700 mb-6">FAQs</h4>
+
+                  <div className="space-y-4">
+                    {sub.faqs.map((faq, idx) => (
+                      <div key={idx} className="bg-white shadow p-5 rounded-xl">
+                        <h5 className="font-semibold text-gray-800">{faq.question}</h5>
+                        <p className="text-gray-600 mt-2">{faq.answer}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* WARRANTY COMPONENTS */}
+              {sub.warrantyComponents?.length > 0 && (
+                <div className="mt-16">
+                  <h4 className="text-2xl font-bold text-teal-700 mb-6">Warranty Information</h4>
+
+                  <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {sub.warrantyComponents.map((wc, idx) => (
+                      <div key={idx} className="p-6 bg-white border rounded-2xl shadow hover:shadow-xl">
+                        <h5 className="text-teal-700 font-semibold">{wc.label}</h5>
+                        <p className="text-gray-600 mt-2">{wc.conditions}</p>
+                        <p className="mt-3 font-medium text-gray-800">
+                          Duration: {wc.durationMonths} months
+                        </p>
+                        {wc.info && (
+                          <p className="text-sm text-gray-500 mt-2">{wc.info}</p>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+            </TabsContent>
           ))}
-        </div>
+
+        </Tabs>
+
       </div>
     </section>
   </GsapReveal>
 )}
+
+
+
+      {/* FEATURES */}
+      {features?.length > 0 && (
+        <GsapReveal triggerOnView>
+          <section className="py-20 bg-gray-50">
+            <div className="max-w-7xl mx-auto px-6">
+              <h2 className="text-3xl font-bold text-teal-700 text-center mb-12">
+                Highlights & Key Features
+              </h2>
+              <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                {features.map((feature, index) => (
+                  <div
+                    key={index}
+                    className="p-6 border border-gray-200 rounded-2xl shadow-md hover:shadow-xl transform hover:-translate-y-2 hover:scale-105 transition-all duration-300 bg-gradient-to-b from-white to-teal-50 flex flex-col items-center text-center"
+                  >
+                    {/*
+                    {feature.icon && feature.icon.startsWith("http") && (
+                      <div className="w-16 h-16 mb-4 rounded-full bg-teal-100 flex items-center justify-center">
+                        <Image
+                          src={feature.icon}
+                          alt={feature.title}
+                          width={48}
+                          height={48}
+                          className="object-contain"
+                        />
+                      </div>
+                    )}
+                  */}
+                    <h3 className="font-semibold text-teal-700 text-lg mb-2">{feature.title}</h3>
+                    <p className="text-gray-700 text-sm">{feature.detail}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+        </GsapReveal>
+      )}
 
 
       {/* SPECIFICATIONS */}
-{specifications && (
-  <GsapReveal triggerOnView>
-    <section className="py-24 bg-gradient-to-b from-teal-50 to-white">
-      <div className="max-w-6xl mx-auto px-6">
-        <h2 className="text-4xl sm:text-5xl font-extrabold text-teal-700 text-center mb-16">
-          Technical Specifications
-        </h2>
+      {specifications && (
+        <GsapReveal triggerOnView>
+          <section className="py-24 bg-gradient-to-b from-teal-50 to-white">
+            <div className="max-w-6xl mx-auto px-6">
+              <h2 className="text-4xl sm:text-5xl font-extrabold text-teal-700 text-center mb-16">
+                Technical Specifications
+              </h2>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {Object.entries(specifications).map(([key, value], idx) => (
-            <div  key={key} className="relative border-l-4 border-teal-400 hover:shadow-2xl transform rounded-3xl shadow-lg  transition-all duration-300 bg-none">
-            <div className="absolute z-1 -top-5 left-5 w-12 h-12 flex items-center justify-center bg-teal-100 rounded-full shadow-md">
-                <span className="text-teal-700 font-bold">{idx + 1}</span>
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                {specifications.map((spec, idx) => (
+                  <div
+                    key={spec.id ?? idx}
+                    className="relative border-l-4 border-teal-400 hover:shadow-xl transform rounded-3xl shadow-lg transition-all duration-300 bg-none"
+                  >
+                    <div className="absolute z-1 -top-5 left-5 w-12 h-12 flex items-center justify-center bg-teal-100 rounded-full shadow-md">
+                      <span className="text-teal-700 font-bold">{idx + 1}</span>
+                    </div>
+
+                    <div className="overflow-hidden relative bg-white/70 backdrop-blur-md rounded-3xl p-8">
+                      <h4 className="text-teal-700 font-semibold mb-2 capitalize tracking-wide">
+                        {spec.key.replace(/([A-Z])/g, " $1")}
+                      </h4>
+
+                      <p className="text-gray-700 text-lg">{spec.value}</p>
+                    </div>
+                  </div>
+                ))}
+
               </div>
-            <div
-             
-              className="overflow-hidden relative bg-white/70 backdrop-blur-md rounded-3xl p-8"
-            >
-              {/* Optional Icon or Number */}
-
-              <h4 className="text-teal-700 font-semibold mb-2 capitalize tracking-wide">
-                {key.replace(/([A-Z])/g, ' $1')}
-              </h4>
-              <p className="text-gray-700 text-lg">{value}</p>
-
-              {/* Subtle background accent */}
-             </div>
             </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  </GsapReveal>
-)}
+          </section>
+        </GsapReveal>
+      )}
 
 
       {/* GALLERY */}
@@ -191,7 +362,7 @@ const ServiceDetails = ({ service }) => {
                 {gallery.map((img, index) => (
                   <div
                     key={index}
-                    className="relative aspect-[4/3] hover:shadow-2xl rounded-3xl overflow-hidden shadow-lg  transform transition duration-500"
+                    className="relative aspect-[4/3] hover:shadow-xl rounded-3xl overflow-hidden shadow-lg  transform transition duration-500"
                   >
                     <Image
                       src={img}
@@ -199,6 +370,7 @@ const ServiceDetails = ({ service }) => {
                       layout="fill"
                       objectFit="cover"
                       className="rounded-3xl"
+                      unoptimized
                     />
                   </div>
                 ))}
@@ -211,36 +383,36 @@ const ServiceDetails = ({ service }) => {
 
       {/* APPLICATIONS */}
       {applications?.length > 0 && (
-  <GsapReveal triggerOnView>
-    <section className="py-24 bg-gradient-to-b from-gray-50 to-gray-100">
-      <div className="max-w-6xl mx-auto px-6 text-center">
-        <h2 className="text-4xl sm:text-5xl font-extrabold text-teal-700 mb-16">
-          Suitable For
-        </h2>
+        <GsapReveal triggerOnView>
+          <section className="py-24 bg-gradient-to-b from-gray-50 to-gray-100">
+            <div className="max-w-6xl mx-auto px-6 text-center">
+              <h2 className="text-4xl sm:text-5xl font-extrabold text-teal-700 mb-16">
+                Suitable For
+              </h2>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {applications.map((app, idx) => (
-            <div
-              key={idx}
-              className="group relative px-8 py-10 bg-white rounded-3xl shadow-lg hover:shadow-2xl transform  transition-all duration-300 text-gray-800 font-semibold flex flex-col items-center justify-center"
-            >
-              {/* Optional Icon */}
-              <div className="mb-4 w-12 h-12 flex items-center justify-center bg-teal-100 rounded-full group-hover:bg-teal-200 transition-colors duration-300">
-                {/* You can replace this with an actual icon */}
-                <span className="text-teal-700 font-bold text-lg">{idx + 1}</span>
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                {applications.map((app, idx) => (
+                  <div
+                    key={idx}
+                    className="group relative px-8 py-10 bg-white rounded-3xl shadow-lg hover:shadow-xl transform  transition-all duration-300 text-gray-800 font-semibold flex flex-col items-center justify-center"
+                  >
+                    {/* Optional Icon */}
+                    <div className="mb-4 w-12 h-12 flex items-center justify-center bg-teal-100 rounded-full group-hover:bg-teal-200 transition-colors duration-300">
+                      {/* You can replace this with an actual icon */}
+                      <span className="text-teal-700 font-bold text-lg">{idx + 1}</span>
+                    </div>
+
+                    <p className="text-lg sm:text-xl text-center">{app}</p>
+
+                    {/* Optional hover overlay effect */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-teal-50 to-teal-100 opacity-0 group-hover:opacity-30 rounded-3xl transition-opacity duration-300"></div>
+                  </div>
+                ))}
               </div>
-
-              <p className="text-lg sm:text-xl text-center">{app}</p>
-
-              {/* Optional hover overlay effect */}
-              <div className="absolute inset-0 bg-gradient-to-r from-teal-50 to-teal-100 opacity-0 group-hover:opacity-30 rounded-3xl transition-opacity duration-300"></div>
             </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  </GsapReveal>
-)}
+          </section>
+        </GsapReveal>
+      )}
 
 
       {/* FAQ ACCORDION */}

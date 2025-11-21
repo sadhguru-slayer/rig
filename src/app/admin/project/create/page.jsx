@@ -121,7 +121,6 @@ const [gallery, setGallery] = useState(project?.images || []);
         }
       )
       router.push("/admin/project");
-      console.log("Success-Project-C");
     } else {
       toast.error(
         "Error",{
@@ -137,7 +136,6 @@ const [gallery, setGallery] = useState(project?.images || []);
           description:"Error creating project: " + error.message
         }
       )
-    alert("Error creating project: " + error.message);
   }finally{
     setLoading(false);
   }
