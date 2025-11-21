@@ -5,6 +5,14 @@ import prisma from "@/lib/prisma";
 import { uploadToS3 } from "@/lib/uploadToS3";
 import { generateUniqueSlug } from "@/lib/slugMaker";
 
+export const config = {
+  api: {
+    bodyParser: false,        // Needed for FormData
+    sizeLimit: "50mb",        // Increase limit
+  },
+};
+
+
 // Small helpers to keep JSON parsing safe and predictable
 const safeJsonParse = (value, fallback) => {
   if (!value || typeof value !== "string") return fallback;

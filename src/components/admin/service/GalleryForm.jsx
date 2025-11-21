@@ -40,7 +40,7 @@ const ImageModal = ({ imageUrl, onClose }) => {
 const GalleryForm = ({ existingGallery, onChange, type = "Service" }) => {
   const pathname = usePathname();
   const id = pathname.split("/").pop();
-
+  const isCreate = pathname.includes('create');
   const [gallery, setGallery] = useState([]);
   const [removedGalleryIds, setRemovedGalleryIds] = useState([]);
   const [newGallery, setNewGallery] = useState([]);
@@ -144,6 +144,13 @@ const GalleryForm = ({ existingGallery, onChange, type = "Service" }) => {
 
         {/* New Gallery */}
         <div className="mt-6 flex flex-col gap-3">
+{isCreate && (
+  <p className="text-sm text-yellow-700 bg-yellow-50 border border-yellow-200 rounded-md p-3 mt-3">
+    ⚠️ <strong>Note:</strong> To ensure a smoother upload process, please avoid adding gallery images while creating a new item(Service, Project etc).  
+    You can upload all gallery images later while editing the item.
+  </p>
+)}
+
           {newGallery.map((img, i) => (
             <div key={i} className="flex gap-3 items-center">
               <input
