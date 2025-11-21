@@ -8,10 +8,9 @@ import { Loader2, Search, Download, ChevronDown, ChevronUp } from "lucide-react"
 import { format } from "date-fns";
 import generatePDF, { Resolution, Margin } from 'react-to-pdf';
 import './warranty.css'
-import WarrantyPDF from "./WarrantyPdf";
 import { pdf } from '@react-pdf/renderer';
 import { PDFViewer } from '@react-pdf/renderer';
-import { BlobProvider } from '@react-pdf/renderer';
+import WarrantyPDF from "@/components/WarrantyPDF";
 const pdfOptions = {
     method: 'save',
     resolution: Resolution.HIGH,
