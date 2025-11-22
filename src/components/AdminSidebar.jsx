@@ -26,7 +26,7 @@ const navItems = [
 
 export default function AdminSidebar({ open, toggleSidebar, isSuperUser }) {
   const pathname = usePathname();
-
+  
   return (
     <aside
       className={`flex flex-col h-full bg-white border-r border-gray-200 transition-all duration-300 ${open ? "w-60" : "w-16"

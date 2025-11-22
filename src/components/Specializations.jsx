@@ -62,14 +62,14 @@ const SpecializationsComponent = () => {
                 <Image
                   src={service.imageUrl || '/logo_c.png'}
                   alt={service.title}
-                  fill
+                  fill                  
                   className="object-cover"
                 />
               </div>
 
               {/* Content */}
               <div className="p-6 flex flex-col flex-grow">
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                <h3 className="text-xl font-semibold text-teal-800 mb-2">
                   {service.title}
                 </h3>
                 <p className="text-gray-600 text-sm mb-6">{service.shortDescription}</p>

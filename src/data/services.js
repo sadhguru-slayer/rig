@@ -66,6 +66,189 @@
 
 const services = [
   {
+  "id": 10,
+  "slug": "aluminium-sliding-windows",
+  "title": "Aluminium Sliding Windows",
+  "shortTitle": "Premium Aluminium Sliding Windows",
+  "shortDescription": "Smooth, durable, weather-resistant sliding windows ideal for modern homes and offices.",
+  "description": "Aluminium sliding windows offer superior durability, noise reduction, and elegant aesthetics. Designed with high-grade aluminium frames and precision movement rollers, they are ideal for residential and commercial spaces.",
+  "imageUrl": "/images/ourspecialization/aluminium_windows.png",
+  "priceRange": "$$$",
+  "moreInfoUrl": "/services/aluminium-sliding-windows",
+
+  "seo": {
+    "title": "Aluminium Sliding Windows | Premium Noise-Resistant Window Solutions",
+    "description": "Install long-lasting, sleek aluminium windows with smooth sliding, noise control, and weather resistance. Suitable for homes, offices, and commercial spaces.",
+    "keywords": [
+      "aluminium windows",
+      "sliding windows",
+      "modern window installation",
+      "noise reduction windows",
+      "window frames"
+    ],
+    "canonicalUrl": "https://yourdomain.com/services/aluminium-sliding-windows",
+    "ogImage": "/images/seo/aluminium-windows-og.jpg"
+  },
+
+  "features": [
+    {
+      "title": "Smooth Sliding Mechanism",
+      "detail": "High-quality rollers ensure effortless and long-term smooth sliding.",
+      "icon": "/icons/sliding.svg"
+    },
+    {
+      "title": "Weather Resistant",
+      "detail": "Frame and glass are designed to withstand harsh weather conditions.",
+      "icon": "/icons/weather.svg"
+    },
+    {
+      "title": "Noise Reduction",
+      "detail": "Dual-pane glass blocks up to 40% of outdoor noise.",
+      "icon": "/icons/soundproof.svg"
+    }
+  ],
+
+  "specifications": {
+    "frameMaterial": "Aluminium 6063-T6 Grade",
+    "glassType": "Toughened / Double Glazed",
+    "rollerType": "Nylon/Steel Hybrid Rollers",
+    "thickness": "Frame: 2mm, Glass: 8–12mm",
+    "coating": "Anodized / Powder Coated"
+  },
+
+  "applications": [
+    "Balconies",
+    "Living Rooms",
+    "Bedrooms",
+    "Commercial Office Spaces",
+    "Showrooms"
+  ],
+
+  "gallery": [
+    "/images/gallery/window-1.jpg",
+    "/images/gallery/window-2.jpg",
+    "/images/gallery/window-3.jpg"
+  ],
+
+  "faqs": [
+    {
+      "question": "Are aluminium windows durable?",
+      "answer": "Yes, aluminium offers strong durability and corrosion resistance."
+    },
+    {
+      "question": "Do you provide custom sizes?",
+      "answer": "Yes, all windows are custom-made to match your dimensions."
+    }
+  ],
+
+  "testimonials": [
+    {
+      "name": "Rohit Mehra",
+      "feedback": "Smooth installation and very premium finish. Loved the design.",
+      "rating": 5
+    }
+  ],
+
+  "callToAction": {
+    "text": "Get Free Measurements",
+    "buttonLabel": "Book Now",
+    "link": "/contact"
+  },
+
+  "subServices": [
+    {
+      "title": "Two-Track Sliding Window",
+      "slug": "two-track-sliding-window",
+      "description": "Compact sliding window with two horizontal tracks ideal for homes.",
+      "imageUrl": "/images/subservices/2track.png",
+      "features": [
+        {
+          "title": "Smooth Operation",
+          "detail": "High-quality track ensures seamless sliding."
+        }
+      ],
+      "applications": ["Bedrooms", "Utility Areas"],
+      "warrantyComponents": [
+        {
+          "component": "Rollers",
+          "label": "2-Year Track Roller Warranty",
+          "durationMonths": 24,
+          "conditions": "Covers malfunction of roller movement.",
+          "info": ""
+        },
+        {
+          "component": "Frame Coating",
+          "label": "5-Year Coating Warranty",
+          "durationMonths": 60,
+          "conditions": "Covers peeling or fading under natural conditions.",
+          "info": ""
+        }
+      ]
+    },
+
+    {
+      "title": "Three-Track Sliding Window",
+      "slug": "three-track-sliding-window",
+      "description": "Three-track sliding system allowing maximum opening and airflow.",
+      "imageUrl": "/images/subservices/3track.png",
+      "features": [
+        {
+          "title": "Wide Opening",
+          "detail": "Up to 70% openable area for ventilation."
+        }
+      ],
+      "applications": ["Balconies", "Living Rooms"],
+      "warrantyComponents": [
+        {
+          "component": "Rollers",
+          "label": "2-Year Premium Roller Warranty",
+          "durationMonths": 24,
+          "conditions": "Covers mechanical failure.",
+          "info": ""
+        },
+        {
+          "component": "Glass Seal",
+          "label": "3-Year Glass Seal Warranty",
+          "durationMonths": 36,
+          "conditions": "Covers air/water leakage due to seal failure.",
+          "info": ""
+        }
+      ]
+    },
+
+    {
+      "title": "Soundproof Sliding Window",
+      "slug": "soundproof-sliding-window",
+      "description": "Double-glazed sliding windows designed for noise reduction.",
+      "imageUrl": "/images/subservices/soundproof.png",
+      "features": [
+        {
+          "title": "Noise Blocking",
+          "detail": "Blocks up to 40–60% external noise."
+        }
+      ],
+      "applications": ["Bedrooms", "Studios"],
+      "warrantyComponents": [
+        {
+          "component": "DGU Glass",
+          "label": "5-Year Double-Glazed Unit Warranty",
+          "durationMonths": 60,
+          "conditions": "Covers fogging or moisture between glass layers.",
+          "info": ""
+        },
+        {
+          "component": "Frame Structure",
+          "label": "10-Year Structural Warranty",
+          "durationMonths": 120,
+          "conditions": "Covers structural bending or deformation.",
+          "info": ""
+        }
+      ]
+    }
+  ]
+},
+
+  {
     id: 1,
     slug: "invisible-grills",
     title: "Invisible Grills",
@@ -116,6 +299,37 @@ const services = [
         icon: "/icons/weather.svg",
       },
     ],
+  "warrantyComponents": [
+    {
+      "component": "SS Wire",
+      "label": "5-Year Stainless Steel Wire Warranty",
+      "durationMonths": 60,
+      "conditions": "Covers wire breakage due to manufacturing or material defects only.",
+      "info": "Does not cover damage due to external force, fire, vandalism, or intentional cutting."
+    },
+    {
+      "component": "UV/Nylon Coating",
+      "label": "3-Year UV Protective Coating Warranty",
+      "durationMonths": 36,
+      "conditions": "Covers peeling or degradation of coating under normal weather conditions.",
+      "info": "Does not cover damage caused by chemicals, fire, or misuse."
+    },
+    {
+      "component": "Safety Lock",
+      "label": "2-Year Safety Lock Warranty",
+      "durationMonths": 24,
+      "conditions": "Covers mechanical failure or internal malfunction.",
+      "info": ""
+    },
+    {
+      "component": "Installation",
+      "label": "1-Year Installation Warranty",
+      "durationMonths": 12,
+      "conditions": "Covers installation defects such as loose anchors or alignment issues.",
+      "info": "Accidental or customer-caused damage is not covered."
+    }
+  ],
+
 
     // Specifications or Technical Details
     specifications: {

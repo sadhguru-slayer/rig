@@ -13,11 +13,16 @@ import {
   PlusCircle,
   Menu,
   X,
+    ShoppingCart,
+  Users,
+
 } from "lucide-react";
 
 // Share navItems with AdminSidebar for consistency
 const navItems = [
   { label: "Dashboard", href: "/admin/dashboard", icon: LayoutDashboard },
+  { label: "Orders", href: "/admin/order", icon: ShoppingCart, createHref: "/admin/order/create" },
+  { label: "Customers", href: "/admin/customer", icon: Users, createHref: "/admin/customer/create" }, // Assuming customer create page exists or will exist
   { label: "Projects", href: "/admin/project", icon: Folder, createHref: "/admin/project/create" },
   { label: "Services", href: "/admin/service", icon: Briefcase, createHref: "/admin/service/create" },
   { label: "Blogs", href: "/admin/blog", icon: FileText, createHref: "/admin/blog/create" },

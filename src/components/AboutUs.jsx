@@ -18,7 +18,7 @@ const AboutUs = () => {
           </div>
 
 
-<div className="relative w-full group">
+<div className="relative w-full group p-[1rem] ">
   {/* Main base image */}
   <Image
     src="/balcony.png"
@@ -26,11 +26,11 @@ const AboutUs = () => {
     width={500}
     height={300}
     fetchPriority="high"
-    className="w-full aspect-[4/3] rounded-2xl border border-gray-200 shadow-2xl shadow-teal-100/40 object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+    className="w-full aspect-[4/3] rounded-2xl border border-gray-200 shadow-2xl shadow-teal-100/40 object-cover transition-transform duration-500 "
   />
 
   {/* Overlay image — smaller and neat */}
-  <div className="absolute -top-12 -left-12 w-1/3 sm:w-1/4 lg:w-1/3 rounded-xl overflow-hidden border-4 border-white  hover:scale-105 transition-transform duration-500">
+  <div className="absolute -top-2 -left-2 md:-top-12 md:-left-12 w-2/6 sm:w-1/4 lg:w-1/3 rounded-xl overflow-hidden border-4 border-white transition-transform duration-500">
     <Image
       src="/g2.png"
       alt="Close-up Invisible Grill Detail"

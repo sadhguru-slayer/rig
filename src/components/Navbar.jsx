@@ -122,7 +122,11 @@ const socialIcons = {
         { label: "See All", href: "/projects" } // CTA at bottom
       ]
     },
-    { href: "/contact", label: "Contact", active: pathname?.includes("/contact") },
+    { href: "/contact", label: "Contact", active: pathname?.includes("/contact"),
+      children:[
+        {label:"Check Warranty", href:'/check-warranty'}
+      ]
+     },
     { href: "/blog", label: "Blog", active: pathname?.includes("/blog") },
   ];
   
@@ -293,8 +297,8 @@ const socialIcons = {
         {isMobileMenuOpen && (
           <div
             className={`
-              absolute ${isUtilityBarVisible ? 'top-28' : 'top-16'} left-0 w-full
-              bg-white shadow-lg border-t border-gray-200
+              absolute top-12 left-0 w-full
+              bg-white
               md:hidden flex flex-col gap-2 py-4 px-4
               z-50
               animate-fadeIn
