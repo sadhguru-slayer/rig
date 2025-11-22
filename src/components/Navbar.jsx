@@ -162,6 +162,10 @@ const socialIcons = {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false)
   const toggleMobileMenu = () => setMobileMenuOpen(!isMobileMenuOpen)
 
+    const handleDropdownClick = (index) => {
+    setOpenDropdown(openDropdown === index ? null : index); // Toggle the dropdown
+  };
+
   return (
     <header className={headerClass} data-scrolled={scrolled ? 'true' : 'false'}>
       {isUtilityBarVisible && !isMobile && (
@@ -225,44 +229,49 @@ const socialIcons = {
             </Link>
 
             <nav ref={navRef} className="hidden md:flex items-center gap-8 relative">
-  {links.map((l, i) => (
-    <div key={l.href} className="relative group">
-      <Link
-        href={l.href}
-        ref={el => { linkRefs.current[i] = el }}
-        className={`${linkBase} ${l.active ? active : ""} flex items-center gap-1`}
-      >
-        {l.label}
-        {l.children && (
-          <svg className="h-3 w-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-            <path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.293l3.71-4.062a.75.75 0 111.08 1.04l-4.25 4.65a.75.75 0 01-1.08 0l-4.25-4.65a.75.75 0 01.02-1.06z" clipRule="evenodd" />
-          </svg>
-        )}
-      </Link>
+ {links.map((l, i) => (
+        <div key={l.href} className="relative group">
+          <button
+            onClick={() => handleDropdownClick(i)} // Toggle dropdown on click
+            className={`${linkBase} ${l.active ? active : ""} flex items-center gap-1`}
+          >
+            {l.label}
+            {l.children && (
+              <svg className="h-3 w-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                <path
+                  fillRule="evenodd"
+                  d="M5.23 7.21a.75.75 0 011.06.02L10 11.293l3.71-4.062a.75.75 0 111.08 1.04l-4.25 4.65a.75.75 0 01-1.08 0l-4.25-4.65a.75.75 0 01.02-1.06z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            )}
+          </button>
 
-      {l.children && (
-        <div className="absolute left-0 top-full mt-2 min-w-[220px] max-w-sm bg-white border border-gray-200 rounded-lg shadow-lg opacity-0 group-hover:opacity-100 invisible group-hover:visible transition-all duration-300 z-50">
-          {l.children.map((child, j) => (
-            <Link
-  key={j}
-  href={child.href}
-  className={`
-    group block px-4 py-2 text-gray-700 hover:text-teal-600 hover:bg-teal-50 text-sm
-    ${j === l.children.length - 1 ? 'font-medium text-teal-600' : ''}
-  `}
->
-  {child.label}
-  {j === l.children.length - 1 && (
-    <FaArrowRight className="w-3 h-3 inline-block ml-2 transition-all duration-200 group-hover:translate-x-1" />
-  )}
-</Link>
-
-          
-          ))}
+          {l.children && (
+            <div
+              className={`absolute left-0 top-full mt-2 min-w-[220px] max-w-sm bg-white border border-gray-200 rounded-lg shadow-lg opacity-0 transition-all duration-300 z-50 ${
+                openDropdown === i ? "opacity-100 visible" : "invisible"
+              }`}
+            >
+              {l.children.map((child, j) => (
+                <Link
+                  key={j}
+                  href={child.href}
+                  className={`group block px-4 py-2 text-gray-700 hover:text-teal-600 hover:bg-teal-50 text-sm ${
+                    j === l.children.length - 1 ? "font-medium text-teal-600" : ""
+                  }`}
+                >
+                  {child.label}
+                  {j === l.children.length - 1 && (
+                    <FaArrowRight className="w-3 h-3 inline-block ml-2 transition-all duration-200 group-hover:translate-x-1" />
+                  )}
+                </Link>
+              ))}
+            </div>
+          )}
         </div>
-      )}
-    </div>
-  ))}
+      ))}
+
   <span
     aria-hidden="true"
     className={`absolute -bottom-1 h-0.5 bg-teal-600 transition-all duration-300 ease-out ${underline.visible ? 'opacity-100' : 'opacity-0'}`}
