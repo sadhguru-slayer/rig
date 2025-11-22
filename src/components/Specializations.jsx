@@ -59,13 +59,13 @@ const SpecializationsComponent = () => {
             >
               {/* Image */}
               <div className="relative w-full h-56">
-                <Image
-                  src={service.imageUrl || '/logo_c.png'}
-                  alt={service.title}
-                  fill                  
-                  className="object-cover"
-                />
-              </div>
+  <img
+    src={service.imageUrl || '/logo_c.png'}
+    alt={service.title}
+    className="object-cover w-full h-full"
+  />
+</div>
+
 
               {/* Content */}
               <div className="p-6 flex flex-col flex-grow">
