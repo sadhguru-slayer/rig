@@ -21,7 +21,7 @@ const AboutUs = () => {
 <div className="relative w-full group p-[1rem] ">
   {/* Main base image */}
   <Image
-    src="/balcony.png"
+    src="/images/aboutpage/s1.png"
     alt="Invisible Grill Main"
     width={500}
     height={300}
@@ -32,7 +32,7 @@ const AboutUs = () => {
   {/* Overlay image — smaller and neat */}
   <div className="absolute -top-2 -left-2 md:-top-12 md:-left-12 w-2/6 sm:w-1/4 lg:w-1/3 rounded-xl overflow-hidden border-4 border-white transition-transform duration-500">
     <Image
-      src="/g2.png"
+      src="/images/aboutpage/s2.png"
       alt="Close-up Invisible Grill Detail"
       width={500}
       height={400}
