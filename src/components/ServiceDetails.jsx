@@ -6,6 +6,7 @@ import GsapReveal from '@/components/GsapReveal';
 import Testimonials from '@/components/Testimonials';
 import CtaSection from '@/components/CtaSection';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import Divider from '@/components/Divider';
 
 const ServiceDetails = ({ service }) => {
   if (!service) return null;
@@ -120,18 +121,23 @@ const ServiceDetails = ({ service }) => {
         <Tabs defaultValue={service.subServices[0].slug} className="w-full">
 
           {/* TAB HEADERS */}
-          <TabsList className="w-full flex overflow-x-auto border-b bg-gray-50 rounded-md p-2">
-            {service.subServices.map((sub) => (
-              <TabsTrigger
-                key={sub.slug}
-                value={sub.slug}
-                className="px-6 py-2 whitespace-nowrap data-[state=active]:bg-teal-600 
-                           data-[state=active]:text-white font-semibold rounded-xl transition"
-              >
-                {sub.title}
-              </TabsTrigger>
-            ))}
-          </TabsList>
+<TabsList className="w-fit mx-auto flex flex-col md:flex-row overflow-x-hidden border-b bg-gray-50 rounded-4xl p-2 min-h-fit">
+  {service.subServices.map((sub) => (
+    <React.Fragment key={sub.slug}>
+      <TabsTrigger
+        value={sub.slug}
+        className="px-6 py-3 whitespace-nowrap data-[state=active]:bg-teal-600 
+                   data-[state=active]:text-white font-semibold rounded-3xl transition"
+      >
+        {sub.title}
+      </TabsTrigger>
+
+      {/* Divider only on mobile */}
+      <Divider className="md:hidden" md={true} />
+    </React.Fragment>
+  ))}
+</TabsList>
+
 
           {/* TAB CONTENT */}
           {service.subServices.map((sub, index) => (
@@ -163,7 +169,7 @@ const ServiceDetails = ({ service }) => {
                       className="px-8 py-3 rounded-xl bg-teal-600 text-white font-semibold
                                  hover:bg-teal-700 transition"
                     >
-                      Enquire for {sub.title}
+                      Enquire now
                     </a>
                   </div>
                 </div>

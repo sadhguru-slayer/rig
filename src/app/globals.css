@@ -28,6 +28,15 @@ button {
   box-sizing: border-box;
 }
 
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+
 
 /* globals.css or a component css file (imported globally) */
 
