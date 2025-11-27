@@ -8,19 +8,24 @@ import ContactUs from '@/components/ContactUs'
 import CtaSection from '@/components/CtaSection'
 import GsapReveal from '@/components/GsapReveal'; // Import your reveal utility
 import Specializations from '@/components/Specializations'
+import Achievements from '@/components/Achievements'
+import HowItWorks from '@/components/HowItWorks'
+
 
 const LandingPage = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <main className="flex-1">
-      <GsapReveal delay={0.05}><Hero /></GsapReveal>
-      <GsapReveal triggerOnView><AboutUs /></GsapReveal>
-      <GsapReveal triggerOnView><WhyChooseUs /></GsapReveal>
-      <GsapReveal triggerOnView><Specializations /></GsapReveal>
-      <GsapReveal triggerOnView><KeyProjects /></GsapReveal>
-      <GsapReveal triggerOnView><Testimonials /></GsapReveal>
-      <GsapReveal triggerOnView><CtaSection /></GsapReveal>
-      <GsapReveal triggerOnView><ContactUs /></GsapReveal>
+        <GsapReveal delay={0.05}><Hero /></GsapReveal>
+        <GsapReveal triggerOnView><AboutUs /></GsapReveal>
+        <GsapReveal triggerOnView><Achievements /></GsapReveal>
+        <GsapReveal triggerOnView><WhyChooseUs /></GsapReveal>
+        <GsapReveal triggerOnView><Specializations /></GsapReveal>
+        <GsapReveal triggerOnView><HowItWorks /></GsapReveal>
+        <GsapReveal triggerOnView><KeyProjects /></GsapReveal>
+        <GsapReveal triggerOnView><Testimonials /></GsapReveal>
+        <GsapReveal triggerOnView><CtaSection /></GsapReveal>
+        <GsapReveal triggerOnView><ContactUs /></GsapReveal>
       </main>
     </div>
   )

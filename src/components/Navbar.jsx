@@ -162,8 +162,13 @@ const socialIcons = {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false)
   const toggleMobileMenu = () => setMobileMenuOpen(!isMobileMenuOpen)
 
-    const handleDropdownClick = (index) => {
-    setOpenDropdown(openDropdown === index ? null : index); // Toggle the dropdown
+  const handleNavigation = (href, children) => {
+    if (children && children.length > 0) {
+      handleDropdownClick(i); // Toggle dropdown if children exist
+    } else {
+      // Use Next.js router to navigate
+      router.push(href);
+    }
   };
 
   return (
@@ -232,7 +237,7 @@ const socialIcons = {
  {links.map((l, i) => (
         <div key={l.href} className="relative group">
           <button
-            onClick={() => handleDropdownClick(i)} // Toggle dropdown on click
+          onClick={() => handleNavigation(l.href, l.children)}
             className={`${linkBase} ${l.active ? active : ""} flex items-center gap-1`}
           >
             {l.label}

@@ -54,14 +54,14 @@ const CollapsibleFeatures = () => {
   }, [openIndex]);
 
   return (
-    <div className="mt-8 flex flex-col gap-4">
+    <div className="mt-8 flex flex-col gap-2">
       {features.map((feature, idx) => (
         <div
           key={idx}
           className="border-b border-teal-800  overflow-hidden hover:shadow-md transition-shadow duration-300"
         >
           <dt
-            className="flex justify-between items-center p-5 cursor-pointer bg-white hover:bg-teal-50 transition-colors duration-200"
+            className="flex justify-between items-center p-3 cursor-pointer bg-white hover:bg-teal-50 transition-colors duration-200"
             onClick={() => toggle(idx)}
           >
             <span className="font-medium text-teal-700">{feature.title}</span>
@@ -70,10 +70,10 @@ const CollapsibleFeatures = () => {
             </span>
           </dt>
           <dd className="bg-gray-50 overflow-hidden h-0 opacity-0" ref={(el) => (contentRefs.current[idx] = el)}>
-  <div className="p-5 pt-0 text-gray-600 text-sm sm:text-base">
-    {feature.desc}
-  </div>
-</dd>
+            <div className="p-2 pt-0 text-gray-600 text-sm sm:text-base">
+              {feature.desc}
+            </div>
+          </dd>
 
         </div>
       ))}
