@@ -6,11 +6,11 @@ import KeyProjects from '@/components/KeyProjects'
 import Testimonials from '@/components/Testimonials'
 import ContactUs from '@/components/ContactUs'
 import CtaSection from '@/components/CtaSection'
-import GsapReveal from '@/components/GsapReveal'; // Import your reveal utility
+import GsapReveal from '@/components/GsapReveal';
 import Specializations from '@/components/Specializations'
 import Achievements from '@/components/Achievements'
 import HowItWorks from '@/components/HowItWorks'
-
+import OurPartners from '@/components/OurPartners'
 
 const LandingPage = () => {
   return (
@@ -19,6 +19,7 @@ const LandingPage = () => {
         <GsapReveal delay={0.05}><Hero /></GsapReveal>
         <GsapReveal triggerOnView><AboutUs /></GsapReveal>
         <GsapReveal triggerOnView><Achievements /></GsapReveal>
+        <GsapReveal triggerOnView><OurPartners /></GsapReveal>
         <GsapReveal triggerOnView><WhyChooseUs /></GsapReveal>
         <GsapReveal triggerOnView><Specializations /></GsapReveal>
         <GsapReveal triggerOnView><HowItWorks /></GsapReveal>

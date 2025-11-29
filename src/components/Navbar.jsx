@@ -2,7 +2,7 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
-import { FaInstagram, FaFacebookF, FaLinkedinIn, FaArrowRight ,FaChevronRight} from 'react-icons/fa'; // Importing social icons from react-icons
+import { FaInstagram, FaFacebookF, FaLinkedinIn, FaArrowRight, FaChevronRight } from 'react-icons/fa'; // Importing social icons from react-icons
 import { LinkIcon } from '@heroicons/react/outline'; // Import Heroicons' LinkIcon (you can also import others as needed)
 import Image from 'next/image';
 import services from '@/data/services';
@@ -16,10 +16,10 @@ const Navbar = ({
   phone = "+91 9676282296",
   email = "reddyinvisiblegrills@gmail.com ",
   socials = [
-  { label: "Instagram", href: "https://www.instagram.com/invisiblegrills/" },
-  { label: "Facebook", href: "https://www.facebook.com/invisiblegrills" },
-  { label: "LinkedIn", href: "https://www.linkedin.com/company/invisiblegrills/" },
-],
+    { label: "Instagram", href: "https://www.instagram.com/invisiblegrills/" },
+    { label: "Facebook", href: "https://www.facebook.com/invisiblegrills" },
+    { label: "LinkedIn", href: "https://www.linkedin.com/company/invisiblegrills/" },
+  ],
 
   language = "EN",
   cta = { label: "Get Quote", href: "#cta" },
@@ -29,10 +29,10 @@ const Navbar = ({
   const [isUtilityBarVisible, setUtilityBarVisible] = useState(showUtilityBar)
   const toggleUtilityBar = () => setUtilityBarVisible(!isUtilityBarVisible)
   const isMobile = useMediaQuery("(max-width:750px)");
-  const [services,setServices] = useState([]);
-  const [projectsData,setProjectsData] = useState([]);
-  useEffect(()=>{
-    const fetchServicesAndProjects = async () =>{
+  const [services, setServices] = useState([]);
+  const [projectsData, setProjectsData] = useState([]);
+  useEffect(() => {
+    const fetchServicesAndProjects = async () => {
       try {
         const res_s = await fetch("/api/service/");
         const res_p = await fetch("/api/project/");
@@ -41,7 +41,7 @@ const Navbar = ({
         if (data_s.success && data_p.success) {
           setServices(data_s.data || []);
           setProjectsData(data_p.data || []);
-  
+
         } else {
           console(data.error || "Failed to fetch data");
         }
@@ -50,13 +50,13 @@ const Navbar = ({
       }
     }
     fetchServicesAndProjects();
-  },[])
+  }, [])
 
-const socialIcons = {
-  Instagram: <FaInstagram className="h-4 w-4 text-white" />,
-  Facebook: <FaFacebookF className="h-4 w-4  text-white" />,
-  LinkedIn: <FaLinkedinIn className="h-4 w-4 text-white" />,
-};
+  const socialIcons = {
+    Instagram: <FaInstagram className="h-4 w-4 text-white" />,
+    Facebook: <FaFacebookF className="h-4 w-4  text-white" />,
+    LinkedIn: <FaLinkedinIn className="h-4 w-4 text-white" />,
+  };
   const isDark = variant === 'dark'
 
   // Scroll-aware state for subtle navbar animation
@@ -100,37 +100,38 @@ const socialIcons = {
   const navRef = useRef(null)
   const linkRefs = useRef([])
   const [underline, setUnderline] = useState({ left: 0, width: 0, visible: false })
-  
+
   const links = [
     { href: "/", label: "Home", active: pathname === "/" },
     { href: "/about", label: "About", active: pathname?.includes("/about") },
-    { 
-      href: "/services", 
-      label: "Services", 
+    {
+      href: "/services",
+      label: "Services",
       active: pathname?.includes("/services"),
       children: [
         ...services.slice(0, 4).map(s => ({ label: s.title, href: `/services/${s.slug}` })),
         { label: "See All", href: "/services" } // CTA at bottom
       ]
     },
-    { 
-      href: "/projects", 
-      label: "Projects", 
+    {
+      href: "/projects",
+      label: "Projects",
       active: pathname?.includes("/projects"),
       children: [
         ...projectsData.slice(0, 4).map(p => ({ label: p.name, href: `/projects/${p.slug}` })),
         { label: "See All", href: "/projects" } // CTA at bottom
       ]
     },
-    { href: "/contact", label: "Contact", active: pathname?.includes("/contact"),
-      children:[
-        {label:"Check Warranty", href:'/check-warranty'}
+    {
+      href: "/contact", label: "Contact", active: pathname?.includes("/contact"),
+      children: [
+        { label: "Check Warranty", href: '/check-warranty' }
       ]
-     },
+    },
     { href: "/blog", label: "Blog", active: pathname?.includes("/blog") },
   ];
-  
-  
+
+
 
   const recalcUnderline = () => {
     const container = navRef.current
@@ -162,9 +163,14 @@ const socialIcons = {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false)
   const toggleMobileMenu = () => setMobileMenuOpen(!isMobileMenuOpen)
 
-  const handleNavigation = (href, children) => {
+  const handleDropdownClick = (index) => {
+    // Toggle the dropdown visibility for the clicked menu item
+    setOpenDropdown(openDropdown === index ? null : index);
+  };
+
+  const handleNavigation = (href, children, index) => {
     if (children && children.length > 0) {
-      handleDropdownClick(i); // Toggle dropdown if children exist
+      handleDropdownClick(index); // Toggle dropdown if children exist
     } else {
       // Use Next.js router to navigate
       router.push(href);
@@ -190,19 +196,19 @@ const socialIcons = {
                 {email}
               </Link>
             </div>
-    
+
             {/* Right side: socials, language, close */}
             <div className="flex flex-wrap items-center gap-3 sm:gap-4 w-full sm:w-auto justify-center sm:justify-end">
               {/* Socials */}
               <div className="flex items-center gap-4">
-    {socials.map((social, i) => (
-      <Link key={i} href={social.href} aria-label={social.label}>
-        {socialIcons[social.label]} {/* Dynamically render the appropriate icon */}
-      </Link>
-    ))}
-  </div>
-    
-    
+                {socials.map((social, i) => (
+                  <Link key={i} href={social.href} aria-label={social.label}>
+                    {socialIcons[social.label]} {/* Dynamically render the appropriate icon */}
+                  </Link>
+                ))}
+              </div>
+
+
               {/* Close button */}
               <button
                 onClick={toggleUtilityBar}
@@ -215,7 +221,7 @@ const socialIcons = {
           </div>
         </div>
       )}
-    
+
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 transition-[padding] duration-300">
         <div className={`flex items-center justify-between transition-all duration-300`}>
@@ -223,68 +229,66 @@ const socialIcons = {
           <Link href="/" className="inline-flex items-center gap-2">
             <div className="h-8 w-8" />
             <Image
-  src='/logo_c.png'
-  alt='RIG'
-  height={400} // restrict height to navbar height
-  width={400}  // optional, Next.js will auto-scale if you omit
-  className="h-12 w-auto" // h-10 = 2.5rem ~ 40px
-  fetchPriority="high" // optional: preloads logo for better LCP
-/>
+              src='/logo_c.png'
+              alt='RIG'
+              height={400} // restrict height to navbar height
+              width={400}  // optional, Next.js will auto-scale if you omit
+              className="h-12 w-auto" // h-10 = 2.5rem ~ 40px
+              fetchPriority="high" // optional: preloads logo for better LCP
+            />
 
-            </Link>
+          </Link>
 
-            <nav ref={navRef} className="hidden md:flex items-center gap-8 relative">
- {links.map((l, i) => (
-        <div key={l.href} className="relative group">
-          <button
-          onClick={() => handleNavigation(l.href, l.children)}
-            className={`${linkBase} ${l.active ? active : ""} flex items-center gap-1`}
-          >
-            {l.label}
-            {l.children && (
-              <svg className="h-3 w-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                <path
-                  fillRule="evenodd"
-                  d="M5.23 7.21a.75.75 0 011.06.02L10 11.293l3.71-4.062a.75.75 0 111.08 1.04l-4.25 4.65a.75.75 0 01-1.08 0l-4.25-4.65a.75.75 0 01.02-1.06z"
-                  clipRule="evenodd"
-                />
-              </svg>
-            )}
-          </button>
-
-          {l.children && (
-            <div
-              className={`absolute left-0 top-full mt-2 min-w-[220px] max-w-sm bg-white border border-gray-200 rounded-lg shadow-lg opacity-0 transition-all duration-300 z-50 ${
-                openDropdown === i ? "opacity-100 visible" : "invisible"
-              }`}
-            >
-              {l.children.map((child, j) => (
-                <Link
-                  key={j}
-                  href={child.href}
-                  className={`group block px-4 py-2 text-gray-700 hover:text-teal-600 hover:bg-teal-50 text-sm ${
-                    j === l.children.length - 1 ? "font-medium text-teal-600" : ""
-                  }`}
+          <nav ref={navRef} className="hidden md:flex items-center gap-8 relative">
+            {links.map((l, i) => (
+              <div key={l.href} className="relative group">
+                <button
+                  onClick={() => handleNavigation(l.href, l.children, i)}
+                  className={`${linkBase} ${l.active ? active : ""} flex items-center gap-1`}
                 >
-                  {child.label}
-                  {j === l.children.length - 1 && (
-                    <FaArrowRight className="w-3 h-3 inline-block ml-2 transition-all duration-200 group-hover:translate-x-1" />
+                  {l.label}
+                  {l.children && (
+                    <svg className="h-3 w-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                      <path
+                        fillRule="evenodd"
+                        d="M5.23 7.21a.75.75 0 011.06.02L10 11.293l3.71-4.062a.75.75 0 111.08 1.04l-4.25 4.65a.75.75 0 01-1.08 0l-4.25-4.65a.75.75 0 01.02-1.06z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
                   )}
-                </Link>
-              ))}
-            </div>
-          )}
-        </div>
-      ))}
+                </button>
 
-  <span
-    aria-hidden="true"
-    className={`absolute -bottom-1 h-0.5 bg-teal-600 transition-all duration-300 ease-out ${underline.visible ? 'opacity-100' : 'opacity-0'}`}
-    style={{ left: underline.left, width: underline.width }}
-  />
-</nav>
+                {l.children && (
+                  <div
+                    className={`absolute left-0 top-full mt-2 min-w-[220px] max-w-sm bg-white border border-gray-200 rounded-lg shadow-lg opacity-0 transition-all duration-300 z-50 ${openDropdown === i ? "opacity-100 visible" : "invisible"
+                      }`}
+                  >
+                    {l.children.map((child, j) => (
+                      <Link
+                        key={j}
+                        href={child.href}
+                        className={`group block px-4 py-2 text-gray-700 hover:text-teal-600 hover:bg-teal-50 text-sm ${j === l.children.length - 1 ? "font-medium text-teal-600" : ""
+                          }`}
+                      >
+                        {child.label}
+                        {j === l.children.length - 1 && (
+                          <FaArrowRight className="w-3 h-3 inline-block ml-2 transition-all duration-200 group-hover:translate-x-1" />
+                        )}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ))}
 
-          
+            <span
+              aria-hidden="true"
+              className={`absolute -bottom-1 h-0.5 bg-teal-600 transition-all duration-300 ease-out ${underline.visible ? 'opacity-100' : 'opacity-0'}`}
+              style={{ left: underline.left, width: underline.width }}
+            />
+          </nav>
+
+
 
           {/* CTA + Mobile button */}
           <div className="flex items-center gap-3">
@@ -318,46 +322,45 @@ const socialIcons = {
               animate-fadeIn
             `}
           >
-          {links.map((l, i) => (
-            <div key={l.href} className="flex flex-col gap-1">
-              <button
-                onClick={() =>
-                {
-                  if (l.children) {
-      setOpenDropdown(openDropdown === i ? null : i);
-    } else {
-      router.push(l.href); // navigate to the link
-      setMobileMenuOpen(false);
-    }
-                }
-                }
-                className={`${linkBase} ${l.active ? active : ""} w-full text-left flex justify-between items-center py-2`}
-              >
-                {l.label}
-                {l.children && (
-                  <span className={`transition-transform duration-200 ${openDropdown === i ? 'rotate-90' : ''}`}>
-                  <FaChevronRight/>
-                  </span>
+            {links.map((l, i) => (
+              <div key={l.href} className="flex flex-col gap-1">
+                <button
+                  onClick={() => {
+                    if (l.children) {
+                      setOpenDropdown(openDropdown === i ? null : i);
+                    } else {
+                      router.push(l.href); // navigate to the link
+                      setMobileMenuOpen(false);
+                    }
+                  }
+                  }
+                  className={`${linkBase} ${l.active ? active : ""} w-full text-left flex justify-between items-center py-2`}
+                >
+                  {l.label}
+                  {l.children && (
+                    <span className={`transition-transform duration-200 ${openDropdown === i ? 'rotate-90' : ''}`}>
+                      <FaChevronRight />
+                    </span>
+                  )}
+                </button>
+
+                {l.children && openDropdown === i && (
+                  <div className="pl-4 flex flex-col gap-1">
+                    {l.children.map((child, j) => (
+                      <Link
+                        key={j}
+                        href={child.href}
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="text-gray-600 hover:text-teal-600 block py-1 text-sm"
+                      >
+                        {child.label}
+                      </Link>
+                    ))}
+                  </div>
                 )}
-              </button>
-          
-              {l.children && openDropdown === i && (
-                <div className="pl-4 flex flex-col gap-1">
-                  {l.children.map((child, j) => (
-                    <Link
-                      key={j}
-                      href={child.href}
-                      onClick={() => setMobileMenuOpen(false)}
-                      className="text-gray-600 hover:text-teal-600 block py-1 text-sm"
-                    >
-                      {child.label}
-                    </Link>
-                  ))}
-                </div>
-              )}
-            </div>
-          ))}
-        
+              </div>
+            ))}
+
             <Link
               href={cta.href}
               onClick={() => setMobileMenuOpen(false)}
@@ -367,7 +370,7 @@ const socialIcons = {
             </Link>
           </div>
         )}
-        
+
 
       </div>
     </header>
