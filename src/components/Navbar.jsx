@@ -22,7 +22,7 @@ const Navbar = ({
   ],
 
   language = "EN",
-  cta = { label: "Get Quote", href: "#cta" },
+  cta = [{ label: "Get Quote", href: "#cta" }, { label: "Check Warranty", href: "/check-warranty" }],
 }) => {
   const router = useRouter();
   const pathname = usePathname()
@@ -110,8 +110,8 @@ const Navbar = ({
       active: pathname?.includes("/services"),
       children: [
         ...services.slice(0, 4).map(s => ({ label: s.title, href: `/services/${s.slug}` })),
-        { label: "See All", href: "/services" } // CTA at bottom
-      ]
+        { label: "See All", href: "/services" },
+      ],
     },
     {
       href: "/projects",
@@ -119,17 +119,14 @@ const Navbar = ({
       active: pathname?.includes("/projects"),
       children: [
         ...projectsData.slice(0, 4).map(p => ({ label: p.name, href: `/projects/${p.slug}` })),
-        { label: "See All", href: "/projects" } // CTA at bottom
-      ]
+        { label: "See All", href: "/projects" },
+      ],
     },
-    {
-      href: "/contact", label: "Contact", active: pathname?.includes("/contact"),
-      children: [
-        { label: "Check Warranty", href: '/check-warranty' }
-      ]
-    },
+    // Make Contact direct, no children
+    { href: "/contact", label: "Contact", active: pathname?.includes("/contact") },
     { href: "/blog", label: "Blog", active: pathname?.includes("/blog") },
   ];
+
 
 
 
@@ -290,14 +287,24 @@ const Navbar = ({
 
 
 
-          {/* CTA + Mobile button */}
           <div className="flex items-center gap-3">
             <Link href="#cta" className={ctaClass}>
               Get Quote
             </Link>
+
+            {/* Check Warranty link */}
+            <Link
+              href="/check-warranty"
+              className="hidden sm:inline-flex rounded-md border border-teal-600 px-4 py-2 text-sm font-medium text-teal-600 hover:bg-teal-50 transition"
+            >
+              Check Warranty
+            </Link>
+
+            {/* Mobile menu button */}
             <button
               onClick={toggleMobileMenu}
-              className={`md:hidden inline-flex items-center justify-center rounded-md p-2 ${isDark ? 'hover:bg-white/10' : 'hover:bg-gray-100'} transition`}
+              className={`md:hidden inline-flex items-center justify-center rounded-md p-2 ${isDark ? 'hover:bg-white/10' : 'hover:bg-gray-100'
+                } transition`}
               aria-label="Toggle menu"
             >
               <svg className={`h-5 w-5 text-teal-700`} viewBox="0 0 24 24" fill="none">
@@ -309,6 +316,7 @@ const Navbar = ({
               </svg>
             </button>
           </div>
+
         </div>
 
         {/* 👇 Mobile Menu (collapsible) */}
@@ -361,13 +369,19 @@ const Navbar = ({
               </div>
             ))}
 
-            <Link
-              href={cta.href}
-              onClick={() => setMobileMenuOpen(false)}
-              className="mt-3 rounded-md bg-teal-600 px-4 py-2 text-sm font-medium text-white hover:bg-teal-700"
-            >
-              {cta.label}
-            </Link>
+            {
+              cta.map((cta, i) => (
+                <Link
+                  key={i}
+                  href={cta.href}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="mt-3 rounded-md bg-teal-600 px-4 py-2 text-sm font-medium text-white hover:bg-teal-700"
+                >
+                  {cta.label}
+                </Link>
+              ))
+            }
+
           </div>
         )}
 

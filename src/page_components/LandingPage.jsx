@@ -15,14 +15,14 @@ import OurPartners from '@/components/OurPartners'
 const LandingPage = () => {
   return (
     <div className="min-h-screen flex flex-col">
-      <main className="flex-1">
+      <main className="flex-1 overflow-hidden">
         <GsapReveal delay={0.05}><Hero /></GsapReveal>
         <GsapReveal triggerOnView><AboutUs /></GsapReveal>
+        <GsapReveal triggerOnView><Specializations /></GsapReveal>
+        <GsapReveal triggerOnView><WhyChooseUs /></GsapReveal>
+        <GsapReveal triggerOnView><HowItWorks /></GsapReveal>
         <GsapReveal triggerOnView><Achievements /></GsapReveal>
         <GsapReveal triggerOnView><OurPartners /></GsapReveal>
-        <GsapReveal triggerOnView><WhyChooseUs /></GsapReveal>
-        <GsapReveal triggerOnView><Specializations /></GsapReveal>
-        <GsapReveal triggerOnView><HowItWorks /></GsapReveal>
         <GsapReveal triggerOnView><KeyProjects /></GsapReveal>
         <GsapReveal triggerOnView><Testimonials /></GsapReveal>
         <GsapReveal triggerOnView><CtaSection /></GsapReveal>
