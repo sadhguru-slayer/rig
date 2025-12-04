@@ -11,6 +11,7 @@ import Specializations from '@/components/Specializations'
 import Achievements from '@/components/Achievements'
 import HowItWorks from '@/components/HowItWorks'
 import OurPartners from '@/components/OurPartners'
+import BlogSection from '@/components/BlogSection'
 
 const LandingPage = () => {
   return (
@@ -25,6 +26,7 @@ const LandingPage = () => {
         <GsapReveal triggerOnView><OurPartners /></GsapReveal>
         <GsapReveal triggerOnView><KeyProjects /></GsapReveal>
         <GsapReveal triggerOnView><Testimonials /></GsapReveal>
+        <GsapReveal triggerOnView><BlogSection /></GsapReveal>
         <GsapReveal triggerOnView><CtaSection /></GsapReveal>
         <GsapReveal triggerOnView><ContactUs /></GsapReveal>
       </main>
