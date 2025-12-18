@@ -2,6 +2,7 @@
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox"
 import SubServicesForm from "@/components/admin/service/SubServicesForm";
 
 
@@ -20,6 +21,7 @@ const AdminCreatePage = () => {
   const router = useRouter();
   // Form fields exactly as in your Prisma model
   const [title, setTitle] = useState("");
+  const [show, setShow] = useState(true);
   const [shortTitle, setShortTitle] = useState("");
   const [shortDescription, setShortDescription] = useState("");
   const [description, setDescription] = useState("");
@@ -62,6 +64,7 @@ const handleCreateService = async (e) => {
 
     // Basic fields
     formData.append("title", title);
+    formData.append("show", show.toString());
     formData.append("shortTitle", shortTitle);
     formData.append("shortDescription", shortDescription);
     formData.append("description", description);
@@ -193,6 +196,14 @@ const handleCreateService = async (e) => {
       required
     />
   </div>
+<div>
+   <label className="block text-sm font-medium mb-1">Show</label>
+  <Checkbox
+    checked={show}
+    onCheckedChange={(checked) => setShow(checked === true)}
+  />
+</div>
+
 
  
 

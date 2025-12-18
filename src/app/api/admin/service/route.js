@@ -80,6 +80,8 @@ export async function POST(request) {
     const description = formData.get("description") || "";
     const priceRange = formData.get("priceRange") || "";
     const moreInfoUrl = formData.get("moreInfoUrl") || "";
+    const showValue = formData.get("show");
+    const show = showValue === "true";
 
     // warrantyComponents & applications are JSON on the wire
     const warrantyComponents = safeJsonParse(
@@ -181,6 +183,7 @@ export async function POST(request) {
     const newService = await prisma.service.create({
       data: {
         slug,
+        show,
         title,
         shortTitle,
         shortDescription,

@@ -110,6 +110,8 @@ export async function PATCH(request, { params }) {
     // BASIC FIELDS
     // ------------------------------------
     const title = formData.get("title");
+    const showValue = formData.get("show");
+    const show = showValue === "true";
     const shortTitle = formData.get("shortTitle");
     const shortDescription = formData.get("shortDescription");
     const description = formData.get("description");
@@ -206,6 +208,7 @@ export async function PATCH(request, { params }) {
       where: { id: serviceId },
       data: {
         title,
+        show,
         shortTitle,
         shortDescription,
         description,

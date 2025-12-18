@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { TestimonialsForm,FaqsForm,FeaturesForm,SpecificationsForm ,GalleryForm,SeoForm } from "@/components/admin/service";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Checkbox } from "@/components/ui/checkbox"
+
 
 import { toast } from "sonner"
 
@@ -58,6 +60,7 @@ useEffect(() => {
 
   // append basic fields
   formData.append("title", service.title);
+    formData.append("show", service.show ? "true" : "false");
   formData.append("shortTitle", service.shortTitle);
   formData.append("shortDescription", service.shortDescription);
   formData.append("description", service.description);
@@ -141,6 +144,16 @@ useEffect(() => {
       placeholder="Enter title"
     />
   </div>
+  <div className="space-y-1">
+      <label className="flex items-center gap-2 mt-2">
+    <Checkbox
+      checked={service.show}
+      onCheckedChange={(checked) => handleBasicChange("show", checked)}
+    />
+    Show
+  </label>
+  </div>
+
 
   {/* Slug */}
   <div className="space-y-1">
