@@ -1,13 +1,13 @@
 'use client'
 import React from 'react';
-import { Briefcase, Users, UserCheck, MapPin } from 'lucide-react';
+import { Briefcase, Users, UserCheck, Clock } from 'lucide-react';
 import CountUp from 'react-countup';
 
 const achievements = [
     { icon: Briefcase, count: '500+', label: 'Projects Completed' },
     { icon: Users, count: '470+', label: 'Satisfied Customers' },
     { icon: UserCheck, count: '20+', label: 'Team Members' },
-    { icon: MapPin, count: 'Hyderabad', label: 'Service Location' },
+    { icon: Clock, count: '8+', label: 'Years of Experience' },
 ];
 
 const Achievements = () => {

@@ -108,6 +108,39 @@ const ServiceDetails = ({ service }) => {
         </section>
       </GsapReveal>
 
+
+      {/* GALLERY */}
+      {gallery?.length > 0 && (
+        <GsapReveal triggerOnView>
+          <section className="py-20 bg-white">
+            <div className="max-w-7xl mx-auto px-6">
+              <h2 className="text-3xl font-semibold text-teal-700 text-center mb-12">
+                Gallery & Installation Shots
+              </h2>
+              <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
+                {gallery.map((img, index) => (
+                  <div
+                    key={index}
+                    className="relative aspect-[4/3] hover:shadow-xl rounded-3xl overflow-hidden shadow-lg  transform transition duration-500"
+                  >
+                    <Image
+                      src={img}
+                      alt={`${title} image ${index + 1}`}
+                      layout="fill"
+                      objectFit="cover"
+                      className="rounded-3xl"
+                      unoptimized
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+        </GsapReveal>
+      )}
+
+
+
       {/* SUB-SERVICES */}
 {service.subServices?.length > 0 && (
   <GsapReveal triggerOnView>
@@ -176,61 +209,81 @@ const ServiceDetails = ({ service }) => {
 
               </div>
 
-              {/* APPLICATIONS */}
-              {sub.applications?.length > 0 && (
-                <div className="mt-16">
-                  <h4 className="text-2xl font-bold text-teal-700 mb-6">Applications</h4>
+              {/* SUBSERVICE FEATURES */}
+{sub.features?.length > 0 && (
+  <div className="mt-12">
+    <h4 className="text-2xl font-bold text-teal-600 mb-8">Key Features</h4>
 
-                  <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {sub.applications.map((app, idx) => (
-                      <div
-                        key={idx}
-                        className="p-6 bg-white border rounded-2xl shadow hover:shadow-xl
-                                   transition flex items-center gap-4"
-                      >
-                        <div className="w-12 h-12 bg-teal-100 rounded-full flex items-center justify-center font-bold text-teal-700">
-                          {idx + 1}
-                        </div>
-                        <p className="font-medium text-gray-800">{app}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
+    <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {sub.features.map((feature, idx) => (
+        <div
+          key={idx}
+          className="relative flex items-start gap-3 p-4 bg-white/80 backdrop-blur-sm rounded-xl border border-gray-100 shadow-sm transition-shadow duration-300 hover:shadow-md"
+        >
+          <span className="mt-2 w-2.5 h-2.5 bg-teal-500 rounded-full flex-shrink-0"></span>
 
-              {/* FEATURES */}
-              {sub.features?.length > 0 && (
-                <div className="mt-16">
-                  <h4 className="text-2xl font-bold text-teal-700 mb-6">Key Features</h4>
+          <div>
+            <h5 className="text-gray-900 font-semibold mb-1 text-sm sm:text-base">
+              {feature.title}
+            </h5>
+            <p className="text-gray-700 text-sm leading-relaxed">{feature.detail}</p>
+          </div>
 
-                  <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {sub.features.map((feature, idx) => (
-                      <div key={idx} className="p-6 bg-teal-50 rounded-2xl shadow">
-                        <h5 className="text-teal-700 font-semibold mb-2">{feature.title}</h5>
-                        <p className="text-gray-700">{feature.detail}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
+          <span className="absolute top-3 right-3 text-teal-200 font-bold text-xs select-none">
+            {idx + 1}
+          </span>
+        </div>
+      ))}
+    </div>
+  </div>
+)}
 
-              {/* SPECIFICATIONS */}
-              {sub.specifications?.length > 0 && (
-                <div className="mt-16">
-                  <h4 className="text-2xl font-bold text-teal-700 mb-6">Technical Specifications</h4>
+{/* SUBSERVICE SPECIFICATIONS & APPLICATIONS */}
+{(sub.specifications?.length > 0 || sub.applications?.length > 0) && (
+  <div className="mt-12 grid lg:grid-cols-2 gap-12">
 
-                  <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {sub.specifications.map((spec, idx) => (
-                      <div key={spec.id ?? idx} className="p-6 border-l-4 border-teal-500 bg-white rounded-xl shadow">
-                        <p className="text-teal-700 font-semibold mb-1 capitalize">
-                          {spec.key.replace(/([A-Z])/g, " $1")}
-                        </p>
-                        <p className="text-gray-700">{spec.value}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
+    {/* SPECIFICATIONS */}
+    {sub.specifications?.length > 0 && (
+      <div>
+        <h4 className="text-2xl font-bold text-teal-600 mb-6">
+          Technical Specifications
+        </h4>
+        <dl className="space-y-4">
+          {sub.specifications.map((spec, idx) => (
+            <div
+              key={spec.id ?? idx}
+              className="flex justify-between items-start gap-4 border-b border-gray-200 pb-2"
+            >
+              <dt className="text-gray-600 font-medium capitalize text-sm">
+                {spec.key.replace(/([A-Z])/g, " $1")}
+              </dt>
+              <dd className="text-gray-900 font-semibold text-sm text-right">
+                {spec.value}
+              </dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+    )}
+
+    {/* APPLICATIONS */}
+    {sub.applications?.length > 0 && (
+      <div>
+        <h4 className="text-2xl font-bold text-teal-600 mb-6">Applications</h4>
+        <ul className="grid sm:grid-cols-2 gap-x-6 gap-y-3">
+          {sub.applications.map((app, idx) => (
+            <li key={idx} className="flex items-center gap-2 text-gray-800 text-sm font-medium">
+              <span className="w-2.5 h-2.5 bg-teal-500 rounded-full flex-shrink-0 mt-1"></span>
+              {app}
+            </li>
+          ))}
+        </ul>
+      </div>
+    )}
+
+  </div>
+)}
+
 
               {/* FAQ */}
               {sub.faqs?.length > 0 && (
@@ -281,177 +334,165 @@ const ServiceDetails = ({ service }) => {
 )}
 
 
+{/* FEATURES */}
+{features?.length > 0 && (
+  <GsapReveal triggerOnView>
+    <section className="py-20 bg-gray-50">
+      <div className="max-w-6xl mx-auto px-6">
 
-      {/* FEATURES */}
-      {features?.length > 0 && (
-        <GsapReveal triggerOnView>
-          <section className="py-20 bg-gray-50">
-            <div className="max-w-7xl mx-auto px-6">
-              <h2 className="text-3xl font-bold text-teal-700 text-center mb-12">
-                Highlights & Key Features
-              </h2>
-              <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                {features.map((feature, index) => (
-                  <div
-                    key={index}
-                    className="p-6 border border-gray-200 rounded-2xl shadow-md hover:shadow-xl transform hover:-translate-y-2 hover:scale-105 transition-all duration-300 bg-gradient-to-b from-white to-teal-50 flex flex-col items-center text-center"
-                  >
-                    {/*
-                    {feature.icon && feature.icon.startsWith("http") && (
-                      <div className="w-16 h-16 mb-4 rounded-full bg-teal-100 flex items-center justify-center">
-                        <Image
-                          src={feature.icon}
-                          alt={feature.title}
-                          width={48}
-                          height={48}
-                          className="object-contain"
-                        />
-                      </div>
-                    )}
-                  */}
-                    <h3 className="font-semibold text-teal-700 text-lg mb-2">{feature.title}</h3>
-                    <p className="text-gray-700 text-sm">{feature.detail}</p>
-                  </div>
-                ))}
+        <h2 className="text-3xl font-bold text-teal-700 mb-12 text-center sm:text-left">
+          Highlights & Key Features
+        </h2>
+
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          {features.map((feature, index) => (
+            <div
+              key={index}
+              className="relative flex items-start gap-4 p-6 bg-white/80 backdrop-blur-sm rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow duration-300"
+            >
+              {/* Subtle accent dot */}
+              <span className="mt-2 w-3 h-3 bg-teal-600 rounded-full flex-shrink-0"></span>
+
+              <div>
+                <h3 className="text-gray-900 font-semibold mb-1 text-lg">
+                  {feature.title}
+                </h3>
+                <p className="text-gray-700 text-sm leading-relaxed">
+                  {feature.detail}
+                </p>
               </div>
+
+              {/* Optional subtle numbering in top-right */}
+              <span className="absolute top-4 right-4 text-teal-200 font-bold text-sm select-none">
+                {index + 1}
+              </span>
             </div>
-          </section>
-        </GsapReveal>
-      )}
+          ))}
+        </div>
+
+      </div>
+    </section>
+  </GsapReveal>
+)}
 
 
-      {/* SPECIFICATIONS */}
-      {specifications && (
-        <GsapReveal triggerOnView>
-          <section className="py-24 bg-gradient-to-b from-teal-50 to-white">
-            <div className="max-w-6xl mx-auto px-6">
-              <h2 className="text-4xl sm:text-5xl font-extrabold text-teal-700 text-center mb-16">
+
+{(specifications || applications?.length > 0) && (
+  <GsapReveal triggerOnView>
+    <section className="py-20 bg-white">
+      <div className="max-w-6xl mx-auto px-6">
+
+        <div className="grid lg:grid-cols-2 gap-16">
+
+          {/* SPECIFICATIONS */}
+          {specifications && (
+            <div>
+              <h2 className="text-3xl font-bold text-teal-700 mb-8">
                 Technical Specifications
               </h2>
 
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+              <dl className="space-y-5">
                 {specifications.map((spec, idx) => (
                   <div
                     key={spec.id ?? idx}
-                    className="relative border-l-4 border-teal-400 hover:shadow-xl transform rounded-3xl shadow-lg transition-all duration-300 bg-none"
+                    className="flex items-start justify-between gap-6 border-b border-gray-200 pb-4"
                   >
-                    <div className="absolute z-1 -top-5 left-5 w-12 h-12 flex items-center justify-center bg-teal-100 rounded-full shadow-md">
-                      <span className="text-teal-700 font-bold">{idx + 1}</span>
-                    </div>
-
-                    <div className="overflow-hidden relative bg-white/70 backdrop-blur-md rounded-3xl p-8">
-                      <h4 className="text-teal-700 font-semibold mb-2 capitalize tracking-wide">
-                        {spec.key.replace(/([A-Z])/g, " $1")}
-                      </h4>
-
-                      <p className="text-gray-700 text-lg">{spec.value}</p>
-                    </div>
+                    <dt className="text-gray-600 font-medium capitalize">
+                      {spec.key.replace(/([A-Z])/g, " $1")}
+                    </dt>
+                    <dd className="text-gray-900 font-semibold text-right">
+                      {spec.value}
+                    </dd>
                   </div>
                 ))}
-
-              </div>
+              </dl>
             </div>
-          </section>
-        </GsapReveal>
-      )}
+          )}
 
-
-      {/* GALLERY */}
-      {gallery?.length > 0 && (
-        <GsapReveal triggerOnView>
-          <section className="py-20 bg-white">
-            <div className="max-w-7xl mx-auto px-6">
-              <h2 className="text-3xl font-semibold text-teal-700 text-center mb-12">
-                Gallery & Installation Shots
-              </h2>
-              <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
-                {gallery.map((img, index) => (
-                  <div
-                    key={index}
-                    className="relative aspect-[4/3] hover:shadow-xl rounded-3xl overflow-hidden shadow-lg  transform transition duration-500"
-                  >
-                    <Image
-                      src={img}
-                      alt={`${title} image ${index + 1}`}
-                      layout="fill"
-                      objectFit="cover"
-                      className="rounded-3xl"
-                      unoptimized
-                    />
-                  </div>
-                ))}
-              </div>
-            </div>
-          </section>
-        </GsapReveal>
-      )}
-
-
-      {/* APPLICATIONS */}
-      {applications?.length > 0 && (
-        <GsapReveal triggerOnView>
-          <section className="py-24 bg-gradient-to-b from-gray-50 to-gray-100">
-            <div className="max-w-6xl mx-auto px-6 text-center">
-              <h2 className="text-4xl sm:text-5xl font-extrabold text-teal-700 mb-16">
+          {/* APPLICATIONS */}
+          {applications?.length > 0 && (
+            <div>
+              <h2 className="text-3xl font-bold text-teal-700 mb-8">
                 Suitable For
               </h2>
 
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+              <ul className="grid sm:grid-cols-2 gap-x-8 gap-y-4">
                 {applications.map((app, idx) => (
-                  <div
+                  <li
                     key={idx}
-                    className="group relative px-8 py-10 bg-white rounded-3xl shadow-lg hover:shadow-xl transform  transition-all duration-300 text-gray-800 font-semibold flex flex-col items-center justify-center"
+                    className="flex items-center gap-3 text-gray-800 font-medium"
                   >
-                    {/* Optional Icon */}
-                    <div className="mb-4 w-12 h-12 flex items-center justify-center bg-teal-100 rounded-full group-hover:bg-teal-200 transition-colors duration-300">
-                      {/* You can replace this with an actual icon */}
-                      <span className="text-teal-700 font-bold text-lg">{idx + 1}</span>
-                    </div>
-
-                    <p className="text-lg sm:text-xl text-center">{app}</p>
-
-                    {/* Optional hover overlay effect */}
-                    <div className="absolute inset-0 bg-gradient-to-r from-teal-50 to-teal-100 opacity-0 group-hover:opacity-30 rounded-3xl transition-opacity duration-300"></div>
-                  </div>
+                    <span className="w-2 h-2 bg-teal-600 rounded-full"></span>
+                    {app}
+                  </li>
                 ))}
-              </div>
+              </ul>
             </div>
-          </section>
-        </GsapReveal>
-      )}
+          )}
+
+        </div>
+      </div>
+    </section>
+  </GsapReveal>
+)}
 
 
-      {/* FAQ ACCORDION */}
-      {faqs?.length > 0 && (
-        <GsapReveal triggerOnView>
-          <section className="py-20 bg-teal-50">
-            <div className="max-w-5xl mx-auto px-6">
-              <h2 className="text-3xl font-semibold text-teal-700 text-center mb-12">
-                Frequently Asked Questions
-              </h2>
-              <div className="space-y-4">
-                {faqs.map((faq, idx) => (
-                  <div
-                    key={idx}
-                    className="bg-white rounded-2xl shadow-md p-6 cursor-pointer"
-                    onClick={() => setOpenFaq(openFaq === idx ? null : idx)}
-                  >
-                    <div className="flex justify-between items-center">
-                      <h3 className="font-medium text-gray-900 text-lg">{faq.question}</h3>
-                      <span className={`transform transition-transform duration-300 ${openFaq === idx ? 'rotate-45' : ''}`}>
-                        +
-                      </span>
-                    </div>
-                    {openFaq === idx && (
-                      <p className="text-gray-700 mt-4">{faq.answer}</p>
-                    )}
-                  </div>
-                ))}
+
+
+{/* FAQ ACCORDION */}
+{faqs?.length > 0 && (
+  <GsapReveal triggerOnView>
+    <section className="py-20 bg-gray-50">
+      <div className="max-w-4xl mx-auto px-6">
+        <h2 className="text-3xl font-bold text-teal-700 text-center mb-12">
+          Frequently Asked Questions
+        </h2>
+
+        <div className="space-y-3">
+          {faqs.map((faq, idx) => (
+            <div
+              key={idx}
+              className={`border border-gray-200 rounded-xl overflow-hidden transition-shadow duration-300 ${
+                openFaq === idx ? "shadow-lg" : "shadow-sm"
+              }`}
+            >
+              <button
+                type="button"
+                onClick={() => setOpenFaq(openFaq === idx ? null : idx)}
+                className="w-full flex justify-between items-center p-5 bg-white focus:outline-none"
+              >
+                <h3 className="text-gray-900 font-medium text-left text-lg">
+                  {faq.question}
+                </h3>
+                <span
+                  className={`transform transition-transform duration-300 text-teal-600`}
+                >
+                  {openFaq === idx ? "−" : "+"}
+                </span>
+              </button>
+
+              <div
+                className={`transition-all duration-300 bg-white px-5 ${
+                  openFaq === idx ? "max-h-96 py-4" : "max-h-0 py-0"
+                } overflow-hidden`}
+              >
+                <p className="text-gray-700 text-sm leading-relaxed">
+                  {faq.answer}
+                </p>
               </div>
+
+              {/* Optional accent line */}
+              {openFaq === idx && (
+                <div className="absolute left-0 top-0 w-1 h-full bg-teal-500 rounded-tr-xl rounded-br-xl"></div>
+              )}
             </div>
-          </section>
-        </GsapReveal>
-      )}
+          ))}
+        </div>
+      </div>
+    </section>
+  </GsapReveal>
+)}
+
 
       {/* TESTIMONIALS */}
       {testimonials?.length > 0 && (
