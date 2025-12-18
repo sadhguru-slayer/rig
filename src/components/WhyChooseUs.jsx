@@ -11,7 +11,7 @@ const WhyChooseUs = () => {
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto">
           <h2 className="text-4xl sm:text-5xl font-bold text-teal-700 tracking-tight">
-            Why Choose <span className="text-gray-900">Invisible Grills?</span>
+            Why Choose <span className="text-gray-900">Us?</span>
           </h2>
           <p className="mt-4 text-gray-600 text-lg">
             Experience the perfect blend of safety, elegance, and unobstructed beauty — rethinking the way grills protect and enhance your space.

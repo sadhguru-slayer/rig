@@ -41,6 +41,7 @@ model Service {
 
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
+  show           Boolean @default(false)
 }
 
 model SubService {
@@ -69,6 +70,7 @@ model SubService {
 
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  show           Boolean @default(false)
 }
 
 //
@@ -221,6 +223,8 @@ model Project {
   clientBenefits         Json?
   finalOutcome           String?
   keyProject             Boolean   @default(false)
+  show                   Boolean @default(false)
+
 
   challengesAndSolutions ChallengesAndSolutions[]
 

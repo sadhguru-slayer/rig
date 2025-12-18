@@ -6,6 +6,9 @@ const prisma = new PrismaClient();
 export async function GET() {
   try {
     const services = await prisma.service.findMany({
+       where: {
+        show: true,
+      },
       include: {
         features: true,
         specifications: true
