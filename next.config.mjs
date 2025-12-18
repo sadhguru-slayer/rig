@@ -9,6 +9,9 @@ const nextConfig = {
       },
     ],
   },
+  experimental: {
+    serverComponents: true,  // enables React server components
+  },
 };
 
 export default nextConfig;
