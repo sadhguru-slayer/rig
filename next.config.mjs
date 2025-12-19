@@ -5,7 +5,8 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "rigrills1.s3.us-east-1.amazonaws.com",
+        hostname:
+          "rigrills.6c2fecf3fdf96cbc1089bae73a5a2e68.r2.cloudflarestorage.com",
       },
     ],
   },

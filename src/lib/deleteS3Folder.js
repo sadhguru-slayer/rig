@@ -4,7 +4,7 @@ import s3Client from "./s3Client";
 // 🧹 Deletes all objects under a prefix (like "services/<slug>/")
 export async function deleteS3Folder(prefix) {
   try {
-    const Bucket = process.env.AWS_S3_BUCKET_NAME;
+    const Bucket = process.env.R2_BUCKET_NAME;
 
     // List all objects under that prefix
     const listedObjects = await s3Client.send(
@@ -42,7 +42,7 @@ import { DeleteObjectCommand } from "@aws-sdk/client-s3";
 
 export async function deleteS3File(key) {
   try {
-    const Bucket = process.env.AWS_S3_BUCKET_NAME;
+    const Bucket = process.env.R2_BUCKET_NAME;
     await s3Client.send(new DeleteObjectCommand({ Bucket, Key: key }));
     console.log(`✅ Deleted S3 file: ${key}`);
   } catch (error) {
