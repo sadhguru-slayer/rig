@@ -12,15 +12,14 @@ const WhyChooseUs = () => {
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto">
           <h2 className="text-4xl sm:text-5xl font-bold text-teal-700 tracking-tight">
-            Why <span className="text-gray-900">RIGrills?</span>
+            Why <span className="text-gray-900">Choose Us?</span>
           </h2>
           <p className="mt-4 text-gray-600 text-lg">
-            Built for modern living — delivering safety, elegance, and clarity
-            without compromise.
+            Leading experts in invisible grills, aluminium windows, safety nets, and home solutions — delivering safety, elegance, and clarity without compromise.
           </p>
         </div>
 
-        {/* Others vs RIGrills */}
+        {/* Others vs Us - Focus on Invisible Grills */}
         <div className="mt-16 flex flex-col lg:flex-row items-center justify-center gap-6">
 
           {/* Others */}
@@ -37,6 +36,8 @@ const WhyChooseUs = () => {
               <li>Limited material and spacing options</li>
               <li>Inconsistent finishing and alignment</li>
               <li>Higher maintenance over time</li>
+              <li>Limited product range and expertise</li>
+              <li>Standard solutions without customization</li>
             </ul>
           </div>
 
@@ -48,13 +49,13 @@ const WhyChooseUs = () => {
             <div className="absolute w-px h-24 bg-gradient-to-b from-teal-200 via-teal-400 to-teal-200 hidden lg:block"></div>
           </div>
 
-          {/* RIGrills */}
+          {/* Us */}
           <div className="flex-1 w-full max-w-md rounded-2xl bg-gradient-to-br from-teal-800 to-teal-500 text-white p-8 shadow-xl hover:shadow-2xl transition-all transform lg:-translate-y-2">
             <h3 className="text-xl font-semibold text-center">
-              RIGrills
+              Us
             </h3>
             <p className="text-center text-xs text-teal-100 mt-1">
-              Designed for modern spaces
+              Experts in invisible grills, windows, nets & more
             </p>
 
             <ul className="mt-6 space-y-3 text-sm list-disc list-inside">
@@ -62,6 +63,7 @@ const WhyChooseUs = () => {
               <li>Engineered materials with precise spacing</li>
               <li>Professional installation and finish</li>
               <li>Low maintenance, long-term reliability</li>
+              <li>Complete range: grills, windows, nets, hangers & sports nets</li>
             </ul>
           </div>
         </div>
@@ -77,8 +79,8 @@ const WhyChooseUs = () => {
               </h4>
             </div>
             <p className="text-gray-600 text-sm">
-              Thoughtfully designed solutions that enhance openness and natural
-              light across balconies, windows, and staircases.
+              From invisible grills to aluminium windows and safety nets, our solutions enhance openness and natural
+              light while maintaining safety across balconies, windows, and staircases.
             </p>
           </div>
 
@@ -90,8 +92,8 @@ const WhyChooseUs = () => {
               </h4>
             </div>
             <p className="text-gray-600 text-sm">
-              Built with high-quality materials and proven systems that meet
-              real-world safety needs.
+              Built with premium materials — stainless steel grills, aluminium windows, HDPE nets, and more — meeting
+              real-world safety and durability needs across all installations.
             </p>
           </div>
 
@@ -103,7 +105,7 @@ const WhyChooseUs = () => {
               </h4>
             </div>
             <p className="text-gray-600 text-sm">
-              Clean finishes, minimal upkeep, and reliable performance —
+              Clean finishes, minimal upkeep, and reliable performance across invisible grills, windows, safety nets, ceiling hangers, and cricket nets —
               solutions that simply work.
             </p>
           </div>
