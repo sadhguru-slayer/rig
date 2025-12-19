@@ -69,10 +69,9 @@ export async function POST(req) {
 
     // Send OTP via Gmail
    // After verifying password and generating OTP...
-
-// Determine the recipient email
+   console.log(admin.email,"------------",admin);
 const recipientEmail =
-  process.env.ADMIN_EMAIL || admin.email;
+    admin.email || process.env.ADMIN_EMAIL;
 
 if (!recipientEmail) {
   console.error("No admin email found in DB or ENV");
