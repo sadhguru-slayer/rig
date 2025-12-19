@@ -72,7 +72,7 @@ export async function POST(req) {
 
 // Determine the recipient email
 const recipientEmail =
-  process.env.ADMIN_EMAIL || admin.email;
+    admin.email || process.env.ADMIN_EMAIL;
 
 if (!recipientEmail) {
   console.error("No admin email found in DB or ENV");
