@@ -67,28 +67,24 @@ export async function POST(req) {
       expiresAt: Date.now() + 5 * 60 * 1000, // 5 minutes
     };
 
+    // Determine the recipient email
+    const recipientEmail = admin.email || process.env.ADMIN_EMAIL;
+
+    if (!recipientEmail) {
+      console.error("No admin email found in DB or ENV");
+      return NextResponse.json(
+        { error: "No recipient email configured" },
+        { status: 500 }
+      );
+    }
+
     // Send OTP via Gmail
-   // After verifying password and generating OTP...
-
-// Determine the recipient email
-const recipientEmail =
-  admin.email || process.env.ADMIN_EMAIL;
-  
-if (!recipientEmail) {
-  console.error("No admin email found in DB or ENV");
-  return NextResponse.json(
-    { error: "No recipient email configured" },
-    { status: 500 }
-  );
-}
-
-// Send OTP via Gmail
-await transporter.sendMail({
-  from: `"Your App" <${process.env.GMAIL_USER}>`,
-  to: recipientEmail,
-  subject: "Your OTP for Admin Login",
-  text: `Your OTP is: ${generatedOtp}. It expires in 5 minutes.`,
-});
+    await transporter.sendMail({
+      from: `"Your App" <${process.env.GMAIL_USER}>`,
+      to: recipientEmail,
+      subject: "Your OTP for Admin Login",
+      text: `Your OTP is: ${generatedOtp}. It expires in 5 minutes.`,
+    });
 
 
     return NextResponse.json({ ok: true, otpSent: true });
