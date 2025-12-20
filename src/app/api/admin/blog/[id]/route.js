@@ -110,16 +110,30 @@ export async function PATCH(request, { params }) {
     const contentJSON = JSON.parse(formData.get("content"));
     const tags = JSON.parse(formData.get("tags") || "[]");
     const seo = JSON.parse(formData.get("seo") || "{}");
-let coverImageUrl = null;
+    
+    // Handle cover image: only upload if it's a new File, otherwise use the existing URL
+    let coverImageUrl = null;
     const coverImage = formData.get("coverImage");
+    const coverImageUrlFromForm = formData.get("coverImageUrl"); // Original URL if no new file
+    
     if (coverImage instanceof File) {
-      // Upload the file to S3 (assuming the uploadToS3 function returns a URL)
+      // Only upload if a new file was actually selected
       coverImageUrl = await uploadToS3(coverImage, `blogs/${slug}`);
+    } else if (coverImageUrlFromForm) {
+      // Use the existing URL if no new file was selected
+      coverImageUrl = coverImageUrlFromForm;
+    } else {
+      // Fallback to existing blog's cover image
+      coverImageUrl = blog.coverImage;
     }
     // Build files map from FormData (newly uploaded images)
+    // The filename in FormData is the blob URL (set in frontend), so file.name is the blob URL
     const filesMap = {};
     for (const file of formData.getAll("images")) {
-      filesMap[file.name] = file;
+      // file.name is the blob URL because we set it as the filename in FormData
+      if (file.name && file.name.startsWith("blob:")) {
+        filesMap[file.name] = file;
+      }
     }
 
     // Fetch existing blog
@@ -149,8 +163,10 @@ let coverImageUrl = null;
     const contentWithS3Urls = await uploadBlobsInContent(
       contentJSON.content.content,
       filesMap,
-      `blogs/${slug}`
+      `blogs/${slug}/content`
     );
+
+    // console.log("contentWithS3Urls:",contentWithS3Urls)
 
     const contentWithDoc = {
       type: "doc",
@@ -163,7 +179,7 @@ let coverImageUrl = null;
       data: {
         title: formData.get("title"),
         excerpt: formData.get("excerpt"),
-        coverImage: coverImageUrl || formData.get("coverImage"),
+        coverImage: coverImageUrl,
         author: formData.get("author"),
         published: formData.get("published") === "true",
         content: contentWithDoc,

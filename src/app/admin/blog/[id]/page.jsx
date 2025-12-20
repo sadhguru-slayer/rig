@@ -28,29 +28,33 @@ export default function BlogDetails() {
   const [loading, setLoading] = useState(true);
   const [uploadedFilesMap, setUploadedFilesMap] = useState({});
   const [oldImageUrls, setOldImageUrls] = useState([]); // Store old image URLs
+  const [originalCoverImage, setOriginalCoverImage] = useState(null); // Store original cover image URL
 
   // Fetch blog data
-  useEffect(() => {
-    const fetchBlog = async () => {
-      try {
-        const res = await fetch(`/api/admin/blog/${id}`);
-        const data = await res.json();
-        if (data.success) {
-          const oldImages = extractImageUrls(data.data.content);
-          setOldImageUrls(oldImages); // Set initial old image URLs
-          setFormData({
-            ...data.data,
-            content: data.data.content || "", // Ensure content is always initialized
-          });
-        } else {
-          alert("Failed to load blog");
-        }
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setLoading(false);
+  const fetchBlog = async () => {
+    try {
+      const res = await fetch(`/api/admin/blog/${id}`);
+      const data = await res.json();
+      if (data.success) {
+        const oldImages = extractImageUrls(data.data.content);
+        setOldImageUrls(oldImages); // Set initial old image URLs
+        setOriginalCoverImage(data.data.coverImage); // Store original cover image URL
+        setUploadedFilesMap({}); // Clear uploaded files map when loading blog
+        setFormData({
+          ...data.data,
+          content: data.data.content || "", // Ensure content is always initialized
+        });
+      } else {
+        alert("Failed to load blog");
       }
-    };
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+
     fetchBlog();
   }, [id]);
 
@@ -98,7 +102,14 @@ const handleUpdate = async () => {
     const formDataToSend = new FormData();
     formDataToSend.append("title", formData.title);
     formDataToSend.append("excerpt", formData.excerpt);
-    formDataToSend.append("coverImage", formData.coverImage);
+    // Only append coverImage if it's a File object (new file selected)
+    // Otherwise, send the original URL separately
+    if (formData.coverImage instanceof File) {
+      formDataToSend.append("coverImage", formData.coverImage);
+    } else {
+      // Send original cover image URL as a string field
+      formDataToSend.append("coverImageUrl", formData.coverImage || originalCoverImage || "");
+    }
     formDataToSend.append("author", formData.author);
     formDataToSend.append("published", formData.published);
     formDataToSend.append("tags", JSON.stringify(formData.tags));
@@ -110,8 +121,11 @@ const handleUpdate = async () => {
     formDataToSend.append("content", JSON.stringify(contentWithDocType));
 
     // ✅ Add new uploaded files
-    for (const [fileName, file] of Object.entries(uploadedFilesMap)) {
-      formDataToSend.append("images", file, fileName);
+    // uploadedFilesMap uses blob URLs as keys, so we send the blob URL as the filename
+    // This way the backend can map blob URLs to files correctly
+    for (const [blobUrl, file] of Object.entries(uploadedFilesMap)) {
+      // Append file with blob URL as filename - this becomes file.name on the server
+      formDataToSend.append("images", file, blobUrl);
     }
 
     const res = await fetch(`/api/admin/blog/${id}`, {
@@ -125,6 +139,7 @@ const handleUpdate = async () => {
       toast.success("Success", {
         description: "Blog updated successfully!",
       });
+      fetchBlog();
     } else {
       toast.error("Error", {
         description: data.error || "Failed to update blog.",
@@ -218,9 +233,16 @@ const handleUpdate = async () => {
     <Input
     id="coverImage"
     type="file"
-    onChange={(e) =>
-      setFormData({ ...formData, coverImage: e.target.files[0] })
-    }
+    accept="image/*"
+    onChange={(e) => {
+      const file = e.target.files[0];
+      if (file) {
+        setFormData({ ...formData, coverImage: file });
+      } else {
+        // If no file selected, keep the original cover image URL
+        setFormData({ ...formData, coverImage: originalCoverImage });
+      }
+    }}
   />
   </div>
 
