@@ -36,6 +36,5 @@ export async function uploadToS3(file, folder = "misc") {
 
   // Public URL (bucket must be public OR served via Worker)
   const fileUrl = `${process.env.R2_PUBLIC_BASE_URL}/${fileName}`;
-  // console.log("FileUrl:",fileUrl)
   return fileUrl;
 }
