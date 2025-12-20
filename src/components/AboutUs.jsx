@@ -35,7 +35,7 @@ const AboutUs = () => {
             {/* Overlay image — smaller and neat */}
             <div className="absolute -top-2 -left-2 md:-top-12 md:-left-12 w-2/6 sm:w-1/4 lg:w-1/3 rounded-xl overflow-hidden border-4 border-white transition-transform duration-500">
               <Image
-                src="/images/aboutpage/s3.png"
+                src="/images/aboutpage/s2.png"
                 alt="Close-up Invisible Grill Detail"
                 width={500}
                 height={400}
