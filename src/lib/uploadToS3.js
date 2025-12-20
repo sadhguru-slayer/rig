@@ -5,8 +5,6 @@ export async function uploadToS3(file, folder = "misc") {
   const buffer = Buffer.from(await file.arrayBuffer());
 
   let sanitizedName = file.name || "image";
-  // console.log(sanitizedName)
-  // If filename contains blob URL or weird characters, extract or generate a clean name
   if (sanitizedName.includes("blob:") || sanitizedName.includes("://")) {
     // Try to extract extension from file type
     const extension = file.type?.split("/")[1] || "png";
