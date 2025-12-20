@@ -4,8 +4,6 @@ import s3Client from "./s3Client";
 export async function uploadToS3(file, folder = "misc") {
   const buffer = Buffer.from(await file.arrayBuffer());
 
-  // Sanitize filename: extract actual filename from blob URLs or clean up the name
-  // console.log(file.name)
   let sanitizedName = file.name || "image";
   // console.log(sanitizedName)
   // If filename contains blob URL or weird characters, extract or generate a clean name
