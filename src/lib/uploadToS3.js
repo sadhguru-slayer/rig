@@ -16,7 +16,7 @@ export async function uploadToS3(file, folder = "misc") {
   );
 
   // Public URL (bucket must be public OR served via Worker)
-  const fileUrl = `https://${process.env.R2_BUCKET_NAME}.${process.env.R2_ACCOUNT_ID}.r2.cloudflarestorage.com/${fileName}`;
-
+  const fileUrl = `${process.env.R2_PUBLIC_BASE_URL}/${fileName}`;
+  
   return fileUrl;
 }
