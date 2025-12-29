@@ -32,8 +32,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
-        <Script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></Script>
-        <Script
+          <script
           id="gtm-script"
           strategy="afterInteractive"
         >{`
@@ -44,26 +43,24 @@ export default function RootLayout({ children }) {
           j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
           f.parentNode.insertBefore(j,f);
           })(window,document,'script','dataLayer','GTM-K294VQLX');
-        `}</Script>
+        `}</script>
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-50 text-gray-900`}
       >
-      <noscript>
-  <iframe
-    src="https://www.googletagmanager.com/ns.html?id=GTM-K294VQLX"
-    height="0"
-    width="0"
-    style={{ display: "none", visibility: "hidden" }}
-  />
-</noscript>
-
         <Toaster />
         {/* Client-side layout logic */}
         <AppLayoutClient>{children}</AppLayoutClient>
 
         {/* Floating buttons stay globally */}
-
+ <noscript>
+          <iframe
+            src="https://www.googletagmanager.com/ns.html?id=GTM-K294VQLX"
+            height="0"
+            width="0"
+            style={{ display: "none", visibility: "hidden" }}
+          />
+        </noscript>
       </body>
     </html>
   );
