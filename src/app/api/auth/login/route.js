@@ -11,63 +11,95 @@ const otpStore = {}; // { username: { otp, expiresAt } }
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
-    user: process.env.GMAIL_USER, // your gmail
-    pass: process.env.GMAIL_APP_PASSWORD, // app password
+    user: process.env.GMAIL_USER,
+    pass: process.env.GMAIL_APP_PASSWORD,
   },
 });
 
-// Step 1: password verification + send OTP
 export async function POST(req) {
   try {
     const { username, password, otp } = await req.json();
 
     const admin = await prisma.admin.findUnique({ where: { username } });
-    if (!admin) return NextResponse.json({ error: "Invalid credentials" }, { status: 401 });
+    if (!admin) {
+      return NextResponse.json({ error: "Invalid credentials" }, { status: 401 });
+    }
+
     if (!admin.isActive) {
-  return NextResponse.json({ error: "You're not allowed to login" }, { status: 401 });
-}
-    // If OTP is provided, verify it
+      return NextResponse.json(
+        { error: "You're not allowed to login" },
+        { status: 401 }
+      );
+    }
+
+    // =====================
+    // OTP VERIFICATION STEP
+    // =====================
     if (otp) {
       const record = otpStore[username];
+
       if (!record || record.otp !== otp || record.expiresAt < Date.now()) {
-        return NextResponse.json({ error: "Invalid or expired OTP" }, { status: 401 });
+        return NextResponse.json(
+          { error: "Invalid or expired OTP" },
+          { status: 401 }
+        );
       }
 
-      // OTP verified → issue JWT
-      // OTP verified → issue JWT
-      const token = await signToken({ sub: admin.id, username: admin.username, isSuperUser :admin.isSuperUser  });
+      const token = await signToken({
+        sub: admin.id,
+        username: admin.username,
+        isSuperUser: admin.isSuperUser,
+      });
 
-
-      // Clear OTP
       delete otpStore[username];
 
       const cookie = serialize("core_token", token, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
         sameSite: "lax",
-        maxAge: 60 * 60 * 24 * 7, // 7 days
+        maxAge: 60 * 60 * 24 * 7,
         path: "/",
       });
 
       return new NextResponse(JSON.stringify({ ok: true }), {
         status: 200,
-        headers: { "Set-Cookie": cookie, "Content-Type": "application/json" },
+        headers: {
+          "Set-Cookie": cookie,
+          "Content-Type": "application/json",
+        },
       });
     }
 
-    // Step 1: password verification
-    if (!password) return NextResponse.json({ error: "Missing credentials" }, { status: 400 });
-    const valid = await bcrypt.compare(password, admin.password);
-    if (!valid) return NextResponse.json({ error: "Invalid credentials" }, { status: 401 });
+    // =====================
+    // PASSWORD VERIFICATION
+    // =====================
+    if (!password) {
+      return NextResponse.json(
+        { error: "Missing credentials" },
+        { status: 400 }
+      );
+    }
 
-    // Generate OTP
-    const generatedOtp = Math.floor(100000 + Math.random() * 900000).toString();
+    const valid = await bcrypt.compare(password, admin.password);
+    if (!valid) {
+      return NextResponse.json(
+        { error: "Invalid credentials" },
+        { status: 401 }
+      );
+    }
+
+    // =====================
+    // GENERATE & SEND OTP
+    // =====================
+    const generatedOtp = Math.floor(
+      100000 + Math.random() * 900000
+    ).toString();
+
     otpStore[username] = {
       otp: generatedOtp,
-      expiresAt: Date.now() + 5 * 60 * 1000, // 5 minutes
+      expiresAt: Date.now() + 5 * 60 * 1000,
     };
 
-    // Determine the recipient email
     const recipientEmail = admin.email || process.env.ADMIN_EMAIL;
 
     if (!recipientEmail) {
@@ -78,37 +110,12 @@ export async function POST(req) {
       );
     }
 
-    // Send OTP via Gmail
-<<<<<<< HEAD
-   // After verifying password and generating OTP...
-   console.log(admin.email,"------------",admin);
-const recipientEmail =
-    admin.email || process.env.ADMIN_EMAIL;
-
-if (!recipientEmail) {
-  console.error("No admin email found in DB or ENV");
-  return NextResponse.json(
-    { error: "No recipient email configured" },
-    { status: 500 }
-  );
-}
-
-// Send OTP via Gmail
-await transporter.sendMail({
-  from: `"Your App" <${process.env.GMAIL_USER}>`,
-  to: recipientEmail,
-  subject: "Your OTP for Admin Login",
-  text: `Your OTP is: ${generatedOtp}. It expires in 5 minutes.`,
-});
-=======
     await transporter.sendMail({
       from: `"Your App" <${process.env.GMAIL_USER}>`,
       to: recipientEmail,
       subject: "Your OTP for Admin Login",
       text: `Your OTP is: ${generatedOtp}. It expires in 5 minutes.`,
     });
->>>>>>> 67988839b951d996c210b1f6d9fc6e1ec82367e7
-
 
     return NextResponse.json({ ok: true, otpSent: true });
   } catch (err) {
