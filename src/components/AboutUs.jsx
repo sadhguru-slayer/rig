@@ -24,7 +24,7 @@ const AboutUs = () => {
           <div className="relative w-full group p-[1rem] ">
             {/* Main base image */}
             <Image
-              src="/images/aboutpage/s1.png"
+              src="/images/aboutpage/whoarewe.png"
               alt="Invisible Grill Main"
               width={500}
               height={300}

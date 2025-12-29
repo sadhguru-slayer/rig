@@ -9,14 +9,27 @@ import { uploadToS3 } from "@/lib/uploadToS3";
  */
 export async function uploadBlobsInContent(nodes, filesMap, folder = "misc") {
   async function traverse(node) {
-    if (node.type === "image" && node.attrs?.src?.startsWith("blob:")) {
-      const blobUrl = node.attrs.src;
-      const file = filesMap[blobUrl];
-
-      if (file) {
-        const s3Url = await uploadToS3(file, folder);
-        node.attrs.src = s3Url;
+    if (node.type === "image" && node.attrs?.src) {
+      const src = node.attrs.src;
+      
+      // Only process blob URLs (new uploads), skip already uploaded S3 URLs
+      if (src.startsWith("blob:")) {
+        const blobUrl = src;
+        const file = filesMap[blobUrl];
+        
+        // Only upload if file exists in the map (new upload)
+        // If file doesn't exist, it means the blob URL is stale or was already processed
+        if (file && file instanceof File) {
+          const s3Url = await uploadToS3(file, folder);
+          // console.log("S3Url:",s3Url)
+          node.attrs.src = s3Url;
+        } else {
+          // Blob URL exists in content but file not in map - this shouldn't happen
+          // but if it does, we'll leave it as is (or could log a warning)
+          console.warn(`Blob URL found in content but file not in map: ${blobUrl}`);
+        }
       }
+      // If src is already an S3 URL or other URL, leave it unchanged
     }
 
     if (node.content) {

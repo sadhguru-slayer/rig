@@ -1,0 +1,15 @@
+core.repositoryformatversion=0
+core.filemode=false
+core.bare=false
+core.logallrefupdates=true
+core.symlinks=false
+core.ignorecase=true
+remote.origin.url=https://github.com/sadhguru-slayer/rig.git
+remote.origin.fetch=+refs/heads/*:refs/remotes/origin/*
+branch.main.remote=origin
+branch.main.vscode-merge-base=origin/main
+branch.main.merge=refs/heads/main
+branch.main.gk-last-accessed=2025-12-20T10:23:07.351Z
+branch.main.gk-last-modified=2025-12-20T10:23:07.351Z
+remote.client.url=https://github.com/innareddy-tr/rigrills.git
+remote.client.fetch=+refs/heads/*:refs/remotes/client/*

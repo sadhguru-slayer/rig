@@ -21,10 +21,14 @@ export async function POST(request) {
       // Upload the file to S3 (assuming the uploadToS3 function returns a URL)
       coverImageUrl = await uploadToS3(coverImage, `blogs/${slug}`);
     }
-    // Build files map from FormData
+    // Build files map from FormData (newly uploaded images)
+    // The filename in FormData is the blob URL (set in frontend), so file.name is the blob URL
     const filesMap = {};
     for (const file of formData.getAll("images")) {
-      filesMap[file.name] = file;
+      // file.name is the blob URL because we set it as the filename in FormData
+      if (file.name && file.name.startsWith("blob:")) {
+        filesMap[file.name] = file;
+      }
     }
 
     // Replace blob previews with S3 URLs

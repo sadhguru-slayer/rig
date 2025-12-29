@@ -233,7 +233,6 @@ const Navbar = ({
               className="h-12 w-auto" // h-10 = 2.5rem ~ 40px
               fetchPriority="high" // optional: preloads logo for better LCP
             />
-
           </Link>
 
           <nav ref={navRef} className="hidden md:flex items-center gap-8 relative">
